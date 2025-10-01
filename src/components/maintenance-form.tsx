@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { validateWithAI, submitMaintenanceOrder } from '@/app/actions';
 
 import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
 import { StepIndicator } from '@/components/step-indicator';
 import { Step1Header } from '@/components/steps/step-1-header';
 import { Step2Inventory } from '@/components/steps/step-2-inventory';
@@ -186,51 +187,53 @@ export function MaintenanceForm() {
   return (
     <div className="w-full max-w-3xl mx-auto">
       <StepIndicator currentStep={currentStep} totalSteps={steps.length} />
-      <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} className="mt-8 space-y-8">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentStep}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.3 }}
-          >
-            {currentStep === 0 && <Step1Header form={form} />}
-            {currentStep === 1 && <Step2Inventory form={form} />}
-            {currentStep === 2 && <Step3Checklist form={form} />}
-            {currentStep === 3 && <Step4Verification form={form} />}
-            {currentStep === 4 && <Step5Observations form={form} />}
-          </motion.div>
-        </AnimatePresence>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} className="mt-8 space-y-8">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentStep}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              transition={{ duration: 0.3 }}
+            >
+              {currentStep === 0 && <Step1Header form={form} />}
+              {currentStep === 1 && <Step2Inventory form={form} />}
+              {currentStep === 2 && <Step3Checklist form={form} />}
+              {currentStep === 3 && <Step4Verification form={form} />}
+              {currentStep === 4 && <Step5Observations form={form} />}
+            </motion.div>
+          </AnimatePresence>
 
-        <div className="mt-8 pt-5">
-          <div className="flex justify-between">
-            <Button type="button" onClick={prev} variant="outline" disabled={currentStep === 0 || isSubmitting}>
-              Anterior
-            </Button>
-            {currentStep < steps.length - 1 ? (
-              <Button type="button" onClick={next} disabled={isSubmitting}>
-                Siguiente
+          <div className="mt-8 pt-5">
+            <div className="flex justify-between">
+              <Button type="button" onClick={prev} variant="outline" disabled={currentStep === 0 || isSubmitting}>
+                Anterior
               </Button>
-            ) : (
-                <div className="flex gap-2">
-                    <Button type="button" variant="outline" onClick={handleAiValidation} disabled={isAiValidating || isSubmitting}>
-                        {isAiValidating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
-                        Validar con IA
-                    </Button>
-                    <Button type="submit" disabled={isSubmitting || isAiValidating}>
-                        {isSubmitting ? (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        ) : (
-                        <CheckCircle className="mr-2 h-4 w-4" />
-                        )}
-                        Finalizar y Enviar
-                    </Button>
-              </div>
-            )}
+              {currentStep < steps.length - 1 ? (
+                <Button type="button" onClick={next} disabled={isSubmitting}>
+                  Siguiente
+                </Button>
+              ) : (
+                  <div className="flex gap-2">
+                      <Button type="button" variant="outline" onClick={handleAiValidation} disabled={isAiValidating || isSubmitting}>
+                          {isAiValidating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
+                          Validar con IA
+                      </Button>
+                      <Button type="submit" disabled={isSubmitting || isAiValidating}>
+                          {isSubmitting ? (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          ) : (
+                          <CheckCircle className="mr-2 h-4 w-4" />
+                          )}
+                          Finalizar y Enviar
+                      </Button>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </Form>
     </div>
   );
 }
