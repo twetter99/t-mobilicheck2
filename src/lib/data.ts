@@ -70,17 +70,6 @@ export const data = {
     { "id": "tec-01", "nombre": "Jordi Martínez" },
     { "id": "tec-02", "nombre": "Pau Vidal" },
     { "id": "tec-03", "nombre": "Marc Soler" },
-    { "id": "tec-04", "nombre": "Oriol Puig" },
-    { "id": "tec-05", "nombre": "Xavier Roca" },
-    { "id": "tec-06", "nombre": "Miquel Bosch" },
-    { "id": "tec-07", "nombre": "Josep Camps" },
-    { "id": "tec-08", "nombre": "Carles Ferrer" },
-    { "id": "tec-09", "nombre": "David Garcia" },
-    { "id": "tec-10", "nombre": "Bernat Serra" },
-    { "id": "tec-11", "nombre": "Quim Costa" },
-    { "id": "tec-12", "nombre": "Toni Vila" },
-    { "id": "tec-13", "nombre": "Ramon Mas" },
-    { "id": "tec-14", "nombre": "Ferran Pascual" },
-    { "id": "tec-15", "nombre": "Albert Navarro" }
+    { "id": "tec-04", "nombre": "Oriol Puig" }
   ]
 };
