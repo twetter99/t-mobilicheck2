@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useForm, type FieldErrors } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { formSchema, type FormValues } from '@/lib/schema';
@@ -40,10 +39,10 @@ export function MaintenanceForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       header: {
-        operator: 'SERMETRA – T‑Mobilitat',
+        operator: '',
         depot: 'Cochera Norte',
-        busNumber: '1234',
-        licensePlate: '1234-ABC',
+        busNumber: '',
+        licensePlate: '',
         technician: '',
         startTime: '09:00',
         endTime: '11:00',
