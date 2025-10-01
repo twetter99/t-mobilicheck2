@@ -125,7 +125,35 @@ export function Step5Observations({ form }: Step5Props) {
         <Separator />
         
         <div>
-            <h3 className="text-lg font-medium mb-4">Firmas</h3>
+            <h3 className="text-lg font-medium mb-4">Horas de trabajo y Firmas</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                 <FormField
+                    control={form.control}
+                    name="observations.startTime"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Hora Inicio</FormLabel>
+                        <FormControl>
+                            <Input type="time" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                    <FormField
+                    control={form.control}
+                    name="observations.endTime"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Hora Fin</FormLabel>
+                        <FormControl>
+                            <Input type="time" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                     control={form.control}

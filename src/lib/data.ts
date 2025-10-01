@@ -32,16 +32,16 @@ export const data = {
     { "id": "op-30", "nombre": "TRANSPORTS CIUTAT COMTAL, SA (Moventia)" },
     { "id": "op-31", "nombre": "TRANSPORTS PUJOL I PUJOL" },
     { "id": "op-32", "nombre": "25 OSONA BUS, SA (Sagalés)" },
-    { "id": "op-33", nombre: "BARCELONA BUS, SL (Sagalés)" },
-    { "id": "op-34", nombre: "CINGLES BUS, SA (Sagalés)" },
-    { "id": "op-35", nombre: "EMPRESA SAGALÉS, SA" },
-    { "id": "op-36", nombre: "FERROCARRILES Y TRANSPORTES, SA (Sagalés)" },
-    { "id": "op-37", nombre: "MANRESA BUS, SA (Sagalés)" },
-    { "id": "op-38", nombre: "17 BAGES BUS, SA (Soler i Sauret)" },
-    { "id": "op-39", nombre: "UTE VALLDOREIX (Soler i Sauret)" },
-    { "id": "op-40", nombre: "SOLER Y SAURET, SA" },
-    { "id": "op-41", nombre: "TEISA" },
-    { "id": "op-42", nombre: "HISPANO HILARIENCA, SAU (TEISA)" }
+    { "id": "op-33", "nombre": "BARCELONA BUS, SL (Sagalés)" },
+    { "id": "op-34", "nombre": "CINGLES BUS, SA (Sagalés)" },
+    { "id": "op-35", "nombre": "EMPRESA SAGALÉS, SA" },
+    { "id": "op-36", "nombre": "FERROCARRILES Y TRANSPORTES, SA (Sagalés)" },
+    { "id": "op-37", "nombre": "MANRESA BUS, SA (Sagalés)" },
+    { "id": "op-38", "nombre": "17 BAGES BUS, SA (Soler i Sauret)" },
+    { "id": "op-39", "nombre": "UTE VALLDOREIX (Soler i Sauret)" },
+    { "id": "op-40", "nombre": "SOLER Y SAURET, SA" },
+    { "id": "op-41", "nombre": "TEISA" },
+    { "id": "op-42", "nombre": "HISPANO HILARIENCA, SAU (TEISA)" }
   ],
   "autobuses": [
     { "id": "6916-HCR", "uniqueId": "VEH-ALSINA-300", "modelo": "Mercedes Citaro", "operadorId": "op-01" },
@@ -65,5 +65,22 @@ export const data = {
     { "id": "D-3344-OP", "uniqueId": "VEH-SAGALES-502", "modelo": "Mercedes Citaro", "operadorId": "op-35" },
     { "id": "E-5566-QR", "uniqueId": "VEH-SOLER-601", "modelo": "MAN Lion's City Hybrid", "operadorId": "op-40" },
     { "id": "E-7788-ST", "uniqueId": "VEH-SOLER-602", "modelo": "Mercedes Citaro", "operadorId": "op-40" }
+  ],
+  "tecnicos": [
+    { "id": "tec-01", "nombre": "Jordi Martínez" },
+    { "id": "tec-02", "nombre": "Pau Vidal" },
+    { "id": "tec-03", "nombre": "Marc Soler" },
+    { "id": "tec-04", "nombre": "Oriol Puig" },
+    { "id": "tec-05", "nombre": "Xavier Roca" },
+    { "id": "tec-06", "nombre": "Miquel Bosch" },
+    { "id": "tec-07", "nombre": "Josep Camps" },
+    { "id": "tec-08", "nombre": "Carles Ferrer" },
+    { "id": "tec-09", "nombre": "David Garcia" },
+    { "id": "tec-10", "nombre": "Bernat Serra" },
+    { "id": "tec-11", "nombre": "Quim Costa" },
+    { "id": "tec-12", "nombre": "Toni Vila" },
+    { "id": "tec-13", "nombre": "Ramon Mas" },
+    { "id": "tec-14", "nombre": "Ferran Pascual" },
+    { "id": "tec-15", "nombre": "Albert Navarro" }
   ]
 };

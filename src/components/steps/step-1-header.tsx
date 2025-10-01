@@ -121,9 +121,20 @@ export function Step1Header({ form }: Step1Props) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Técnico</FormLabel>
-              <FormControl>
-                <Input placeholder="Nombre del técnico" {...field} />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccione un técnico" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {data.tecnicos.map(tec => (
+                    <SelectItem key={tec.id} value={tec.nombre}>
+                      {tec.nombre}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -159,32 +170,6 @@ export function Step1Header({ form }: Step1Props) {
                   />
                 </PopoverContent>
               </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="header.startTime"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Hora Inicio</FormLabel>
-              <FormControl>
-                <Input type="time" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="header.endTime"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Hora Fin</FormLabel>
-              <FormControl>
-                <Input type="time" {...field} />
-              </FormControl>
               <FormMessage />
             </FormItem>
           )}

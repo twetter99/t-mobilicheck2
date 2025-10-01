@@ -44,8 +44,6 @@ export function MaintenanceForm() {
         busNumber: '',
         licensePlate: '',
         technician: '',
-        startTime: '09:00',
-        endTime: '11:00',
       },
       inventory: {
         consoleMount: 'brazo_largo',
@@ -68,6 +66,8 @@ export function MaintenanceForm() {
         communicationOk: false,
       },
       observations: {
+        startTime: '09:00',
+        endTime: '11:00',
         notes: '',
         hasIncident: false,
         technicianSignature: '',
@@ -91,7 +91,7 @@ export function MaintenanceForm() {
 
   const prev = () => {
     if (currentStep > 0) {
-      setCurrentStep(step => step - 1);
+      setCurrentStep(step => step + 1);
     }
   };
 

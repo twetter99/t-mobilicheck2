@@ -8,8 +8,6 @@ export const formSchema = z.object({
     licensePlate: z.string().min(1, 'La matrícula es obligatoria.'),
     technician: z.string().min(1, 'El técnico es obligatorio.'),
     date: z.date({ required_error: 'La fecha es obligatoria.' }),
-    startTime: z.string().min(1, 'La hora de inicio es obligatoria.'),
-    endTime: z.string().min(1, 'La hora de fin es obligatoria.'),
   }),
   inventory: z.object({
     consoleSerial: z.string().optional(),
@@ -57,6 +55,8 @@ export const formSchema = z.object({
     path: ['startupOk'], // Show error on the first item
   }),
   observations: z.object({
+    startTime: z.string().min(1, 'La hora de inicio es obligatoria.'),
+    endTime: z.string().min(1, 'La hora de fin es obligatoria.'),
     notes: z.string().optional(),
     hasIncident: z.boolean().default(false),
     correctiveAction: z
