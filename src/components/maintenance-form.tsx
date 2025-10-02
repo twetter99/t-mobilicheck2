@@ -88,6 +88,11 @@ export function MaintenanceForm() {
         endTime: '11:00',
         notes: '',
         hasIncident: false,
+        correctiveAction: {
+            title: '',
+            description: '',
+            priority: 'Baja',
+        },
         technicianSignature: '',
         supervisorSignature: '',
       },
