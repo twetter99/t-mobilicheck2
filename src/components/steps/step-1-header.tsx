@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 import { Calendar } from '@/components/ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -155,7 +156,7 @@ export function Step1Header({ form }: Step1Props) {
                         !field.value && 'text-muted-foreground'
                       )}
                     >
-                      {field.value ? format(field.value, 'PPP') : <span>Seleccione una fecha</span>}
+                      {field.value ? format(field.value, 'PPP', { locale: es }) : <span>Seleccione una fecha</span>}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
                   </FormControl>
@@ -167,6 +168,7 @@ export function Step1Header({ form }: Step1Props) {
                     onSelect={field.onChange}
                     disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
                     initialFocus
+                    locale={es}
                   />
                 </PopoverContent>
               </Popover>
