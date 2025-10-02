@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { formSchema, type FormValues } from '@/lib/schema';
 import { useToast } from '@/hooks/use-toast';
 import { validateWithAI, submitMaintenanceOrder } from '@/app/actions';
+import { generateMaintenancePdf } from '@/lib/pdf-generator';
 
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
@@ -32,7 +33,7 @@ export function MaintenanceForm() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAiValidating, setIsAiValidating] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedData, setSubmittedData] = useState<FormValues | null>(null);
   const { toast } = useToast();
 
   const form = useForm<FormValues>({
@@ -165,7 +166,7 @@ export function MaintenanceForm() {
     setIsSubmitting(false);
 
     if (response.success) {
-      setIsSubmitted(true);
+      setSubmittedData(data);
     } else {
       toast({
         title: 'Error al enviar',
@@ -183,8 +184,21 @@ export function MaintenanceForm() {
         variant: 'destructive',
       });
   }
+  
+  const handleDownloadPdf = () => {
+    if (submittedData) {
+      generateMaintenancePdf(submittedData);
+    } else {
+       toast({
+        title: 'Error',
+        description: 'No se encontraron datos para generar el PDF.',
+        variant: 'destructive',
+      });
+    }
+  }
 
-  if (isSubmitted) {
+
+  if (submittedData) {
     return (
       <Card className="w-full max-w-3xl mx-auto">
         <CardHeader className="text-center">
@@ -194,7 +208,7 @@ export function MaintenanceForm() {
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
             <p>Puede descargar el informe en formato PDF.</p>
-            <Button>
+            <Button onClick={handleDownloadPdf}>
                 <Download className="mr-2 h-4 w-4" />
                 Descargar PDF
             </Button>
