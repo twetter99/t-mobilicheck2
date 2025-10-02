@@ -44,11 +44,29 @@ export function MaintenanceForm() {
         busNumber: '',
         licensePlate: '',
         technician: '',
+        date: new Date(),
       },
       inventory: {
+        consoleSerial: '',
         consoleMount: 'brazo_largo',
+        consoleSoftware: '',
+        configVersion: '',
+        telechargeVersion: '',
+        valIn1Serial: '',
+        valIn2Serial: '',
+        valOut1Serial: '',
+        valOut2Serial: '',
+        valOut3Serial: '',
+        valOut4Serial: '',
+        queryTerminalSerial: '',
+        connectionsPlateSerial: '',
+        switchSerial: '',
+        mccSerial: '',
+        triBandAntennaSerial: '',
         legacyMag1Brand: 'N/A',
+        legacyMag1Serial: '',
         legacyMag2Brand: 'N/A',
+        legacyMag2Serial: '',
       },
       checklist: {
         consoleGeneralCleaning: false,
@@ -91,7 +109,7 @@ export function MaintenanceForm() {
 
   const prev = () => {
     if (currentStep > 0) {
-      setCurrentStep(step => step + 1);
+      setCurrentStep(step => step - 1);
     }
   };
 
