@@ -29,21 +29,23 @@ const steps = [
   { id: 5, name: 'Observaciones y Firmas', fields: ['observations'] },
 ];
 
-export function MaintenanceForm() {
+export function MaintenanceForm({ revision, operatorId }: { revision: any, operatorId?: string }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAiValidating, setIsAiValidating] = useState(false);
   const [submittedData, setSubmittedData] = useState<FormValues | null>(null);
   const { toast } = useToast();
 
+  const bus = revision ? data.autobuses.find(b => b.uniqueId === revision.vehiculoId) : null;
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       header: {
-        operator: '',
-        depot: 'Cochera Norte',
-        busNumber: '',
-        licensePlate: '',
+        operator: operatorId || '',
+        depot: revision?.ubicacion || 'Cochera Norte',
+        busNumber: revision?.vehiculoId || '',
+        licensePlate: bus?.id || '',
         technician: '',
         date: new Date(),
       },
@@ -212,8 +214,10 @@ export function MaintenanceForm() {
                 <Download className="mr-2 h-4 w-4" />
                 Descargar PDF
             </Button>
-            <Button variant="outline" onClick={() => window.location.reload()}>
-                Crear nueva orden
+            <Button variant="outline" asChild>
+                <Link href="/">
+                    Volver a la lista de revisiones
+                </Link>
             </Button>
         </CardContent>
       </Card>

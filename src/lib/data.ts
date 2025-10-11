@@ -1,4 +1,65 @@
+// Set today's date for mock data
+const today = new Date();
+const todayISO = today.toISOString().split('T')[0];
+
 export const data = {
+  "revisiones": [
+    { 
+      "id": "rev-001", 
+      "vehiculoId": "VEH-TUSGSAL-101", 
+      "operador": "TUSGSAL", 
+      "tipo": "Trimestral", 
+      "hora": "08:00", 
+      "fecha": `${todayISO}T08:00:00.000Z`,
+      "ubicacion": "Cochera Norte", 
+      "duracionEstimada": "2h", 
+      "observaciones": "Turno diurno. Prioridad normal." 
+    },
+    { 
+      "id": "rev-002", 
+      "vehiculoId": "VEH-BAIXLLOB-201", 
+      "operador": "UTE BAIX LLOBREGAT (Avanza)", 
+      "tipo": "Anual", 
+      "hora": "10:30", 
+      "fecha": `${todayISO}T10:30:00.000Z`,
+      "ubicacion": "Cochera Viladecans", 
+      "duracionEstimada": "4h", 
+      "observaciones": "Revisión completa de infraestructura. Vehículo inmovilizado hasta fin de revisión." 
+    },
+    { 
+      "id": "rev-003", 
+      "vehiculoId": "VEH-SAGALES-502", 
+      "operador": "EMPRESA SAGALÉS, SA", 
+      "tipo": "Semestral", 
+      "hora": "14:00", 
+      "fecha": `${todayISO}T14:00:00.000Z`,
+      "ubicacion": "Taller Central", 
+      "duracionEstimada": "3h", 
+      "observaciones": "" 
+    },
+    { 
+      "id": "rev-004", 
+      "vehiculoId": "VEH-SOLER-601", 
+      "operador": "SOLER Y SAURET, SA", 
+      "tipo": "Trimestral", 
+      "hora": "16:00", 
+      "fecha": `${todayISO}T16:00:00.000Z`,
+      "ubicacion": "Cochera Sur", 
+      "duracionEstimada": "2h", 
+      "observaciones": "Cliente reporta fallos esporádicos en validadora de salida." 
+    },
+    {
+      "id": "rev-005",
+      "vehiculoId": "VEH-ALSINA-300",
+      "operador": "ALSINA GRAELLS DE AUTO TRANSPORTES, SA",
+      "tipo": "Bianual",
+      "hora": "09:00",
+      "fecha": "2026-03-15T09:00:00.000Z", // Past date for testing
+      "ubicacion": "Cochera Norte",
+      "duracionEstimada": "5h",
+      "observaciones": "Sustitución de baterías planificada."
+    }
+  ],
   "operadores": [
     { "id": "op-01", "nombre": "ALSINA GRAELLS DE AUTO TRANSPORTES, SA" },
     { "id": "op-02", "nombre": "AUTOCARES JULIÀ, SL" },
