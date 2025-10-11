@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,7 +8,6 @@ import { data } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-
 
 const getRevisionTypeDetails = (type: string) => {
   switch (type) {
@@ -25,7 +26,7 @@ const getRevisionTypeDetails = (type: string) => {
 
 
 export default function RevisionsPage() {
-  const today = new Date('2026-01-26T22:00:00.000Z'); // Forcing date to show night shift schedule
+  const today = new Date('2026-01-02T21:00:00.000Z'); // Forcing date to show night shift schedule
   const todaysRevisions = data.revisiones.filter(rev => {
     const revDate = new Date(rev.fecha);
     return revDate.getUTCFullYear() === today.getUTCFullYear() &&
