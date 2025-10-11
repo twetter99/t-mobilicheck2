@@ -25,7 +25,7 @@ const getRevisionTypeDetails = (type: string) => {
 
 
 export default function RevisionsPage() {
-  const today = new Date('2026-01-26T12:00:00.000Z'); // Forcing date to show schedule
+  const today = new Date('2026-01-26T22:00:00.000Z'); // Forcing date to show night shift schedule
   const todaysRevisions = data.revisiones.filter(rev => {
     const revDate = new Date(rev.fecha);
     return revDate.getUTCFullYear() === today.getUTCFullYear() &&
