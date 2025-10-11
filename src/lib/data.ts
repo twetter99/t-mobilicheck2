@@ -1,74 +1,68 @@
-// Set today's date for mock data
-const today = new Date();
-const todayISO = today.toISOString().split('T')[0];
+// Set a consistent date in the future for mock data
+// Using January 2026 to match the provided schedule's context
+const getFutureDate = (day: number) => {
+    const date = new Date('2026-01-01T00:00:00.000Z');
+    date.setDate(day);
+    return date.toISOString();
+};
+
 
 export const data = {
   "revisiones": [
     { 
       "id": "rev-001", 
-      "vehiculoId": "VEH-TUSGSAL-101", 
-      "operador": "ALSINA GRAELLS", 
+      "vehiculoId": "VEH-BAIXLLOB-201", 
+      "operador": "UTE BAIX LLOBREGAT", 
       "tipo": "Trimestral", 
-      "hora": "21:00", 
-      "fecha": `${todayISO}T21:00:00.000Z`,
-      "ubicacion": "Cochera Norte", 
-      "duracionEstimada": "2h", 
-      "observaciones": "Turno nocturno. Prioridad normal." 
+      "hora": "09:00", 
+      "fecha": getFutureDate(26),
+      "ubicacion": "C/ Lobatona 13, Viladecans", 
+      "duracionEstimada": "7h 30m", 
+      "observaciones": "TORN DIÜRN - Flota nocturna" 
     },
     { 
       "id": "rev-002", 
-      "vehiculoId": "VEH-BAIXLLOB-201", 
-      "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Anual", 
-      "hora": "22:30", 
-      "fecha": `${todayISO}T22:30:00.000Z`,
-      "ubicacion": "Cochera Viladecans", 
-      "duracionEstimada": "4h", 
-      "observaciones": "Revisión completa de infraestructura. Vehículo inmovilizado hasta fin de revisión." 
+      "vehiculoId": "VEH-ALSINA-300", 
+      "operador": "ALSINA GRAELLS", 
+      "tipo": "Semestral", 
+      "hora": "09:00", 
+      "fecha": getFutureDate(27),
+      "ubicacion": "Barcelona / Vilanova", 
+      "duracionEstimada": "7h 45m", 
+      "observaciones": "TORN DIÜRN - Mussols i nocturns" 
     },
     { 
       "id": "rev-003", 
       "vehiculoId": "VEH-SAGALES-502", 
       "operador": "EMPRESA PLANA", 
-      "tipo": "Semestral", 
-      "hora": "01:00", 
-      "fecha": `${todayISO}T01:00:00.000Z`,
-      "ubicacion": "Taller Central", 
-      "duracionEstimada": "3h", 
-      "observaciones": "Turno nocturno" 
+      "tipo": "Anual", 
+      "hora": "09:00", 
+      "fecha": getFutureDate(28),
+      "ubicacion": "Vilanova / L'Hospitalet", 
+      "duracionEstimada": "7h", 
+      "observaciones": "TORN DIÜRN - Serveis especials" 
     },
     { 
       "id": "rev-004", 
-      "vehiculoId": "VEH-SOLER-601", 
-      "operador": "SOLER Y SAURET", 
+      "vehiculoId": "VEH-BAIXLLOB-202", 
+      "operador": "UTE BAIX LLOBREGAT", 
       "tipo": "Trimestral", 
-      "hora": "03:00", 
-      "fecha": `${todayISO}T03:00:00.000Z`,
-      "ubicacion": "Cochera Sur", 
-      "duracionEstimada": "2h", 
-      "observaciones": "Turno nocturno. Cliente reporta fallos esporádicos en validadora de salida." 
+      "hora": "09:00", 
+      "fecha": getFutureDate(29),
+      "ubicacion": "Viladecans / Vilanova", 
+      "duracionEstimada": "7h 45m", 
+      "observaciones": "TORN DIÜRN - Flota nocturna" 
     },
     {
       "id": "rev-005",
-      "vehiculoId": "VEH-ALSINA-300",
-      "operador": "CINTOI BUS",
-      "tipo": "Bianual",
-      "hora": "23:00",
-      "fecha": "2026-03-15T23:00:00.000Z", // Past date for testing
-      "ubicacion": "Cochera Norte",
-      "duracionEstimada": "5h",
-      "observaciones": "Sustitución de baterías planificada."
-    },
-    { 
-      "id": "rev-006", 
-      "vehiculoId": "VEH-HISPANO-01",
-      "operador": "LA HISPANO DE FUENTE",
-      "tipo": "Trimestral", 
-      "hora": "04:30", 
-      "fecha": `${todayISO}T04:30:00.000Z`,
-      "ubicacion": "Taller Central", 
-      "duracionEstimada": "1.5h", 
-      "observaciones": "Turno nocturno." 
+      "vehiculoId": "VEH-SOLER-601",
+      "operador": "SOLER Y SAURET",
+      "tipo": "Anual",
+      "hora": "09:00",
+      "fecha": getFutureDate(30),
+      "ubicacion": "Crta. Laureà Miró 426, Sant Feliu",
+      "duracionEstimada": "6h",
+      "observaciones": "TORN DIÜRN - Tancament mes"
     }
   ],
   "operadores": [

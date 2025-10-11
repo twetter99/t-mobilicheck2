@@ -25,7 +25,7 @@ const getRevisionTypeDetails = (type: string) => {
 
 
 export default function RevisionsPage() {
-  const today = new Date();
+  const today = new Date('2026-01-26T12:00:00.000Z'); // Forcing date to show schedule
   const todaysRevisions = data.revisiones.filter(rev => {
     const revDate = new Date(rev.fecha);
     return revDate.getDate() === today.getDate() &&
@@ -41,7 +41,7 @@ export default function RevisionsPage() {
           T-MobiliCheck
         </h1>
         <p className="max-w-2xl text-lg text-muted-foreground mt-2">
-          Revisiones asignadas para hoy, {format(today, "EEEE, d 'de' MMMM", { locale: es })}
+          Revisiones asignadas para hoy, {format(today, "EEEE, d 'de' MMMM 'de' yyyy", { locale: es })}
         </p>
       </div>
 
