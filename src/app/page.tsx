@@ -28,9 +28,9 @@ export default function RevisionsPage() {
   const today = new Date('2026-01-26T12:00:00.000Z'); // Forcing date to show schedule
   const todaysRevisions = data.revisiones.filter(rev => {
     const revDate = new Date(rev.fecha);
-    return revDate.getDate() === today.getDate() &&
-           revDate.getMonth() === today.getMonth() &&
-           revDate.getFullYear() === today.getFullYear();
+    return revDate.getUTCFullYear() === today.getUTCFullYear() &&
+           revDate.getUTCMonth() === today.getUTCMonth() &&
+           revDate.getUTCDate() === today.getUTCDate();
   }).sort((a, b) => a.hora.localeCompare(b.hora));
 
   return (
