@@ -17,7 +17,7 @@ export const data = {
       "hora": "21:00", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13, Viladecans", 
-      "duracionEstimada": "7h 30m", 
+      "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral" 
     },
     { 
@@ -25,10 +25,10 @@ export const data = {
       "vehiculoId": "VEH-BAIXLLOB-202", 
       "operador": "UTE BAIX LLOBREGAT", 
       "tipo": "Trimestral", 
-      "hora": "21:00", 
+      "hora": "21:45", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13, Viladecans", 
-      "duracionEstimada": "7h 30m", 
+      "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral" 
     },
     { 
@@ -36,10 +36,10 @@ export const data = {
       "vehiculoId": "VEH-BAIXLLOB-203", 
       "operador": "UTE BAIX LLOBREGAT", 
       "tipo": "Trimestral", 
-      "hora": "21:00", 
+      "hora": "22:30", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13, Viladecans", 
-      "duracionEstimada": "7h 30m", 
+      "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral" 
     },
     { 
@@ -47,10 +47,10 @@ export const data = {
       "vehiculoId": "VEH-BAIXLLOB-204", 
       "operador": "UTE BAIX LLOBREGAT", 
       "tipo": "Trimestral", 
-      "hora": "21:00", 
+      "hora": "23:15", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13, Viladecans", 
-      "duracionEstimada": "7h 30m", 
+      "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral" 
     },
     { 
@@ -58,10 +58,10 @@ export const data = {
       "vehiculoId": "VEH-BAIXLLOB-301", 
       "operador": "UTE BAIX LLOBREGAT", 
       "tipo": "Anual", 
-      "hora": "21:00", 
-      "fecha": getFutureDate(2, 0),
+      "hora": "00:00", 
+      "fecha": getFutureDate(3, 0), // Next day for times after midnight
       "ubicacion": "C/ Lobatona 13, Viladecans", 
-      "duracionEstimada": "7h 30m", 
+      "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral" 
     },
     { 
@@ -69,10 +69,10 @@ export const data = {
       "vehiculoId": "VEH-BAIXLLOB-302", 
       "operador": "UTE BAIX LLOBREGAT", 
       "tipo": "Anual", 
-      "hora": "21:00", 
-      "fecha": getFutureDate(2, 0),
+      "hora": "00:45", 
+      "fecha": getFutureDate(3, 0), // Next day for times after midnight
       "ubicacion": "C/ Lobatona 13, Viladecans", 
-      "duracionEstimada": "7h 30m", 
+      "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral" 
     },
     { 
@@ -80,10 +80,10 @@ export const data = {
       "vehiculoId": "VEH-BAIXLLOB-303", 
       "operador": "UTE BAIX LLOBREGAT", 
       "tipo": "Anual", 
-      "hora": "21:00", 
-      "fecha": getFutureDate(2, 0),
+      "hora": "01:30", 
+      "fecha": getFutureDate(3, 0), // Next day for times after midnight
       "ubicacion": "C/ Lobatona 13, Viladecans", 
-      "duracionEstimada": "7h 30m", 
+      "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral" 
     },
     { 
@@ -91,10 +91,10 @@ export const data = {
       "vehiculoId": "VEH-BAIXLLOB-304", 
       "operador": "UTE BAIX LLOBREGAT", 
       "tipo": "Anual", 
-      "hora": "21:00", 
-      "fecha": getFutureDate(2, 0),
+      "hora": "02:15", 
+      "fecha": getFutureDate(3, 0), // Next day for times after midnight
       "ubicacion": "C/ Lobatona 13, Viladecans", 
-      "duracionEstimada": "7h 30m", 
+      "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral" 
     },
     { 
@@ -111,47 +111,10 @@ export const data = {
   ],
   "operadores": [
     { "id": "op-01", "nombre": "ALSINA GRAELLS DE AUTO TRANSPORTES, SA" },
-    { "id": "op-02", "nombre": "AUTOCARES JULIÀ, SL" },
-    { "id": "op-03", "nombre": "AUTOCARS DEL PENEDÈS, SA" },
-    { "id": "op-04", "nombre": "AUTOCARS PRAT, SA" },
-    { "id": "op-05", "nombre": "AUTOCARS R. FONT, SAU" },
-    { "id": "op-06", "nombre": "AUTOCARS VENDRELL, SL" },
-    { "id": "op-07", "nombre": "AUTOCORB, SA" },
-    { "id": "op-08", "nombre": "BUS CASTELLVI, SA" },
-    { "id": "op-09", "nombre": "LA HISPANO DE FUENTE EN SEGURES SA" },
-    { "id": "op-10", "nombre": "HISPANO LLACUNENSE, SL" },
-    { "id": "op-11", "nombre": "MONTFERRI HERMANOS, SL" },
-    { "id": "op-12", "nombre": "TRANSPORTS MIR" },
-    { "id": "op-13", "nombre": "TUS, SCCL" },
     { "id": "op-14", "nombre": "UTE BAIX LLOBREGAT" },
-    { "id": "op-15", "nombre": "CTSA-Mataró Bus (Avanza)" },
-    { "id": "op-16", "nombre": "RubíBus CTSL (Avanza)" },
-    { "id": "op-17", "nombre": "TMESA (Avanza)" },
-    { "id": "op-18", "nombre": "MASATS TRANSPORTS GENERALS, SA (Direxis)" },
-    { "id": "op-19", "nombre": "TRANSPORTES GENERALES DE OLESA, SA (Direxis)" },
     { "id": "op-20", "nombre": "TUSGSAL" },
-    { "id": "op-21", "nombre": "CINTOI BUS, SL (Empresa Plana)" },
-    { "id": "op-22", "nombre": "EMPRESA PLANA, SL" },
-    { "id": "op-23", "nombre": "UTE HORTA I GRÀCIA (Monbus)" },
-    { "id": "op-24", "nombre": "LA HISPANO IGUALADINA, SL (Monbus)" },
-    { "id": "op-25", "nombre": "UTE Port (Monbus)" },
-    { "id": "op-26", "nombre": "UTE SANT BOI, BARCELONA Y OTROS (Monbus)" },
-    { "id": "op-27", "nombre": "EMPRESA CASAS, SA (Moventia)" },
-    { "id": "op-28", "nombre": "MARFINA BUS, SA - LA VALLESANA, SA (Moventia)" },
-    { "id": "op-29", "nombre": "MOVENTIA L'HOSPITALET (Moventia)" },
-    { "id": "op-30", "nombre": "TRANSPORTS CIUTAT COMTAL, SA (Moventia)" },
-    { "id": "op-31", "nombre": "TRANSPORTS PUJOL I PUJOL" },
-    { "id": "op-32", "nombre": "25 OSONA BUS, SA (Sagalés)" },
-    { "id": "op-33", "nombre": "BARCELONA BUS, SL (Sagalés)" },
-    { "id": "op-34", "nombre": "CINGLES BUS, SA (Sagalés)" },
     { "id": "op-35", "nombre": "EMPRESA SAGALÉS, SA" },
-    { "id": "op-36", "nombre": "FERROCARRILES Y TRANSPORTES, SA (Sagalés)" },
-    { "id": "op-37", "nombre": "MANRESA BUS, SA (Sagalés)" },
-    { "id": "op-38", "nombre": "17 BAGES BUS, SA (Soler i Sauret)" },
-    { "id": "op-39", "nombre": "UTE VALLDOREIX (Soler i Sauret)" },
-    { "id": "op-40", "nombre": "SOLER Y SAURET, SA" },
-    { "id": "op-41", "nombre": "TEISA" },
-    { "id": "op-42", "nombre": "HISPANO HILARIENCA, SAU (TEISA)" }
+    { "id": "op-40", "nombre": "SOLER Y SAURET, SA" }
   ],
   "autobuses": [
     { "id": "6916-HCR", "uniqueId": "VEH-ALSINA-300", "modelo": "Mercedes Citaro", "operadorId": "op-01" },

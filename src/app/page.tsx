@@ -27,12 +27,33 @@ const getRevisionTypeDetails = (type: string) => {
 
 export default function RevisionsPage() {
   const today = new Date('2026-01-02T21:00:00.000Z'); // Forcing date to show night shift schedule
+  const tomorrow = new Date(today);
+  tomorrow.setUTCDate(today.getUTCDate() + 1);
+
   const todaysRevisions = data.revisiones.filter(rev => {
     const revDate = new Date(rev.fecha);
-    return revDate.getUTCFullYear() === today.getUTCFullYear() &&
-           revDate.getUTCMonth() === today.getUTCMonth() &&
-           revDate.getUTCDate() === today.getUTCDate();
-  }).sort((a, b) => a.hora.localeCompare(b.hora));
+    const revDateString = revDate.toISOString().split('T')[0];
+    const todayString = today.toISOString().split('T')[0];
+    const tomorrowString = tomorrow.toISOString().split('T')[0];
+
+    // Include revisions from today (before midnight) and tomorrow (after midnight for night shift)
+    if (rev.hora.startsWith('2')) { // Revisions starting at 21:00, 22:00, 23:00
+      return revDateString === todayString;
+    } else { // Revisions starting after midnight
+       return revDateString === tomorrowString;
+    }
+
+  }).sort((a, b) => {
+    // Custom sort to handle overnight times
+    const timeA = a.hora;
+    const timeB = b.hora;
+
+    // Treat times starting with '0' (e.g., 00:45) as later than times starting with '2' (e.g., 23:15)
+    if (timeA.startsWith('0') && timeB.startsWith('2')) return 1;
+    if (timeA.startsWith('2') && timeB.startsWith('0')) return -1;
+    
+    return timeA.localeCompare(timeB);
+  });
 
   return (
     <main className="container mx-auto p-4 md:p-8">
