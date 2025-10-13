@@ -13,7 +13,7 @@ export const data = {
       "id": "rev-trim-001", 
       "vehiculoId": "VEH-BAIXLLOB-201", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Trimestral", 
+      "tipo": "Preventivo Trimestral", 
       "hora": "21:00", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13, Viladecans", 
@@ -24,7 +24,7 @@ export const data = {
       "id": "rev-trim-002", 
       "vehiculoId": "VEH-BAIXLLOB-202", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Trimestral", 
+      "tipo": "Preventivo Trimestral", 
       "hora": "21:45", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13, Viladecans", 
@@ -35,7 +35,7 @@ export const data = {
       "id": "rev-trim-003", 
       "vehiculoId": "VEH-BAIXLLOB-203", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Trimestral", 
+      "tipo": "Preventivo Trimestral", 
       "hora": "22:30", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13, Viladecans", 
@@ -46,7 +46,7 @@ export const data = {
       "id": "rev-trim-004", 
       "vehiculoId": "VEH-BAIXLLOB-204", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Trimestral", 
+      "tipo": "Preventivo Trimestral", 
       "hora": "23:15", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13, Viladecans", 
@@ -57,7 +57,7 @@ export const data = {
       "id": "rev-anual-001", 
       "vehiculoId": "VEH-BAIXLLOB-301", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Anual", 
+      "tipo": "Preventivo Anual", 
       "hora": "00:00", 
       "fecha": getFutureDate(3, 0), // Next day for times after midnight
       "ubicacion": "C/ Lobatona 13, Viladecans", 
@@ -68,7 +68,7 @@ export const data = {
       "id": "rev-anual-002", 
       "vehiculoId": "VEH-BAIXLLOB-302", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Anual", 
+      "tipo": "Preventivo Anual", 
       "hora": "00:45", 
       "fecha": getFutureDate(3, 0), // Next day for times after midnight
       "ubicacion": "C/ Lobatona 13, Viladecans", 
@@ -79,7 +79,7 @@ export const data = {
       "id": "rev-anual-003", 
       "vehiculoId": "VEH-BAIXLLOB-303", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Anual", 
+      "tipo": "Preventivo Anual", 
       "hora": "01:30", 
       "fecha": getFutureDate(3, 0), // Next day for times after midnight
       "ubicacion": "C/ Lobatona 13, Viladecans", 
@@ -90,23 +90,45 @@ export const data = {
       "id": "rev-anual-004", 
       "vehiculoId": "VEH-BAIXLLOB-304", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Anual", 
+      "tipo": "Preventivo Anual", 
       "hora": "02:15", 
       "fecha": getFutureDate(3, 0), // Next day for times after midnight
       "ubicacion": "C/ Lobatona 13, Viladecans", 
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral" 
     },
-    { 
-      "id": "rev-002", 
-      "vehiculoId": "VEH-ALSINA-300", 
-      "operador": "ALSINA GRAELLS", 
-      "tipo": "Semestral", 
-      "hora": "09:00", 
-      "fecha": getFutureDate(27, 0),
-      "ubicacion": "Barcelona / Vilanova", 
-      "duracionEstimada": "7h 45m", 
-      "observaciones": "TORN DIÜRN - Mussols i nocturns" 
+     {
+      "id": "inst-001",
+      "vehiculoId": "VEH-TUSGSAL-101",
+      "operador": "TUSGSAL",
+      "tipo": "Instalación",
+      "hora": "10:00",
+      "fecha": getFutureDate(4, 0),
+      "ubicacion": "Cochera Badalona",
+      "duracionEstimada": "2h",
+      "observaciones": "Nuevo vehículo. Instalación completa de hardware y software."
+    },
+    {
+      "id": "trasp-001",
+      "vehiculoId": "VEH-SAGALES-501",
+      "operador": "EMPRESA SAGALÉS, SA",
+      "tipo": "Traspaso",
+      "hora": "14:00",
+      "fecha": getFutureDate(4, 0),
+      "ubicacion": "Cochera Granollers",
+      "duracionEstimada": "1.5h",
+      "observaciones": "Traspaso de validadora de vehículo antiguo a nuevo."
+    },
+    {
+      "id": "desinst-001",
+      "vehiculoId": "VEH-SOLER-601",
+      "operador": "SOLER Y SAURET, SA",
+      "tipo": "Desinstalación",
+      "hora": "16:00",
+      "fecha": getFutureDate(4, 0),
+      "ubicacion": "Cochera St. Feliu",
+      "duracionEstimada": "1h",
+      "observaciones": "Vehículo dado de baja. Retirar todo el equipamiento T-Mobilitat."
     },
   ],
   "operadores": [
@@ -146,6 +168,9 @@ export const data = {
     { "id": "E-7788-ST", "uniqueId": "VEH-SOLER-602", "modelo": "Mercedes Citaro", "operadorId": "op-40" }
   ],
   "tecnicos": [
-    { "id": "tec-01", "nombre": "A.P.U." }
+    { "id": "tec-01", "nombre": "Jordi Martínez" },
+    { "id": "tec-02", "nombre": "Pau Vidal" },
+    { "id": "tec-03", "nombre": "Marc Soler" },
+    { "id": "tec-04", "nombre": "Oriol Puig" }
   ]
 };
