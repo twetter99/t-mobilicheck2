@@ -1,3 +1,4 @@
+
 // Set a consistent date in the future for mock data
 // Using January 2026 to match the provided schedule's context
 const getFutureDate = (day: number, month: number = 0, year: number = 2026) => {
@@ -106,7 +107,7 @@ export const data = {
       "fecha": getFutureDate(4, 0),
       "ubicacion": "Cochera Badalona",
       "duracionEstimada": "22h",
-      "observaciones": "Instalación completa de hardware."
+      "observaciones": "Instalación completa de hardware. No requiere configuración de software."
     },
     {
       "id": "trasp-001",
@@ -116,7 +117,7 @@ export const data = {
       "hora": "14:00",
       "fecha": getFutureDate(4, 0),
       "ubicacion": "Cochera Granollers",
-      "duracionEstimada": "1.5h",
+      "duracionEstimada": "24h",
       "observaciones": "Traspaso de validadora de vehículo antiguo a nuevo."
     },
     {
@@ -127,7 +128,7 @@ export const data = {
       "hora": "16:00",
       "fecha": getFutureDate(4, 0),
       "ubicacion": "Cochera St. Feliu",
-      "duracionEstimada": "1h",
+      "duracionEstimada": "6h",
       "observaciones": "Vehículo dado de baja. Retirar todo el equipamiento T-Mobilitat."
     },
   ],
@@ -168,9 +169,6 @@ export const data = {
     { "id": "E-7788-ST", "uniqueId": "VEH-SOLER-602", "modelo": "Mercedes Citaro", "operadorId": "op-40" }
   ],
   "tecnicos": [
-    { "id": "tec-01", "nombre": "Jordi Martínez" },
-    { "id": "tec-02", "nombre": "Pau Vidal" },
-    { "id": "tec-03", "nombre": "Marc Soler" },
-    { "id": "tec-04", "nombre": "Oriol Puig" }
+    { "id": "tec-01", "nombre": "A.P.U." }
   ]
 };
