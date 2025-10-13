@@ -35,7 +35,7 @@ const RevisionList = ({ revisions }: { revisions: typeof data.revisiones }) => {
       <Card className="text-center py-12">
         <CardHeader>
           <CardTitle>No hay intervenciones de este tipo</CardTitle>
-          <CardDescription>No tienes ninguna operación de este tipo programada para la fecha actual.</CardDescription>
+          <CardDescription>No tienes ninguna operación de este tipo programada.</CardDescription>
         </CardHeader>
       </Card>
     );
@@ -47,18 +47,24 @@ const RevisionList = ({ revisions }: { revisions: typeof data.revisiones }) => {
         const typeDetails = getRevisionTypeDetails(revision.tipo);
         const Icon = typeDetails.icon;
         const href = revision.tipo.startsWith('Preventivo') ? `/revision/${revision.id}` : `/operacion/${revision.id}`;
+        const revisionDate = new Date(revision.fecha);
 
         return (
           <Card key={revision.id} className="hover:shadow-md transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-xl flex items-center gap-2">
-                <Bus className="h-6 w-6 text-primary" />
-                Vehículo: {revision.vehiculoId}
-              </CardTitle>
-              <Badge variant="outline" className={typeDetails.className}>
-                <Icon className="mr-2 h-4 w-4" />
-                {typeDetails.label}
-              </Badge>
+             <CardHeader className="pb-2">
+                <div className="flex justify-between items-start">
+                    <CardTitle className="text-xl flex items-center gap-2">
+                        <Bus className="h-6 w-6 text-primary" />
+                        Vehículo: {revision.vehiculoId}
+                    </CardTitle>
+                    <Badge variant="outline" className={typeDetails.className}>
+                        <Icon className="mr-2 h-4 w-4" />
+                        {typeDetails.label}
+                    </Badge>
+                </div>
+                 <CardDescription>
+                    {format(revisionDate, "EEEE, d 'de' MMMM", { locale: es })}
+                </CardDescription>
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 pt-4">
               <div className="flex items-center gap-2">
@@ -71,7 +77,7 @@ const RevisionList = ({ revisions }: { revisions: typeof data.revisiones }) => {
                 <span className="font-medium">Hora:</span>
                 <span>{revision.hora} ({revision.duracionEstimada})</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 md:col-span-2">
                 <Building className="h-5 w-5 text-muted-foreground" />
                 <span className="font-medium">Ubicación:</span>
                 <span>{revision.ubicacion}</span>
@@ -104,39 +110,27 @@ const RevisionList = ({ revisions }: { revisions: typeof data.revisiones }) => {
 
 
 export default function RevisionsPage() {
-  const today = new Date('2026-01-04T12:00:00.000Z'); // Forcing date to show an installation
-  const tomorrow = new Date(today);
-  tomorrow.setUTCDate(today.getUTCDate() + 1);
+  const today = new Date();
 
-  const todaysRevisions = data.revisiones.filter(rev => {
-    const revDate = new Date(rev.fecha);
-    const revDateString = revDate.toISOString().split('T')[0];
-    const todayString = today.toISOString().split('T')[0];
-    const tomorrowString = tomorrow.toISOString().split('T')[0];
-
-    // This logic is for night shifts that span across two days
-    if (rev.hora.startsWith('2')) { // Revisions starting at 21:00, 22:00, 23:00
-      return revDateString === todayString;
-    } else if (rev.hora.startsWith('0')) { // Revisions starting after midnight
-       return revDateString === tomorrowString;
-    } else { // Daytime revisions
-      return revDateString === todayString;
+  // Sort all revisions chronologically by date and then by time
+  const allRevisions = [...data.revisiones].sort((a, b) => {
+    const dateA = new Date(a.fecha).getTime();
+    const dateB = new Date(b.fecha).getTime();
+    if (dateA !== dateB) {
+        return dateA - dateB;
     }
-
-  }).sort((a, b) => {
+    
     // Custom sort to handle overnight times
     const timeA = a.hora;
     const timeB = b.hora;
-
-    // Treat times starting with '0' (e.g., 00:45) as later than times starting with '2' (e.g., 23:15)
     if (timeA.startsWith('0') && timeB.startsWith('2')) return 1;
     if (timeA.startsWith('2') && timeB.startsWith('0')) return -1;
     
     return timeA.localeCompare(timeB);
   });
   
-  const maintenanceRevisions = todaysRevisions.filter(rev => rev.tipo.startsWith('Preventivo'));
-  const operationRevisions = todaysRevisions.filter(rev => !rev.tipo.startsWith('Preventivo'));
+  const maintenanceRevisions = allRevisions.filter(rev => rev.tipo.startsWith('Preventivo'));
+  const operationRevisions = allRevisions.filter(rev => !rev.tipo.startsWith('Preventivo'));
 
   return (
     <main className="container mx-auto p-4 md:p-8">
@@ -146,7 +140,7 @@ export default function RevisionsPage() {
           T-MobiliCheck
         </h1>
         <p className="max-w-2xl text-lg text-muted-foreground mt-2">
-          Intervenciones asignadas para hoy, {format(today, "EEEE, d 'de' MMMM 'de' yyyy", { locale: es })}
+          Intervenciones Asignadas
         </p>
       </div>
       
