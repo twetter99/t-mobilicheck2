@@ -105,8 +105,8 @@ export const data = {
       "hora": "10:00",
       "fecha": getFutureDate(4, 0),
       "ubicacion": "Cochera Badalona",
-      "duracionEstimada": "2h",
-      "observaciones": "Nuevo vehículo. Instalación completa de hardware y software."
+      "duracionEstimada": "22h",
+      "observaciones": "Instalación completa de hardware."
     },
     {
       "id": "trasp-001",
