@@ -30,7 +30,7 @@ const getRevisionTypeDetails = (type: string) => {
 
 
 export default function RevisionsPage() {
-  const today = new Date('2026-01-02T21:00:00.000Z'); // Forcing date to show night shift schedule
+  const today = new Date('2026-01-04T12:00:00.000Z'); // Forcing date to show an installation
   const tomorrow = new Date(today);
   tomorrow.setUTCDate(today.getUTCDate() + 1);
 
