@@ -2,7 +2,7 @@ export const installationSteps = [
   {
     step: 1,
     title: 'Coordinación previa con el operador',
-    description: 'Confirmar ubicación, disponibilidad del vehículo y acceso a la cochera/taller.',
+    description: 'Coordinar con el responsable la ubicación física de los equipos (pupitre, validadoras, etc.) según el modelo de bus y las necesidades del operador. Confirmar disponibilidad del vehículo y acceso a cochera/taller.',
   },
   {
     step: 2,
