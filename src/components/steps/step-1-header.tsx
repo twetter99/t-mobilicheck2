@@ -40,8 +40,21 @@ export function Step1Header({ form }: Step1Props) {
   };
 
   return (
-    <FormSection title="Secció 1: Capçalera" description="Informació general de l'ordre d'instal·lació.">
+    <FormSection title="Secció 1: Informació de la Intervenció" description="Informació general de l'ordre d'instal·lació.">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <FormField
+          control={form.control}
+          name="header.orderNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nº d'Ordre de Treball</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Introduïu el número d'ordre" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="header.operator"

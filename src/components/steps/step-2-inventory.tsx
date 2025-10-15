@@ -35,96 +35,56 @@ export function Step2Inventory({ form }: Step2Props) {
     <FormSection title="Secció 2: Inventari i Versions" description="Registreu els números de sèrie i versions dels components.">
         <div className="space-y-6">
             <div>
-                <h3 className="text-lg font-medium mb-4">Inventari Central</h3>
+                <h3 className="text-lg font-medium mb-4">Hardware T-Mobilitat</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField control={form.control} name="inventory.consoleSerial" render={({ field }) => (
-                        <FormItem><FormLabel>Pupitre Sèrie</FormLabel><FormControl><InputWithScan field={field} placeholder="N/S del pupitre" /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>N/S Pupitre</FormLabel><FormControl><InputWithScan field={field} placeholder="N/S del pupitre" /></FormControl><FormMessage /></FormItem>
                     )}/>
-                    <FormField control={form.control} name="inventory.consoleMount" render={({ field }) => (
-                        <FormItem className="space-y-3"><FormLabel>Suport Pupitre</FormLabel><FormControl><RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-wrap gap-4">
+                    <FormField control={form.control} name="inventory.mccSerial" render={({ field }) => (
+                        <FormItem><FormLabel>N/S MCC Pupitre</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                    <FormField control={form.control} name="inventory.switchSerial" render={({ field }) => (
+                        <FormItem><FormLabel>N/S Switch</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                    <FormField control={form.control} name="inventory.installationKitSerial" render={({ field }) => (
+                        <FormItem><FormLabel>N/S Kit d'Instal·lació</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                     <FormField control={form.control} name="inventory.consoleMount" render={({ field }) => (
+                        <FormItem className="space-y-3"><FormLabel>Tipologia de Suport de Pupitre</FormLabel><FormControl><RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-wrap gap-4">
                             <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="sin_brazo" /></FormControl><FormLabel className="font-normal">Sense Braç</FormLabel></FormItem>
                             <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="brazo_corto" /></FormControl><FormLabel className="font-normal">Braç Curt</FormLabel></FormItem>
                             <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="brazo_largo" /></FormControl><FormLabel className="font-normal">Braç Llarg</FormLabel></FormItem>
                             <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="simple_extraible" /></FormControl><FormLabel className="font-normal">Simple Extraïble</FormLabel></FormItem>
                         </RadioGroup></FormControl><FormMessage /></FormItem>
                     )}/>
-                    <FormField control={form.control} name="inventory.consoleSoftware" render={({ field }) => (
-                        <FormItem><FormLabel>SW Pupitre</FormLabel><FormControl><Input placeholder="Versió de programari" {...field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="inventory.configVersion" render={({ field }) => (
-                        <FormItem><FormLabel>Versió Config.</FormLabel><FormControl><Input placeholder="Versió de configuració" {...field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="inventory.telechargeVersion" render={({ field }) => (
-                        <FormItem><FormLabel>Versió Telecàrrega</FormLabel><FormControl><Input placeholder="Versió de telecàrrega" {...field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
                 </div>
             </div>
-
+            
             <Separator />
             
             <div>
-                <h3 className="text-lg font-medium mb-4">Inventari Validació i Consulta</h3>
+                <h3 className="text-lg font-medium mb-4">Soports</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField control={form.control} name="inventory.valIn1Serial" render={({ field }) => (
-                        <FormItem><FormLabel>Validadora IN 1 Sèrie</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                    <FormField control={form.control} name="inventory.sc1Serial" render={({ field }) => (
+                        <FormItem><FormLabel>N/S Suport Validadora SC1</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
-                    <FormField control={form.control} name="inventory.valIn2Serial" render={({ field }) => (
-                        <FormItem><FormLabel>Validadora IN 2 Sèrie</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                    <FormField control={form.control} name="inventory.sc2Serial" render={({ field }) => (
+                        <FormItem><FormLabel>N/S Suport Validadora SC2</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
-                    <FormField control={form.control} name="inventory.valOut1Serial" render={({ field }) => (
-                        <FormItem><FormLabel>Validadora OUT 1 Sèrie</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                    <FormField control={form.control} name="inventory.sc3Serial" render={({ field }) => (
+                        <FormItem><FormLabel>N/S Suport Validadora SC3</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
-                    <FormField control={form.control} name="inventory.valOut2Serial" render={({ field }) => (
-                        <FormItem><FormLabel>Validadora OUT 2 Sèrie</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                    <FormField control={form.control} name="inventory.sc4Serial" render={({ field }) => (
+                        <FormItem><FormLabel>N/S Suport Validadora SC4</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
-                    <FormField control={form.control} name="inventory.valOut3Serial" render={({ field }) => (
-                        <FormItem><FormLabel>Validadora OUT 3 Sèrie</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                    <FormField control={form.control} name="inventory.sc5Serial" render={({ field }) => (
+                        <FormItem><FormLabel>N/S Suport Validadora SC5</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
-                     <FormField control={form.control} name="inventory.valOut4Serial" render={({ field }) => (
-                        <FormItem><FormLabel>Validadora OUT 4 Sèrie</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                     <FormField control={form.control} name="inventory.sc6Serial" render={({ field }) => (
+                        <FormItem><FormLabel>N/S Suport Validadora SC6</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
-                    <FormField control={form.control} name="inventory.queryTerminalSerial" render={({ field }) => (
-                        <FormItem><FormLabel>Terminal de Consulta Sèrie</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                </div>
-            </div>
-
-            <Separator />
-
-            <div>
-                <h3 className="text-lg font-medium mb-4">Infraestructura</h3>
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField control={form.control} name="inventory.connectionsPlateSerial" render={({ field }) => (
-                        <FormItem><FormLabel>Placa de Connexions Sèrie</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="inventory.switchSerial" render={({ field }) => (
-                        <FormItem><FormLabel>Switch Sèrie</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="inventory.mccSerial" render={({ field }) => (
-                        <FormItem><FormLabel>MCC Sèrie</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="inventory.triBandAntennaSerial" render={({ field }) => (
-                        <FormItem><FormLabel>Antena Tribanda Sèrie</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                </div>
-            </div>
-
-            <Separator />
-
-            <div>
-                <h3 className="text-lg font-medium mb-4">Sistemes Legacy</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField control={form.control} name="inventory.legacyMag1Brand" render={({ field }) => (
-                        <FormItem><FormLabel>Validadora Magnètica 1 Marca</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Seleccioneu marca" /></SelectTrigger></FormControl><SelectContent><SelectItem value="Ascom">Ascom</SelectItem><SelectItem value="Indra">Indra</SelectItem><SelectItem value="N/A">No Aplica</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="inventory.legacyMag1Serial" render={({ field }) => (
-                        <FormItem><FormLabel>Validadora Magnètica 1 Sèrie</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="inventory.legacyMag2Brand" render={({ field }) => (
-                        <FormItem><FormLabel>Validadora Magnètica 2 Marca</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Seleccioneu marca" /></SelectTrigger></FormControl><SelectContent><SelectItem value="Ascom">Ascom</SelectItem><SelectItem value="Indra">Indra</SelectItem><SelectItem value="N/A">No Aplica</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="inventory.legacyMag2Serial" render={({ field }) => (
-                        <FormItem><FormLabel>Validadora Magnètica 2 Sèrie</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                    <FormField control={form.control} name="inventory.queryTerminalSupportSerial" render={({ field }) => (
+                        <FormItem><FormLabel>N/S Suport Terminal de Consulta</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                 </div>
             </div>

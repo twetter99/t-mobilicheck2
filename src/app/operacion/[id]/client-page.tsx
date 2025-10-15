@@ -6,44 +6,107 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormDescription, FormMessage } from '@/components/ui/form';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Form } from '@/components/ui/form';
 import { StepIndicator } from '@/components/step-indicator';
-import { FormSection } from '@/components/form-section';
 import { Step1Header } from '@/components/steps/step-1-header';
 import { Step2Inventory } from '@/components/steps/step-2-inventory';
+import { Step3Software } from '@/components/steps/step-3-checklist';
+import { Step4PreexistingSystems } from '@/components/steps/step-4-verification';
+import { Step5ExecutionPhases } from '@/components/steps/step-5-execution';
 import { Step5Observations } from '@/components/steps/step-5-observations';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { CheckCircle, Download, HardHat, Loader2 } from 'lucide-react';
+import { CheckCircle, Loader2, HardHat } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { submitMaintenanceOrder } from '@/app/actions';
 import Link from 'next/link';
-import { formSchema } from '@/lib/schema';
 
-const ChecklistItem = ({ name, label, description, control }: { name: string; label: string; description: string; control: any }) => (
-  <FormField
-    control={control}
-    name={name}
-    render={({ field }) => (
-      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow-sm">
-        <FormControl>
-          <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-        </FormControl>
-        <div className="space-y-1 leading-none">
-          <FormLabel>{label}</FormLabel>
-          <FormDescription>{description}</FormDescription>
-        </div>
-      </FormItem>
-    )}
-  />
-);
+// Combined schema for all operation types
+const operationSchema = z.object({
+  header: z.object({
+    orderNumber: z.string().optional(),
+    operator: z.string().min(1, "L'operador és obligatori."),
+    depot: z.string().min(1, 'La cotxera és obligatòria.'),
+    busNumber: z.string().min(1, 'El número de bus/calca és obligatori.'),
+    licensePlate: z.string().min(1, 'La matrícula és obligatòria.'),
+    technician: z.string().min(1, 'El tècnic és obligatori.'),
+    date: z.date({ required_error: 'La data és obligatòria.' }),
+  }),
+  inventory: z.object({
+    consoleSerial: z.string().optional(),
+    mccSerial: z.string().optional(),
+    switchSerial: z.string().optional(),
+    installationKitSerial: z.string().optional(),
+    consoleMount: z.enum(['sin_brazo', 'brazo_corto', 'brazo_largo', 'simple_extraible']),
+    sc1Serial: z.string().optional(),
+    sc2Serial: z.string().optional(),
+    sc3Serial: z.string().optional(),
+    sc4Serial: z.string().optional(),
+    sc5Serial: z.string().optional(),
+    sc6Serial: z.string().optional(),
+    queryTerminalSupportSerial: z.string().optional(),
+  }),
+  software: z.object({
+    consoleSoftware: z.string().optional(),
+    telechargeVersion: z.string().optional(),
+    configVersion: z.string().optional(),
+  }),
+  preexistingSystems: z.object({
+    magneticValidatorBrand: z.string().optional(),
+    magneticValidatorModel: z.string().optional(),
+    magneticValidatorSerial: z.string().optional(),
+    contactlessValidatorBrand: z.string().optional(),
+    contactlessValidatorModel: z.string().optional(),
+    contactlessValidatorSerial: z.string().optional(),
+    saeIntegration: z.enum(['Sí', 'No']),
+    saeBrand: z.string().optional(),
+    saeModel: z.string().optional(),
+    exteriorPanelsIntegration: z.enum(['Sí', 'No']),
+    exteriorPanelsBrand: z.string().optional(),
+    exteriorPanelsModel: z.string().optional(),
+  }),
+  executionPhases: z.object({
+    preliminaryCheck: z.enum(['OK', 'NOK']),
+    preexistingSystemsCheck: z.enum(['OK', 'NOK']),
+    connectionPlateInstallation: z.enum(['OK', 'NOK']),
+    antennaInstallation: z.enum(['OK', 'NOK']),
+    mccInstallation: z.enum(['OK', 'NOK']),
+    consoleSupportInstallation: z.enum(['OK', 'NOK']),
+    consoleInstallation: z.enum(['OK', 'NOK']),
+    validatorSupportInstallation: z.enum(['OK', 'NOK']),
+    finalCheck: z.enum(['OK', 'NOK']),
+    softwareUpdate: z.enum(['OK', 'NOK']),
+    functionalTests: z.enum(['OK', 'NOK']),
+  }),
+  observations: z.object({
+    startTime: z.string().min(1, "L'hora d'inici és obligatòria."),
+    endTime: z.string().min(1, "L'hora de fi és obligatòria."),
+    notes: z.string().optional(),
+    hasIncident: z.boolean().default(false),
+    correctiveAction: z.object({
+        title: z.string(),
+        description: z.string(),
+        priority: z.enum(['Baixa', 'Mitjana', 'Alta']),
+      }).optional(),
+    technicianSignature: z.string().min(1, 'La firma del tècnic és obligatòria.'),
+    supervisorSignature: z.string().optional(),
+    beforePhotos: z.array(z.string()).optional(),
+    afterPhotos: z.array(z.string()).optional(),
+  }),
+}).refine(data => !data.observations.hasIncident || (data.observations.correctiveAction?.title && data.observations.correctiveAction?.description), {
+  message: "El títol i la descripció de la incidència són obligatoris.",
+  path: ["observations.correctiveAction.title"],
+});
 
-export function OperationClientPage({ revision, operatorId, checklist }: { revision: any; operatorId?: string | null; checklist: any[] }) {
+type OperationFormValues = z.infer<typeof operationSchema>;
+
+export function OperationClientPage({ revision, operatorId }: { revision: any; operatorId?: string | null }) {
   const steps = [
-    { id: 1, name: 'Capçalera', section: 'header' },
-    { id: 2, name: 'Inventari', section: 'inventory' },
-    { id: 3, name: 'Checklist', section: 'checklist' },
-    { id: 4, name: 'Observacions', section: 'observations' },
+    { id: 1, name: 'Intervenció', section: 'header' },
+    { id: 2, name: 'Hardware', section: 'inventory' },
+    { id: 3, name: 'Software', section: 'software' },
+    { id: 4, name: 'Sistemes Preexistents', section: 'preexistingSystems' },
+    { id: 5, name: 'Execució', section: 'executionPhases' },
+    { id: 6, name: 'Tancament', section: 'observations' },
   ];
   
   const [currentStep, setCurrentStep] = useState(0);
@@ -51,27 +114,11 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
   const [submittedData, setSubmittedData] = useState<any | null>(null);
   const { toast } = useToast();
 
-  const checklistFields = checklist.reduce((acc, item) => {
-    acc[item.id] = z.boolean().default(false);
-    return acc;
-  }, {});
-
-  const operationSchema = z.object({
-    header: formSchema.shape.header,
-    inventory: formSchema.shape.inventory.optional(),
-    checklist: z.object(checklistFields).refine(data => Object.values(data).every(Boolean), {
-      message: "Totes les tasques del checklist s'han de completar.",
-      path: [checklist[0]?.id || 'checklist'],
-    }),
-    observations: formSchema.shape.observations,
-  });
-
-  type OperationFormValues = z.infer<typeof operationSchema>;
-
   const form = useForm<OperationFormValues>({
     resolver: zodResolver(operationSchema),
     defaultValues: {
       header: {
+        orderNumber: `OT-${revision?.id.slice(-4)}` || '',
         operator: operatorId || '',
         depot: revision?.ubicacion || '',
         busNumber: revision?.vehiculoId || '',
@@ -81,27 +128,40 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
       },
       inventory: {
         consoleSerial: '',
-        consoleMount: 'brazo_largo',
-        consoleSoftware: '',
-        configVersion: '',
-        telechargeVersion: '',
-        valIn1Serial: '',
-        valIn2Serial: '',
-        valOut1Serial: '',
-        valOut2Serial: '',
-        valOut3Serial: '',
-        valOut4Serial: '',
-        queryTerminalSerial: '',
-        connectionsPlateSerial: '',
-        switchSerial: '',
         mccSerial: '',
-        triBandAntennaSerial: '',
-        legacyMag1Brand: 'N/A',
-        legacyMag1Serial: '',
-        legacyMag2Brand: 'N/A',
-        legacyMag2Serial: '',
+        switchSerial: '',
+        installationKitSerial: '',
+        consoleMount: 'brazo_largo',
+        sc1Serial: '',
+        sc2Serial: '',
+        sc3Serial: '',
+        sc4Serial: '',
+        sc5Serial: '',
+        sc6Serial: '',
+        queryTerminalSupportSerial: '',
       },
-      checklist: checklist.reduce((acc, item) => ({ ...acc, [item.id]: false }), {}),
+      software: {
+        consoleSoftware: '',
+        telechargeVersion: '',
+        configVersion: '',
+      },
+      preexistingSystems: {
+        saeIntegration: 'No',
+        exteriorPanelsIntegration: 'No',
+      },
+      executionPhases: {
+        preliminaryCheck: 'OK',
+        preexistingSystemsCheck: 'OK',
+        connectionPlateInstallation: 'OK',
+        antennaInstallation: 'OK',
+        mccInstallation: 'OK',
+        consoleSupportInstallation: 'OK',
+        consoleInstallation: 'OK',
+        validatorSupportInstallation: 'OK',
+        finalCheck: 'OK',
+        softwareUpdate: 'OK',
+        functionalTests: 'OK',
+      },
       observations: {
         startTime: '09:00',
         endTime: '11:00',
@@ -133,7 +193,7 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
 
   const onSubmit = async (data: OperationFormValues) => {
     setIsSubmitting(true);
-    // Here you would adapt submitMaintenanceOrder or create a new action
+    // This action needs to be generalized or a new one created for operations
     const response = await submitMaintenanceOrder(data as any); 
     setIsSubmitting(false);
 
@@ -196,21 +256,10 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
               >
                 {currentStep === 0 && <Step1Header form={form as any} />}
                 {currentStep === 1 && <Step2Inventory form={form as any} />}
-                {currentStep === 2 && (
-                  <FormSection title={`Secció 3: Checklist d'${revision.tipo}`} description="Marqueu totes les tasques com a completades.">
-                    <div className="space-y-4">
-                      {checklist.map(item => (
-                        <ChecklistItem key={item.id} name={`checklist.${item.id}`} label={item.title} description={item.description} control={form.control} />
-                      ))}
-                      {form.formState.errors.checklist && (
-                         <div className="pt-2">
-                           <FormMessage>{form.formState.errors.checklist.message as string}</FormMessage>
-                         </div>
-                      )}
-                    </div>
-                  </FormSection>
-                )}
-                {currentStep === 3 && <Step5Observations form={form as any} />}
+                {currentStep === 2 && <Step3Software form={form as any} />}
+                {currentStep === 3 && <Step4PreexistingSystems form={form as any} />}
+                {currentStep === 4 && <Step5ExecutionPhases form={form as any} />}
+                {currentStep === 5 && <Step5Observations form={form as any} />}
               </motion.div>
             </AnimatePresence>
 
