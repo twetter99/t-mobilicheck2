@@ -79,7 +79,7 @@ export function Step4PreexistingSystems({ form }: Step4Props) {
                  {form.watch('preexistingSystems.exteriorPanelsIntegration') === 'Sí' && (
                     <div className="grid grid-cols-2 gap-6">
                          <FormField control={form.control} name="preexistingSystems.exteriorPanelsBrand" render={({ field }) => (
-                            <FormItem><FormLabel>Marca Panells</FormLabel><FormControl><Input placeholder="Marca" {...field} /></FormControl><FormMessage /></Form-Item>
+                            <FormItem><FormLabel>Marca Panells</FormLabel><FormControl><Input placeholder="Marca" {...field} /></FormControl><FormMessage /></FormItem>
                         )}/>
                          <FormField control={form.control} name="preexistingSystems.exteriorPanelsModel" render={({ field }) => (
                             <FormItem><FormLabel>Model Panells</FormLabel><FormControl><Input placeholder="Model" {...field} /></FormControl><FormMessage /></FormItem>
