@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormDescription, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormDescription } from '@/components/ui/form';
 import { Checkbox } from '@/components/ui/checkbox';
 import { StepIndicator } from '@/components/step-indicator';
 import { FormSection } from '@/components/form-section';
@@ -38,9 +38,9 @@ const ChecklistItem = ({ name, label, description, control }: { name: string; la
 
 export function OperationClientPage({ revision, operatorId, checklist }: { revision: any; operatorId?: string | null; checklist: any[] }) {
   const steps = [
-    { id: 1, name: 'Capçalera' },
-    { id: 2, name: 'Checklist' },
-    { id: 3, name: 'Observacions' },
+    { id: 1, name: 'Capçalera', section: 'header' },
+    { id: 2, name: 'Checklist', section: 'checklist' },
+    { id: 3, name: 'Observacions', section: 'observations' },
   ];
   
   const [currentStep, setCurrentStep] = useState(0);
@@ -114,8 +114,8 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
   });
 
   const next = async () => {
-    const fields = steps[currentStep].name.toLowerCase();
-    const output = await form.trigger([fields as "header" | "checklist" | "observations"], { shouldFocus: true });
+    const section = steps[currentStep].section;
+    const output = await form.trigger([section as "header" | "checklist" | "observations"], { shouldFocus: true });
     if (!output) return;
     if (currentStep < steps.length - 1) {
       setCurrentStep(step => step + 1);
