@@ -200,7 +200,7 @@ export const data = {
       "titulo": "Traspaso Programado",
       "fecha": getFutureDate(8, 0), // 8 de Enero
       "descripcion": "Traspaso programado en Cochera Norte",
-      "operador": "TransValencia",
+      "operador": "UTE BAIX LLOBREGAT",
       "ubicacion": "Cochera Norte",
       "tipo": "Traspaso"
     }
