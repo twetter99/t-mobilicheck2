@@ -27,6 +27,7 @@ const getPriorityDetails = (priority: 'Crítica' | 'Alta' | 'Media' | 'Baja') =>
 
 const getRevisionTypeIcon = (type: string) => {
   if (type.startsWith('Preventivo')) return Wrench;
+  if (type.startsWith('Correctivo')) return Siren;
   if (type === 'Instalación') return HardHat;
   if (type === 'Traspaso') return Upload;
   if (type === 'Desinstalación') return Download;
@@ -90,7 +91,7 @@ export default function DashboardPage() {
                     <h1 className="text-2xl font-bold text-primary">Tareas para hoy</h1>
                 </div>
                 <div className="text-right">
-                    <p className="font-semibold">{format(today, "EEEE, d 'de' MMMM", { locale: es })}</p>
+                    <p className="font-semibold">{format(new Date(2026, 0, 2), "EEEE, d 'de' MMMM", { locale: es })}</p>
                     <p className="text-sm text-muted-foreground">{totalTasks} tareas, ~{totalEstimatedHours.toFixed(1)}h estimadas</p>
                 </div>
             </div>

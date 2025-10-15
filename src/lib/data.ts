@@ -89,15 +89,15 @@ export const data = {
       "estado": "Bloqueada"
     },
     { 
-      "id": "rev-anual-003", 
+      "id": "corr-001", 
       "vehiculoId": "VEH-BAIXLLOB-303", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventivo Anual", 
+      "tipo": "Correctivo", 
       "hora": "01:30", 
-      "fecha": getFutureDate(3, 0), // Next day for times after midnight
+      "fecha": getFutureDate(3, 0),
       "ubicacion": "C/ Lobatona 13", 
-      "duracionEstimada": "45m", 
-      "observaciones": "TORN NOCTURN - Inici any laboral",
+      "duracionEstimada": "1h 30m", 
+      "observaciones": "AVARIA: La validadora no respon. Possible problema d'alimentació.",
       "prioridad": "Crítica",
       "estado": "Pendiente"
     },
