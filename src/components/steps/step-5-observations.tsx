@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
+import Image from 'next/image';
+import { Camera, Trash2 } from 'lucide-react';
 import type { FormValues } from '@/lib/schema';
 import { FormSection } from '@/components/form-section';
 import { FormControl, FormField, FormItem, FormLabel, FormDescription, FormMessage } from '@/components/ui/form';
@@ -10,11 +12,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Camera, Trash2 } from 'lucide-react';
 import { SignaturePad } from '@/components/signature-pad';
-import { Separator } from '../ui/separator';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import Image from 'next/image';
+import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 type Step5Props = {
   form: UseFormReturn<FormValues>;
