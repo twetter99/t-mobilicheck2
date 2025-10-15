@@ -1,4 +1,5 @@
 
+
 // Set a consistent date in the future for mock data
 // Using January 2026 to match the provided schedule's context
 const getFutureDate = (day: number, month: number = 0, year: number = 2026) => {
@@ -94,7 +95,7 @@ export const data = {
       "operador": "UTE BAIX LLOBREGAT", 
       "tipo": "Correctivo", 
       "hora": "01:30", 
-      "fecha": getFutureDate(3, 0),
+      "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "1h 30m", 
       "observaciones": "AVARIA: La validadora no respon. Possible problema d'alimentació.",
@@ -192,5 +193,16 @@ export const data = {
   ],
   "tecnicos": [
     { "id": "tec-01", "nombre": "A.P.U." }
+  ],
+  "eventosProximos": [
+    {
+      "id": "evt-001",
+      "titulo": "Traspaso Programado",
+      "fecha": getFutureDate(8, 0), // 8 de Enero
+      "descripcion": "Traspaso programado en Cochera Norte",
+      "operador": "TransValencia",
+      "ubicacion": "Cochera Norte",
+      "tipo": "Traspaso"
+    }
   ]
 };
