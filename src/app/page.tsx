@@ -66,8 +66,8 @@ export default function DashboardPage() {
     return priorityOrder[a.prioridad] - priorityOrder[b.prioridad];
   });
   
-  const mantenimientos = data.revisiones.filter(task => task.tipo.includes('Preventiu') || task.tipo.includes('Correctiu'));
-  const otrasOperaciones = data.revisiones.filter(task => !task.tipo.includes('Preventiu') && !task.tipo.includes('Correctiu'));
+  const mantenimientos = data.revisiones.filter(task => (task.tipo.includes('Preventiu') || task.tipo.includes('Correctiu')) && new Date(task.fecha) >= todayStart && new Date(task.fecha) <= todayEnd);
+  const otrasOperaciones = data.revisiones.filter(task => (!task.tipo.includes('Preventiu') && !task.tipo.includes('Correctiu')) && new Date(task.fecha) >= todayStart && new Date(task.fecha) <= todayEnd);
   
   const totalTasks = todaysTasks.length;
   const completedTasks = todaysTasks.filter(t => t.estado === 'Completada').length;
@@ -89,7 +89,15 @@ export default function DashboardPage() {
   const TaskCard = ({ revision }: { revision: any }) => {
     const priorityDetails = getPriorityDetails(revision.prioridad);
     const TypeIcon = getRevisionTypeIcon(revision.tipo);
-    const href = revision.tipo.includes('Preventiu') ? `/revision/${revision.id}` : `/operacion/${revision.id}`;
+    
+    let href = `/revision/${revision.id}`; // Default to revision
+    if (revision.tipo === 'Instal·lació') {
+      href = `/instalacion/${revision.id}`;
+    } else if (revision.tipo === 'Traspàs' || revision.tipo === 'Desinstal·lació') {
+      href = `/operacion/${revision.id}`;
+    } else if (revision.tipo.includes('Correctiu')) {
+      href = `/revision/${revision.id}`;
+    }
 
     return (
       <Card className={`hover:shadow-lg transition-shadow ${getStatusDetails(revision.estado)}`}>
@@ -277,3 +285,5 @@ export default function DashboardPage() {
     </>
   );
 }
+
+    
