@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import Image from 'next/image';
 import { Camera, Trash2 } from 'lucide-react';
+
 import type { FormValues } from '@/lib/schema';
 import { FormSection } from '@/components/form-section';
 import { FormControl, FormField, FormItem, FormLabel, FormDescription, FormMessage } from '@/components/ui/form';
