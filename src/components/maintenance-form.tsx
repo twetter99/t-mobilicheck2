@@ -16,7 +16,7 @@ import { Form } from '@/components/ui/form';
 import { StepIndicator } from '@/components/step-indicator';
 import { Step1Header } from '@/components/steps/step-1-header';
 import { Step2Inventory } from '@/components/steps/step-2-inventory';
-import { Step3Checklist } from '@/components/steps/step-3-checklist';
+import { Step3Software } from '@/components/steps/step-3-checklist';
 import { Step4Verification } from '@/components/steps/step-4-verification';
 import { Step5Observations } from '@/components/steps/step-5-observations';
 import { AlertCircle, CheckCircle, Loader2, Sparkles, Download } from 'lucide-react';
@@ -54,9 +54,6 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
       inventory: {
         consoleSerial: '',
         consoleMount: 'brazo_largo',
-        consoleSoftware: '',
-        configVersion: '',
-        telechargeVersion: '',
         valIn1Serial: '',
         valIn2Serial: '',
         valOut1Serial: '',
@@ -72,6 +69,11 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
         legacyMag1Serial: '',
         legacyMag2Brand: 'N/A',
         legacyMag2Serial: '',
+      },
+      software: {
+        consoleSoftware: '',
+        configVersion: '',
+        telechargeVersion: '',
       },
       checklist: {
         consoleGeneralCleaning: false,
@@ -241,11 +243,11 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
               exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.3 }}
             >
-              {currentStep === 0 && <Step1Header form={form} />}
-              {currentStep === 1 && <Step2Inventory form={form} />}
-              {currentStep === 2 && <Step3Checklist form={form} />}
-              {currentStep === 3 && <Step4Verification form={form} />}
-              {currentStep === 4 && <Step5Observations form={form} />}
+              {currentStep === 0 && <Step1Header form={form as any} />}
+              {currentStep === 1 && <Step2Inventory form={form as any} />}
+              {currentStep === 2 && <Step3Software form={form as any} />}
+              {currentStep === 3 && <Step4Verification form={form as any} />}
+              {currentStep === 4 && <Step5Observations form={form as any} />}
             </motion.div>
           </AnimatePresence>
 

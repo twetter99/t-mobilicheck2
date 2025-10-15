@@ -11,7 +11,7 @@ import { StepIndicator } from '@/components/step-indicator';
 import { Step1Header } from '@/components/steps/step-1-header';
 import { Step2Inventory } from '@/components/steps/step-2-inventory';
 import { Step3Software } from '@/components/steps/step-3-checklist';
-import { Step4PreexistingSystems } from '@/components/steps/step-4-verification';
+import { Step4PreexistingSystems } from '@/components/steps/step-4-preexisting-systems';
 import { Step5ExecutionPhases } from '@/components/steps/step-5-execution';
 import { Step5Observations } from '@/components/steps/step-5-observations';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
@@ -19,6 +19,8 @@ import { CheckCircle, Loader2, HardHat } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { submitMaintenanceOrder } from '@/app/actions';
 import Link from 'next/link';
+import type { ChecklistStep } from '@/lib/checklist-data';
+
 
 // Combined schema for all operation types
 const operationSchema = z.object({
@@ -99,7 +101,7 @@ const operationSchema = z.object({
 
 type OperationFormValues = z.infer<typeof operationSchema>;
 
-export function OperationClientPage({ revision, operatorId }: { revision: any; operatorId?: string | null }) {
+export function OperationClientPage({ revision, operatorId, checklist }: { revision: any; operatorId?: string | null, checklist: ChecklistStep[] }) {
   const steps = [
     { id: 1, name: 'Intervenció', section: 'header' },
     { id: 2, name: 'Hardware', section: 'inventory' },
