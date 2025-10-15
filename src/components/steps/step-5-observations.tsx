@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -7,7 +6,6 @@ import Image from 'next/image';
 import { Camera, Trash2 } from 'lucide-react';
 
 import type { FormValues } from '@/lib/schema';
-import { FormSection } from '@/components/form-section';
 import { FormControl, FormField, FormItem, FormLabel, FormDescription, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -118,7 +116,11 @@ export function Step5Observations({ form }: Step5Props) {
 
 
   return (
-    <FormSection title="Sección 5: Observaciones, Cierre y Firmas" description="Añada notas, incidencias, fotos y recoja las firmas.">
+    <div className="space-y-4 p-6 bg-white rounded-lg border border-gray-200">
+      <div className="space-y-2">
+        <h3 className="text-lg font-semibold text-gray-900">Sección 5: Observaciones, Cierre y Firmas</h3>
+        <p className="text-sm text-gray-600">Añada notas, incidencias, fotos y recoja las firmas.</p>
+      </div>
       <div className="space-y-6">
         <FormField
           control={form.control}
@@ -282,6 +284,6 @@ export function Step5Observations({ form }: Step5Props) {
             </div>
         </div>
       </div>
-    </FormSection>
+    </div>
   );
 }
