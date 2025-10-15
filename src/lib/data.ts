@@ -69,7 +69,7 @@ export const data = {
       "operador": "UTE BAIX LLOBREGAT", 
       "tipo": "Preventivo Anual", 
       "hora": "00:00", 
-      "fecha": getFutureDate(3, 0), // Next day for times after midnight
+      "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
@@ -82,7 +82,7 @@ export const data = {
       "operador": "UTE BAIX LLOBREGAT", 
       "tipo": "Preventivo Anual", 
       "hora": "00:45", 
-      "fecha": getFutureDate(3, 0), // Next day for times after midnight
+      "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
@@ -107,8 +107,8 @@ export const data = {
       "vehiculoId": "VEH-BAIXLLOB-304", 
       "operador": "UTE BAIX LLOBREGAT", 
       "tipo": "Preventivo Anual", 
-      "hora": "02:15", 
-      "fecha": getFutureDate(3, 0), // Next day for times after midnight
+      "hora": "03:00", 
+      "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
