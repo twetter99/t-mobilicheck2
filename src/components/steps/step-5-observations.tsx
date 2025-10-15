@@ -41,7 +41,7 @@ const PhotoUpload = ({
 
       // This would need a proper upload handler
       // For now, we'll store the object URLs
-      field.onChange(allPreviews); 
+      field.onChange(allPreviews);
     }
   };
 
