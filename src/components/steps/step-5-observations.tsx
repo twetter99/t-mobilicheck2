@@ -23,9 +23,11 @@ type Step5Props = {
 const PhotoUpload = ({
   label,
   field,
+  maxFiles = 10,
 }: {
   label: string;
   field: any;
+  maxFiles?: number;
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [previews, setPreviews] = useState<string[]>(field.value || []);
@@ -34,7 +36,7 @@ const PhotoUpload = ({
     if (event.target.files) {
       const files = Array.from(event.target.files);
       const newPreviews = files.map(file => URL.createObjectURL(file));
-      const allPreviews = [...previews, ...newPreviews];
+      const allPreviews = [...previews, ...newPreviews].slice(0, maxFiles);
       setPreviews(allPreviews);
 
       // This would need a proper upload handler
@@ -52,7 +54,7 @@ const PhotoUpload = ({
   return (
     <div>
       <FormLabel>{label}</FormLabel>
-      <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {previews.map((src, index) => (
           <div key={index} className="relative group">
             <Image
@@ -73,15 +75,17 @@ const PhotoUpload = ({
             </Button>
           </div>
         ))}
-        <Button
-          type="button"
-          variant="outline"
-          className="flex flex-col items-center justify-center h-full aspect-square border-dashed"
-          onClick={() => inputRef.current?.click()}
-        >
-          <Camera className="h-8 w-8 text-muted-foreground" />
-          <span className="mt-2 text-xs">Añadir Foto</span>
-        </Button>
+        {previews.length < maxFiles && (
+          <Button
+            type="button"
+            variant="outline"
+            className="flex flex-col items-center justify-center h-full aspect-square border-dashed"
+            onClick={() => inputRef.current?.click()}
+          >
+            <Camera className="h-8 w-8 text-muted-foreground" />
+            <span className="mt-2 text-xs">Añadir Foto</span>
+          </Button>
+        )}
       </div>
       <FormControl>
         <Input
@@ -112,7 +116,7 @@ export function Step5Observations({ form }: Step5Props) {
 
 
   return (
-    <FormSection title="Sección 5: Observaciones y Cierre" description="Añada notas, incidencias y recoja las firmas.">
+    <FormSection title="Sección 6: Cierre y Evidencias" description="Añada notas, incidencias y recoja las firmas.">
       <div className="space-y-6">
         <FormField
           control={form.control}
@@ -131,13 +135,8 @@ export function Step5Observations({ form }: Step5Props) {
         <div className="space-y-4">
            <FormField
             control={form.control}
-            name="observations.beforePhotos"
-            render={({ field }) => <PhotoUpload label="Fotos del Antes" field={field} />}
-          />
-           <FormField
-            control={form.control}
             name="observations.afterPhotos"
-            render={({ field }) => <PhotoUpload label="Fotos del Después" field={field} />}
+            render={({ field }) => <PhotoUpload label="Fotos de la instalación completada (máx 10)" field={field} maxFiles={10} />}
           />
         </div>
 
@@ -204,7 +203,7 @@ export function Step5Observations({ form }: Step5Props) {
                       </SelectContent>
                     </Select>
                     <FormMessage />
-                  </FormItem>
+                  </Item>
                 )}
               />
             </CardContent>

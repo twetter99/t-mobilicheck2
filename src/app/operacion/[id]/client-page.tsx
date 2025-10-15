@@ -254,7 +254,7 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
         </p>
       </div>
 
-      <div className="w-full max-w-3xl mx-auto">
+      <div className="w-full max-w-4xl mx-auto">
         <StepIndicator currentStep={currentStep} totalSteps={steps.length} />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8 space-y-8">
