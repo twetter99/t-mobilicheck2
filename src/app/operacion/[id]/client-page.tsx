@@ -6,17 +6,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormDescription } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormDescription, FormMessage } from '@/components/ui/form';
 import { Checkbox } from '@/components/ui/checkbox';
 import { StepIndicator } from '@/components/step-indicator';
 import { FormSection } from '@/components/form-section';
 import { Step1Header } from '@/components/steps/step-1-header';
+import { Step2Inventory } from '@/components/steps/step-2-inventory';
 import { Step5Observations } from '@/components/steps/step-5-observations';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { CheckCircle, Download, HardHat, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { submitMaintenanceOrder } from '@/app/actions';
 import Link from 'next/link';
+import { formSchema } from '@/lib/schema';
 
 const ChecklistItem = ({ name, label, description, control }: { name: string; label: string; description: string; control: any }) => (
   <FormField
@@ -39,8 +41,9 @@ const ChecklistItem = ({ name, label, description, control }: { name: string; la
 export function OperationClientPage({ revision, operatorId, checklist }: { revision: any; operatorId?: string | null; checklist: any[] }) {
   const steps = [
     { id: 1, name: 'Capçalera', section: 'header' },
-    { id: 2, name: 'Checklist', section: 'checklist' },
-    { id: 3, name: 'Observacions', section: 'observations' },
+    { id: 2, name: 'Inventari', section: 'inventory' },
+    { id: 3, name: 'Checklist', section: 'checklist' },
+    { id: 4, name: 'Observacions', section: 'observations' },
   ];
   
   const [currentStep, setCurrentStep] = useState(0);
@@ -54,35 +57,13 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
   }, {});
 
   const operationSchema = z.object({
-    header: z.object({
-        operator: z.string().min(1, "L'operador és obligatori."),
-        depot: z.string().min(1, 'La cotxera és obligatòria.'),
-        busNumber: z.string().min(1, 'El número de bus/calca és obligatori.'),
-        licensePlate: z.string().min(1, 'La matrícula és obligatòria.'),
-        technician: z.string().min(1, 'El tècnic és obligatori.'),
-        date: z.date({ required_error: 'La data és obligatòria.' }),
-    }),
+    header: formSchema.shape.header,
+    inventory: formSchema.shape.inventory.optional(),
     checklist: z.object(checklistFields).refine(data => Object.values(data).every(Boolean), {
       message: "Totes les tasques del checklist s'han de completar.",
       path: [checklist[0]?.id || 'checklist'],
     }),
-    observations: z.object({
-        startTime: z.string().min(1, "L'hora d'inici és obligatòria."),
-        endTime: z.string().min(1, "L'hora de fi és obligatòria."),
-        notes: z.string().optional(),
-        hasIncident: z.boolean().default(false),
-        correctiveAction: z
-          .object({
-            title: z.string().min(1, 'El títol és obligatori.'),
-            description: z.string().min(1, 'La descripció és obligatòria.'),
-            priority: z.enum(['Baixa', 'Mitjana', 'Alta']),
-          })
-          .optional(),
-        technicianSignature: z.string().min(1, 'La firma del tècnic és obligatòria.'),
-        supervisorSignature: z.string().optional(),
-        beforePhotos: z.array(z.string()).optional(),
-        afterPhotos: z.array(z.string()).optional(),
-    }),
+    observations: formSchema.shape.observations,
   });
 
   type OperationFormValues = z.infer<typeof operationSchema>;
@@ -97,6 +78,28 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
         licensePlate: revision?.matricula || '',
         technician: '',
         date: new Date(),
+      },
+      inventory: {
+        consoleSerial: '',
+        consoleMount: 'brazo_largo',
+        consoleSoftware: '',
+        configVersion: '',
+        telechargeVersion: '',
+        valIn1Serial: '',
+        valIn2Serial: '',
+        valOut1Serial: '',
+        valOut2Serial: '',
+        valOut3Serial: '',
+        valOut4Serial: '',
+        queryTerminalSerial: '',
+        connectionsPlateSerial: '',
+        switchSerial: '',
+        mccSerial: '',
+        triBandAntennaSerial: '',
+        legacyMag1Brand: 'N/A',
+        legacyMag1Serial: '',
+        legacyMag2Brand: 'N/A',
+        legacyMag2Serial: '',
       },
       checklist: checklist.reduce((acc, item) => ({ ...acc, [item.id]: false }), {}),
       observations: {
@@ -115,7 +118,7 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
 
   const next = async () => {
     const section = steps[currentStep].section;
-    const output = await form.trigger([section as "header" | "checklist" | "observations"], { shouldFocus: true });
+    const output = await form.trigger([section as keyof OperationFormValues], { shouldFocus: true });
     if (!output) return;
     if (currentStep < steps.length - 1) {
       setCurrentStep(step => step + 1);
@@ -192,21 +195,22 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
                 transition={{ duration: 0.3 }}
               >
                 {currentStep === 0 && <Step1Header form={form as any} />}
-                {currentStep === 1 && (
-                  <FormSection title={`Secció 2: Checklist d'${revision.tipo}`} description="Marqueu totes les tasques com a completades.">
+                {currentStep === 1 && <Step2Inventory form={form as any} />}
+                {currentStep === 2 && (
+                  <FormSection title={`Secció 3: Checklist d'${revision.tipo}`} description="Marqueu totes les tasques com a completades.">
                     <div className="space-y-4">
                       {checklist.map(item => (
                         <ChecklistItem key={item.id} name={`checklist.${item.id}`} label={item.title} description={item.description} control={form.control} />
                       ))}
                       {form.formState.errors.checklist && (
                          <div className="pt-2">
-                           <FormMessage>{form.formState.errors.checklist.message}</FormMessage>
+                           <FormMessage>{form.formState.errors.checklist.message as string}</FormMessage>
                          </div>
                       )}
                     </div>
                   </FormSection>
                 )}
-                {currentStep === 2 && <Step5Observations form={form as any} />}
+                {currentStep === 3 && <Step5Observations form={form as any} />}
               </motion.div>
             </AnimatePresence>
 
