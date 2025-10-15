@@ -17,9 +17,11 @@ export const data = {
       "tipo": "Preventivo Trimestral", 
       "hora": "21:00", 
       "fecha": getFutureDate(2, 0),
-      "ubicacion": "C/ Lobatona 13, Viladecans", 
+      "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
-      "observaciones": "TORN NOCTURN - Inici any laboral" 
+      "observaciones": "TORN NOCTURN - Inici any laboral",
+      "prioridad": "Media",
+      "estado": "Pendiente"
     },
     { 
       "id": "rev-trim-002", 
@@ -28,9 +30,11 @@ export const data = {
       "tipo": "Preventivo Trimestral", 
       "hora": "21:45", 
       "fecha": getFutureDate(2, 0),
-      "ubicacion": "C/ Lobatona 13, Viladecans", 
+      "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
-      "observaciones": "TORN NOCTURN - Inici any laboral" 
+      "observaciones": "TORN NOCTURN - Inici any laboral",
+      "prioridad": "Media",
+      "estado": "Pendiente" 
     },
     { 
       "id": "rev-trim-003", 
@@ -39,9 +43,11 @@ export const data = {
       "tipo": "Preventivo Trimestral", 
       "hora": "22:30", 
       "fecha": getFutureDate(2, 0),
-      "ubicacion": "C/ Lobatona 13, Viladecans", 
+      "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
-      "observaciones": "TORN NOCTURN - Inici any laboral" 
+      "observaciones": "TORN NOCTURN - Inici any laboral",
+      "prioridad": "Media",
+      "estado": "Completada"
     },
     { 
       "id": "rev-trim-004", 
@@ -50,9 +56,11 @@ export const data = {
       "tipo": "Preventivo Trimestral", 
       "hora": "23:15", 
       "fecha": getFutureDate(2, 0),
-      "ubicacion": "C/ Lobatona 13, Viladecans", 
+      "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
-      "observaciones": "TORN NOCTURN - Inici any laboral" 
+      "observaciones": "TORN NOCTURN - Inici any laboral",
+      "prioridad": "Media",
+      "estado": "Pendiente"
     },
     { 
       "id": "rev-anual-001", 
@@ -61,9 +69,11 @@ export const data = {
       "tipo": "Preventivo Anual", 
       "hora": "00:00", 
       "fecha": getFutureDate(3, 0), // Next day for times after midnight
-      "ubicacion": "C/ Lobatona 13, Viladecans", 
+      "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
-      "observaciones": "TORN NOCTURN - Inici any laboral" 
+      "observaciones": "TORN NOCTURN - Inici any laboral",
+      "prioridad": "Alta",
+      "estado": "En Progreso"
     },
     { 
       "id": "rev-anual-002", 
@@ -72,9 +82,11 @@ export const data = {
       "tipo": "Preventivo Anual", 
       "hora": "00:45", 
       "fecha": getFutureDate(3, 0), // Next day for times after midnight
-      "ubicacion": "C/ Lobatona 13, Viladecans", 
+      "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
-      "observaciones": "TORN NOCTURN - Inici any laboral" 
+      "observaciones": "TORN NOCTURN - Inici any laboral",
+      "prioridad": "Alta",
+      "estado": "Bloqueada"
     },
     { 
       "id": "rev-anual-003", 
@@ -83,9 +95,11 @@ export const data = {
       "tipo": "Preventivo Anual", 
       "hora": "01:30", 
       "fecha": getFutureDate(3, 0), // Next day for times after midnight
-      "ubicacion": "C/ Lobatona 13, Viladecans", 
+      "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
-      "observaciones": "TORN NOCTURN - Inici any laboral" 
+      "observaciones": "TORN NOCTURN - Inici any laboral",
+      "prioridad": "Crítica",
+      "estado": "Pendiente"
     },
     { 
       "id": "rev-anual-004", 
@@ -94,9 +108,11 @@ export const data = {
       "tipo": "Preventivo Anual", 
       "hora": "02:15", 
       "fecha": getFutureDate(3, 0), // Next day for times after midnight
-      "ubicacion": "C/ Lobatona 13, Viladecans", 
+      "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
-      "observaciones": "TORN NOCTURN - Inici any laboral" 
+      "observaciones": "TORN NOCTURN - Inici any laboral",
+      "prioridad": "Alta",
+      "estado": "Pendiente"
     },
      {
       "id": "inst-001",
@@ -107,7 +123,9 @@ export const data = {
       "fecha": getFutureDate(4, 0),
       "ubicacion": "Cochera Badalona",
       "duracionEstimada": "22h",
-      "observaciones": "Instalación completa de hardware. No requiere configuración de software."
+      "observaciones": "Instalación completa de hardware. No requiere configuración de software.",
+      "prioridad": "Media",
+      "estado": "Pendiente"
     },
     {
       "id": "trasp-001",
@@ -118,7 +136,9 @@ export const data = {
       "fecha": getFutureDate(4, 0),
       "ubicacion": "Cochera Granollers",
       "duracionEstimada": "24h",
-      "observaciones": "Traspaso de validadora de vehículo antiguo a nuevo."
+      "observaciones": "Traspaso de validadora de vehículo antiguo a nuevo.",
+      "prioridad": "Baja",
+      "estado": "Pendiente"
     },
     {
       "id": "desinst-001",
@@ -129,7 +149,9 @@ export const data = {
       "fecha": getFutureDate(4, 0),
       "ubicacion": "Cochera St. Feliu",
       "duracionEstimada": "6h",
-      "observaciones": "Vehículo dado de baja. Retirar todo el equipamiento T-Mobilitat."
+      "observaciones": "Vehículo dado de baja. Retirar todo el equipamiento T-Mobilitat.",
+      "prioridad": "Baja",
+      "estado": "Pendiente"
     },
   ],
   "operadores": [
