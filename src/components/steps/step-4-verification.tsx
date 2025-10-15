@@ -45,42 +45,42 @@ const VerificationItem = ({
 
 export function Step4Verification({ form }: Step4Props) {
   return (
-    <FormSection title="Sección 4: Verificación Funcional" description="Realice las siguientes comprobaciones y marque como completadas.">
+    <FormSection title="Secció 4: Verificació Funcional" description="Feu les següents comprovacions i marqueu-les com a completades.">
       <div className="space-y-4">
         <VerificationItem
           control={form.control}
           name="startupOk"
-          label="Arranque del sistema"
-          description="Verificar que el sistema arranca correctamente al encender el bus."
+          label="Arrencada del sistema"
+          description="Verificar que el sistema arrenca correctament en engegar el bus."
         />
         <VerificationItem
           control={form.control}
           name="screenOk"
           label="Pantalla del pupitre"
-          description="Comprobar que la pantalla muestra la información de forma clara y sin artefactos."
+          description="Comprovar que la pantalla mostra la informació de forma clara i sense artefactes."
         />
         <VerificationItem
           control={form.control}
           name="printerOk"
-          label="Impresora de pupitre"
-          description="Realizar una impresión de prueba y adjuntar el log."
+          label="Impressora de pupitre"
+          description="Realitzar una impressió de prova i adjuntar el log."
         >
              <Button type="button" variant="secondary" size="sm">
                 <FileText className="mr-2 h-4 w-4" />
-                Adjuntar log de impresión
+                Adjuntar log d'impressió
             </Button>
         </VerificationItem>
         <VerificationItem
           control={form.control}
           name="validationOk"
-          label="Validación de títulos"
-          description="Probar la validación con una tarjeta T-Mobilitat de prueba."
+          label="Validació de títols"
+          description="Provar la validació amb una targeta T-Mobilitat de prova."
         />
         <VerificationItem
           control={form.control}
           name="communicationOk"
-          label="Comunicación con el centro"
-          description="Verificar que el estado de comunicación es 'En línea'."
+          label="Comunicació amb el centre"
+          description="Verificar que l'estat de comunicació és 'En línia'."
         />
          {form.formState.errors.verification && (
             <div className="pt-2">

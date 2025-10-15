@@ -3,7 +3,7 @@ import 'jspdf-autotable';
 import type { FormValues } from './schema';
 import { data as staticData } from './data';
 import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { ca } from 'date-fns/locale';
 
 // Extend the jsPDF type to include autoTable
 declare module 'jspdf' {
@@ -23,15 +23,15 @@ export const generateMaintenancePdf = (data: FormValues) => {
 
   // Title
   doc.setFontSize(18);
-  doc.text('Orden de Mantenimiento Preventivo Trimestral', pageWidth / 2, yPos, { align: 'center' });
+  doc.text('Ordre de Manteniment Preventiu Trimestral', pageWidth / 2, yPos, { align: 'center' });
   yPos += 8;
   doc.setFontSize(12);
-  doc.text('Lote 1 – Sistema T‑Mobilitat', pageWidth / 2, yPos, { align: 'center' });
+  doc.text('Lot 1 – Sistema T‑Mobilitat', pageWidth / 2, yPos, { align: 'center' });
   yPos += 15;
 
   // Section 1: Header
   doc.setFontSize(14);
-  doc.text('Sección 1: Encabezado', 14, yPos);
+  doc.text('Secció 1: Capçalera', 14, yPos);
   yPos += 8;
 
   const operatorName = staticData.operadores.find(op => op.id === data.header.operator)?.nombre || data.header.operator;
@@ -39,9 +39,9 @@ export const generateMaintenancePdf = (data: FormValues) => {
   doc.autoTable({
     startY: yPos,
     body: [
-      ['Operador', operatorName, 'Cochera', data.header.depot],
+      ['Operador', operatorName, 'Cotxera', data.header.depot],
       ['Nº Bus / Calca', data.header.busNumber, 'Matrícula', data.header.licensePlate],
-      ['Técnico', data.header.technician, 'Fecha', format(data.header.date, 'PPP', { locale: es })],
+      ['Tècnic', data.header.technician, 'Data', format(data.header.date, 'PPP', { locale: ca })],
     ],
     theme: 'grid',
     styles: { fontSize: 10 },
@@ -52,35 +52,35 @@ export const generateMaintenancePdf = (data: FormValues) => {
   // Section 2: Inventory
   if (yPos > pageHeight - 40) { yPos = 20; doc.addPage(); }
   doc.setFontSize(14);
-  doc.text('Sección 2: Inventario y Versiones', 14, yPos);
+  doc.text('Secció 2: Inventari i Versions', 14, yPos);
   yPos += 8;
 
   doc.autoTable({
     startY: yPos,
-    head: [['Componente', 'Número de Serie / Versión']],
+    head: [['Component', 'Número de Sèrie / Versió']],
     body: [
-        { content: 'Inventario Central', styles: { fontStyle: 'bold', fillColor: '#f0f3f4' } },
-        ['Pupitre Serie', data.inventory.consoleSerial],
-        ['Soporte Pupitre', data.inventory.consoleMount],
+        { content: 'Inventari Central', styles: { fontStyle: 'bold', fillColor: '#f0f3f4' } },
+        ['Pupitre Sèrie', data.inventory.consoleSerial],
+        ['Suport Pupitre', data.inventory.consoleMount],
         ['SW Pupitre', data.inventory.consoleSoftware],
-        ['Versión Config.', data.inventory.configVersion],
-        ['Versión Telecarga', data.inventory.telechargeVersion],
-        { content: 'Validación y Consulta', styles: { fontStyle: 'bold', fillColor: '#f0f3f4' } },
-        ['Validadora IN 1 Serie', data.inventory.valIn1Serial],
-        ['Validadora IN 2 Serie', data.inventory.valIn2Serial],
-        ['Validadora OUT 1 Serie', data.inventory.valOut1Serial],
-        ['Validadora OUT 2 Serie', data.inventory.valOut2Serial],
-        ['Validadora OUT 3 Serie', data.inventory.valOut3Serial],
-        ['Validadora OUT 4 Serie', data.inventory.valOut4Serial],
-        ['Terminal de Consulta Serie', data.inventory.queryTerminalSerial],
+        ['Versió Config.', data.inventory.configVersion],
+        ['Versió Telecàrrega', data.inventory.telechargeVersion],
+        { content: 'Validació i Consulta', styles: { fontStyle: 'bold', fillColor: '#f0f3f4' } },
+        ['Validadora IN 1 Sèrie', data.inventory.valIn1Serial],
+        ['Validadora IN 2 Sèrie', data.inventory.valIn2Serial],
+        ['Validadora OUT 1 Sèrie', data.inventory.valOut1Serial],
+        ['Validadora OUT 2 Sèrie', data.inventory.valOut2Serial],
+        ['Validadora OUT 3 Sèrie', data.inventory.valOut3Serial],
+        ['Validadora OUT 4 Sèrie', data.inventory.valOut4Serial],
+        ['Terminal de Consulta Sèrie', data.inventory.queryTerminalSerial],
         { content: 'Infraestructura', styles: { fontStyle: 'bold', fillColor: '#f0f3f4' } },
-        ['Placa de Conexiones Serie', data.inventory.connectionsPlateSerial],
-        ['Switch Serie', data.inventory.switchSerial],
-        ['MCC Serie', data.inventory.mccSerial],
-        ['Antena Tribanda Serie', data.inventory.triBandAntennaSerial],
-        { content: 'Sistemas Legacy', styles: { fontStyle: 'bold', fillColor: '#f0f3f4' } },
-        ['Validadora Magnética 1', `${data.inventory.legacyMag1Brand} - ${data.inventory.legacyMag1Serial}`],
-        ['Validadora Magnética 2', `${data.inventory.legacyMag2Brand} - ${data.inventory.legacyMag2Serial}`],
+        ['Placa de Connexions Sèrie', data.inventory.connectionsPlateSerial],
+        ['Switch Sèrie', data.inventory.switchSerial],
+        ['MCC Sèrie', data.inventory.mccSerial],
+        ['Antena Tribanda Sèrie', data.inventory.triBandAntennaSerial],
+        { content: 'Sistemes Legacy', styles: { fontStyle: 'bold', fillColor: '#f0f3f4' } },
+        ['Validadora Magnètica 1', `${data.inventory.legacyMag1Brand} - ${data.inventory.legacyMag1Serial}`],
+        ['Validadora Magnètica 2', `${data.inventory.legacyMag2Brand} - ${data.inventory.legacyMag2Serial}`],
     ].filter(row => Array.isArray(row) ? row[1] : true), // Filter out empty rows, keep headers
     theme: 'grid',
     styles: { fontSize: 10 },
@@ -99,24 +99,24 @@ export const generateMaintenancePdf = (data: FormValues) => {
   if (yPos > pageHeight - 80) { yPos = 20; doc.addPage(); }
   
   const checklistAndVerificationBody = [
-      { content: 'Sección 3: Checklist de Ejecución', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
-      ['Limpieza General (Pupitre)', data.checklist.consoleGeneralCleaning ? CHECK_MARK : CROSS_MARK],
-      ['Limpieza de Autocutter', data.checklist.consoleAutocutterCleaning ? CHECK_MARK : CROSS_MARK],
-      ['Registro de Serie (Pupitre)', data.checklist.consoleSerialRegistration ? CHECK_MARK : CROSS_MARK],
-      ['Limpieza General (Validadora)', data.checklist.validatorGeneralCleaning ? CHECK_MARK : CROSS_MARK],
-      ['Limpieza de Conectores (Validadora)', data.checklist.validatorConnectorsCleaning ? CHECK_MARK : CROSS_MARK],
-      ['Registro de Series (Validadora)', data.checklist.validatorSerialRegistration ? CHECK_MARK : CROSS_MARK],
-      { content: 'Sección 4: Verificación Funcional', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
-      ['Arranque del sistema', data.verification.startupOk ? CHECK_MARK : CROSS_MARK],
+      { content: 'Secció 3: Checklist d\'Execució', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
+      ['Neteja General (Pupitre)', data.checklist.consoleGeneralCleaning ? CHECK_MARK : CROSS_MARK],
+      ['Neteja d\'Autocutter', data.checklist.consoleAutocutterCleaning ? CHECK_MARK : CROSS_MARK],
+      ['Registre de Sèrie (Pupitre)', data.checklist.consoleSerialRegistration ? CHECK_MARK : CROSS_MARK],
+      ['Neteja General (Validadora)', data.checklist.validatorGeneralCleaning ? CHECK_MARK : CROSS_MARK],
+      ['Neteja de Connectors (Validadora)', data.checklist.validatorConnectorsCleaning ? CHECK_MARK : CROSS_MARK],
+      ['Registre de Sèries (Validadora)', data.checklist.validatorSerialRegistration ? CHECK_MARK : CROSS_MARK],
+      { content: 'Secció 4: Verificació Funcional', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
+      ['Arrencada del sistema', data.verification.startupOk ? CHECK_MARK : CROSS_MARK],
       ['Pantalla del pupitre', data.verification.screenOk ? CHECK_MARK : CROSS_MARK],
-      ['Impresora de pupitre', data.verification.printerOk ? CHECK_MARK : CROSS_MARK],
-      ['Validación de títulos', data.verification.validationOk ? CHECK_MARK : CROSS_MARK],
-      ['Comunicación con el centro', data.verification.communicationOk ? CHECK_MARK : CROSS_MARK],
+      ['Impressora de pupitre', data.verification.printerOk ? CHECK_MARK : CROSS_MARK],
+      ['Validació de títols', data.verification.validationOk ? CHECK_MARK : CROSS_MARK],
+      ['Comunicació amb el centre', data.verification.communicationOk ? CHECK_MARK : CROSS_MARK],
   ];
 
   doc.autoTable({
     startY: yPos,
-    head: [['Tarea', 'Completado']],
+    head: [['Tasca', 'Completat']],
     body: checklistAndVerificationBody,
     theme: 'grid',
     styles: { fontSize: 10 },
@@ -129,25 +129,25 @@ export const generateMaintenancePdf = (data: FormValues) => {
   // Section 5: Observations & Closing
   if (yPos > pageHeight - 40) { yPos = 20; doc.addPage(); }
   doc.setFontSize(14);
-  doc.text('Sección 5: Observaciones y Cierre', 14, yPos);
+  doc.text('Secció 5: Observacions i Tancament', 14, yPos);
   yPos += 8;
 
   const observationsBody: any[] = [
-      ['Hora Inicio', data.observations.startTime],
-      ['Hora Fin', data.observations.endTime],
+      ['Hora Inici', data.observations.startTime],
+      ['Hora Fi', data.observations.endTime],
   ];
 
   if (data.observations.notes) {
-    observationsBody.push(['Observaciones', data.observations.notes]);
+    observationsBody.push(['Observacions', data.observations.notes]);
   }
   
   if (data.observations.hasIncident && data.observations.correctiveAction) {
     observationsBody.push(
-        { content: 'OT Correctivo', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } }
+        { content: 'OT Correctiu', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } }
     );
-    observationsBody.push(['Título Incidencia', data.observations.correctiveAction.title]);
-    observationsBody.push(['Descripción', data.observations.correctiveAction.description]);
-    observationsBody.push(['Prioridad', data.observations.correctiveAction.priority]);
+    observationsBody.push(['Títol Incidència', data.observations.correctiveAction.title]);
+    observationsBody.push(['Descripció', data.observations.correctiveAction.description]);
+    observationsBody.push(['Prioritat', data.observations.correctiveAction.priority]);
   }
 
   doc.autoTable({
@@ -157,7 +157,7 @@ export const generateMaintenancePdf = (data: FormValues) => {
       styles: { fontSize: 10 },
       columnStyles: { 0: { fontStyle: 'bold' } },
       didParseCell: function (hookData) {
-        if (hookData.cell.raw === 'Observaciones' || hookData.cell.raw === 'Descripción') {
+        if (hookData.cell.raw === 'Observacions' || hookData.cell.raw === 'Descripció') {
             hookData.cell.styles.cellWidth = 'wrap';
         }
       }
@@ -167,7 +167,7 @@ export const generateMaintenancePdf = (data: FormValues) => {
   // Signatures
   if (yPos > pageHeight - 60) { yPos = 20; doc.addPage(); }
   doc.setFontSize(12);
-  doc.text('Firmas:', 14, yPos);
+  doc.text('Firmes:', 14, yPos);
   yPos += 10;
   
   const signatureY = yPos;
@@ -178,14 +178,14 @@ export const generateMaintenancePdf = (data: FormValues) => {
   doc.rect(14, signatureY, signatureWidth, signatureHeight);
   doc.setFontSize(10);
   if (data.observations.technicianSignature) {
-    doc.text('Firmado Digitalmente', 14 + signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
+    doc.text('Signat Digitalment', 14 + signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
   }
-  doc.text('Firma del Técnico', 14 + signatureWidth / 2, signatureY + signatureHeight + 5, { align: 'center' });
+  doc.text('Firma del Tècnic', 14 + signatureWidth / 2, signatureY + signatureHeight + 5, { align: 'center' });
 
   // Supervisor Signature
   doc.rect(pageWidth - signatureWidth - 14, signatureY, signatureWidth, signatureHeight);
   if (data.observations.supervisorSignature) {
-    doc.text('Firmado Digitalmente', pageWidth - 14 - signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
+    doc.text('Signat Digitalment', pageWidth - 14 - signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
   } else {
     doc.text('Firma Opcional', pageWidth - 14 - signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
   }

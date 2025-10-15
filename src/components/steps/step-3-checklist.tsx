@@ -41,28 +41,28 @@ const ChecklistItem = ({
 
 export function Step3Checklist({ form }: Step3Props) {
   return (
-    <FormSection title="Sección 3: Checklist de Ejecución" description="Marque todas las tareas como completadas.">
+    <FormSection title="Secció 3: Checklist d'Execució" description="Marqueu totes les tasques com a completades.">
       <div className="space-y-6">
         <div>
-          <h3 className="mb-4 text-lg font-medium">Pupitre de Conducción</h3>
+          <h3 className="mb-4 text-lg font-medium">Pupitre de Conducció</h3>
           <div className="space-y-4">
             <ChecklistItem
               control={form.control}
               name="consoleGeneralCleaning"
-              label="Limpieza General"
-              description="Limpieza superficial del pupitre, pantalla y periféricos."
+              label="Neteja General"
+              description="Neteja superficial del pupitre, pantalla i perifèrics."
             />
             <ChecklistItem
               control={form.control}
               name="consoleAutocutterCleaning"
-              label="Limpieza de Autocutter"
-              description="Limpieza del mecanismo de corte de la impresora de tickets."
+              label="Neteja d'Autocutter"
+              description="Neteja del mecanisme de tall de la impressora de tiquets."
             />
             <ChecklistItem
               control={form.control}
               name="consoleSerialRegistration"
-              label="Registro de Serie"
-              description="Verificación y registro del número de serie del pupitre."
+              label="Registre de Sèrie"
+              description="Verificació i registre del número de sèrie del pupitre."
             />
           </div>
         </div>
@@ -70,25 +70,25 @@ export function Step3Checklist({ form }: Step3Props) {
         <Separator />
 
         <div>
-          <h3 className="mb-4 text-lg font-medium">Validadoras</h3>
+          <h3 className="mb-4 text-lg font-medium">Validadores</h3>
           <div className="space-y-4">
             <ChecklistItem
               control={form.control}
               name="validatorGeneralCleaning"
-              label="Limpieza General"
-              description="Limpieza superficial de todas las validadoras de abordo."
+              label="Neteja General"
+              description="Neteja superficial de totes les validadores d'abord."
             />
             <ChecklistItem
               control={form.control}
               name="validatorConnectorsCleaning"
-              label="Limpieza de Conectores"
-              description="Revisión y limpieza de los conectores de las validadoras."
+              label="Neteja de Connectors"
+              description="Revisió i neteja dels connectors de les validadores."
             />
             <ChecklistItem
               control={form.control}
               name="validatorSerialRegistration"
-              label="Registro de Series"
-              description="Verificación y registro de los números de serie de todas las validadoras."
+              label="Registre de Sèries"
+              description="Verificació i registre dels números de sèrie de totes les validadores."
             />
              {form.formState.errors.checklist && (
                 <div className="pt-2">

@@ -3,14 +3,18 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { RevisionClientPage } from './client-page';
+import { OperationClientPage } from './client-page';
+import { checklists } from '@/lib/checklist-data';
 
-export default function RevisionPage({ params }: { params: { id: string } }) {
+export default function OperationPage({ params }: { params: { id: string } }) {
   const revision = data.revisiones.find(rev => rev.id === params.id);
 
   if (!revision) {
     notFound();
   }
+  
+  const operationTypeKey = revision.tipo.toLowerCase().replace(/ /g, '-').normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const checklist = checklists[operationTypeKey] || [];
   
   const bus = data.autobuses.find(b => b.uniqueId === revision.vehiculoId);
   const operator = bus ? data.operadores.find(o => o.id === bus.operadorId) : null;
@@ -25,7 +29,7 @@ export default function RevisionPage({ params }: { params: { id: string } }) {
           </Link>
         </Button>
       </div>
-      <RevisionClientPage revision={revision} operatorId={operator?.id} />
+      <OperationClientPage revision={revision} operatorId={operator?.id} checklist={checklist} />
     </main>
   );
 }

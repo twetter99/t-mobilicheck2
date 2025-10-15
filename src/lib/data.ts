@@ -1,5 +1,4 @@
 
-
 // Set a consistent date in the future for mock data
 // Using January 2026 to match the provided schedule's context
 const getFutureDate = (day: number, month: number = 0, year: number = 2026) => {
@@ -15,144 +14,144 @@ export const data = {
       "id": "rev-trim-001", 
       "vehiculoId": "VEH-BAIXLLOB-201", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventivo Trimestral", 
+      "tipo": "Preventiu Trimestral", 
       "hora": "21:00", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
-      "prioridad": "Media",
-      "estado": "Pendiente"
+      "prioridad": "Mitjana",
+      "estado": "Pendent"
     },
     { 
       "id": "rev-trim-002", 
       "vehiculoId": "VEH-BAIXLLOB-202", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventivo Trimestral", 
+      "tipo": "Preventiu Trimestral", 
       "hora": "21:45", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
-      "prioridad": "Media",
-      "estado": "Pendiente" 
+      "prioridad": "Mitjana",
+      "estado": "Pendent" 
     },
     { 
       "id": "rev-trim-003", 
       "vehiculoId": "VEH-BAIXLLOB-203", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventivo Trimestral", 
+      "tipo": "Preventiu Trimestral", 
       "hora": "22:30", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
-      "prioridad": "Media",
+      "prioridad": "Mitjana",
       "estado": "Completada"
     },
     { 
       "id": "rev-trim-004", 
       "vehiculoId": "VEH-BAIXLLOB-204", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventivo Trimestral", 
+      "tipo": "Preventiu Trimestral", 
       "hora": "23:15", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
-      "prioridad": "Media",
-      "estado": "Pendiente"
+      "prioridad": "Mitjana",
+      "estado": "Pendent"
     },
     { 
       "id": "rev-anual-001", 
       "vehiculoId": "VEH-BAIXLLOB-301", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventivo Anual", 
+      "tipo": "Preventiu Anual", 
       "hora": "00:00", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
       "prioridad": "Alta",
-      "estado": "En Progreso"
+      "estado": "En Progrés"
     },
     { 
       "id": "rev-anual-002", 
       "vehiculoId": "VEH-BAIXLLOB-302", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventivo Anual", 
+      "tipo": "Preventiu Anual", 
       "hora": "00:45", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
       "prioridad": "Alta",
-      "estado": "Bloqueada"
+      "estado": "Bloquejada"
     },
     { 
       "id": "corr-001", 
       "vehiculoId": "VEH-BAIXLLOB-303", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Correctivo", 
+      "tipo": "Correctiu", 
       "hora": "01:30", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "1h 30m", 
       "observaciones": "AVARIA: La validadora no respon. Possible problema d'alimentació.",
       "prioridad": "Crítica",
-      "estado": "Pendiente"
+      "estado": "Pendent"
     },
     { 
       "id": "rev-anual-004", 
       "vehiculoId": "VEH-BAIXLLOB-304", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventivo Anual", 
+      "tipo": "Preventiu Anual", 
       "hora": "03:00", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
       "prioridad": "Alta",
-      "estado": "Pendiente"
+      "estado": "Pendent"
     },
      {
       "id": "inst-001",
       "vehiculoId": "VEH-TUSGSAL-101",
       "operador": "TUSGSAL",
-      "tipo": "Instalación",
+      "tipo": "Instal·lació",
       "hora": "10:00",
       "fecha": getFutureDate(4, 0),
-      "ubicacion": "Cochera Badalona",
+      "ubicacion": "Cotxera Badalona",
       "duracionEstimada": "22h",
-      "observaciones": "Instalación completa de hardware. No requiere configuración de software.",
-      "prioridad": "Media",
-      "estado": "Pendiente"
+      "observaciones": "Instal·lació completa de maquinari. No requereix configuració de programari.",
+      "prioridad": "Mitjana",
+      "estado": "Pendent"
     },
     {
       "id": "trasp-001",
       "vehiculoId": "VEH-SAGALES-501",
       "operador": "EMPRESA SAGALÉS, SA",
-      "tipo": "Traspaso",
+      "tipo": "Traspàs",
       "hora": "14:00",
       "fecha": getFutureDate(4, 0),
-      "ubicacion": "Cochera Granollers",
+      "ubicacion": "Cotxera Granollers",
       "duracionEstimada": "24h",
-      "observaciones": "Traspaso de validadora de vehículo antiguo a nuevo.",
-      "prioridad": "Baja",
-      "estado": "Pendiente"
+      "observaciones": "Traspàs de validadora de vehicle antic a nou.",
+      "prioridad": "Baixa",
+      "estado": "Pendent"
     },
     {
       "id": "desinst-001",
       "vehiculoId": "VEH-SOLER-601",
-      "operador": "SOLER Y SAURET, SA",
-      "tipo": "Desinstalación",
+      "operador": "SOLER I SAURET, SA",
+      "tipo": "Desinstal·lació",
       "hora": "16:00",
       "fecha": getFutureDate(4, 0),
-      "ubicacion": "Cochera St. Feliu",
+      "ubicacion": "Cotxera St. Feliu",
       "duracionEstimada": "6h",
-      "observaciones": "Vehículo dado de baja. Retirar todo el equipamiento T-Mobilitat.",
-      "prioridad": "Baja",
-      "estado": "Pendiente"
+      "observaciones": "Vehicle donat de baixa. Retirar tot l'equipament T-Mobilitat.",
+      "prioridad": "Baixa",
+      "estado": "Pendent"
     },
   ],
   "operadores": [
@@ -160,7 +159,7 @@ export const data = {
     { "id": "op-14", "nombre": "UTE BAIX LLOBREGAT" },
     { "id": "op-20", "nombre": "TUSGSAL" },
     { "id": "op-35", "nombre": "EMPRESA SAGALÉS, SA" },
-    { "id": "op-40", "nombre": "SOLER Y SAURET, SA" }
+    { "id": "op-40", "nombre": "SOLER I SAURET, SA" }
   ],
   "autobuses": [
     { "id": "6916-HCR", "uniqueId": "VEH-ALSINA-300", "modelo": "Mercedes Citaro", "operadorId": "op-01" },
@@ -197,12 +196,12 @@ export const data = {
   "eventosProximos": [
     {
       "id": "evt-001",
-      "titulo": "Traspaso Programado",
-      "fecha": getFutureDate(8, 0), // 8 de Enero
-      "descripcion": "Traspaso programado en Cochera Norte",
+      "titulo": "Traspàs Programat",
+      "fecha": getFutureDate(8, 0), // 8 de Gener
+      "descripcion": "Traspàs programat a Cotxera Nord",
       "operador": "UTE BAIX LLOBREGAT",
-      "ubicacion": "Cochera Norte",
-      "tipo": "Traspaso"
+      "ubicacion": "Cotxera Nord",
+      "tipo": "Traspàs"
     }
   ]
 };

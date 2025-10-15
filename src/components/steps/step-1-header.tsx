@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { ca } from 'date-fns/locale';
 import { Calendar } from '@/components/ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -40,7 +40,7 @@ export function Step1Header({ form }: Step1Props) {
   };
 
   return (
-    <FormSection title="Sección 1: Encabezado" description="Información general de la orden de mantenimiento.">
+    <FormSection title="Secció 1: Capçalera" description="Informació general de l'ordre de manteniment.">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <FormField
           control={form.control}
@@ -51,7 +51,7 @@ export function Step1Header({ form }: Step1Props) {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Seleccione un operador" />
+                    <SelectValue placeholder="Seleccioneu un operador" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -71,7 +71,7 @@ export function Step1Header({ form }: Step1Props) {
           name="header.depot"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Cochera</FormLabel>
+              <FormLabel>Cotxera</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -88,7 +88,7 @@ export function Step1Header({ form }: Step1Props) {
                <Select onValueChange={handleBusChange} value={field.value} disabled={!selectedOperatorId}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Seleccione un bus" />
+                    <SelectValue placeholder="Seleccioneu un bus" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -110,7 +110,7 @@ export function Step1Header({ form }: Step1Props) {
             <FormItem>
               <FormLabel>Matrícula</FormLabel>
               <FormControl>
-                <Input {...field} readOnly placeholder="Se rellenará automáticamente" />
+                <Input {...field} readOnly placeholder="S'emplenarà automàticament" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -121,11 +121,11 @@ export function Step1Header({ form }: Step1Props) {
           name="header.technician"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Técnico</FormLabel>
+              <FormLabel>Tècnic</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Seleccione un técnico" />
+                    <SelectValue placeholder="Seleccioneu un tècnic" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -145,7 +145,7 @@ export function Step1Header({ form }: Step1Props) {
           name="header.date"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Fecha</FormLabel>
+              <FormLabel>Data</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -156,7 +156,7 @@ export function Step1Header({ form }: Step1Props) {
                         !field.value && 'text-muted-foreground'
                       )}
                     >
-                      {field.value ? format(field.value, 'PPP', { locale: es }) : <span>Seleccione una fecha</span>}
+                      {field.value ? format(field.value, 'PPP', { locale: ca }) : <span>Seleccioneu una data</span>}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
                   </FormControl>
@@ -168,7 +168,7 @@ export function Step1Header({ form }: Step1Props) {
                     onSelect={field.onChange}
                     disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
                     initialFocus
-                    locale={es}
+                    locale={ca}
                   />
                 </PopoverContent>
               </Popover>
