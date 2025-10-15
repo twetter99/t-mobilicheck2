@@ -148,8 +148,18 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
         configVersion: '',
       },
       preexistingSystems: {
+        magneticValidatorBrand: '',
+        magneticValidatorModel: '',
+        magneticValidatorSerial: '',
+        contactlessValidatorBrand: '',
+        contactlessValidatorModel: '',
+        contactlessValidatorSerial: '',
         saeIntegration: 'No',
+        saeBrand: '',
+        saeModel: '',
         exteriorPanelsIntegration: 'No',
+        exteriorPanelsBrand: '',
+        exteriorPanelsModel: '',
       },
       executionPhases: {
         preliminaryCheck: 'OK',
