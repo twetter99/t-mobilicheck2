@@ -1,4 +1,3 @@
-
 // Set a consistent date in the future for mock data
 // Using January 2026 to match the provided schedule's context
 const getFutureDate = (day: number, month: number = 0, year: number = 2026) => {
@@ -6,7 +5,6 @@ const getFutureDate = (day: number, month: number = 0, year: number = 2026) => {
     const date = new Date(Date.UTC(year, month, day, 21, 0, 0));
     return date.toISOString();
 };
-
 
 export const data = {
   "revisiones": [
@@ -70,23 +68,10 @@ export const data = {
       "hora": "00:00", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
-      "duracionEstimada": "45m", 
+      "duracionEstimada": "1h 30m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
       "prioridad": "Alta",
       "estado": "En Progrés"
-    },
-    { 
-      "id": "rev-anual-002", 
-      "vehiculoId": "VEH-BAIXLLOB-302", 
-      "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventiu Anual", 
-      "hora": "00:45", 
-      "fecha": getFutureDate(2, 0),
-      "ubicacion": "C/ Lobatona 13", 
-      "duracionEstimada": "45m", 
-      "observaciones": "TORN NOCTURN - Inici any laboral",
-      "prioridad": "Alta",
-      "estado": "Bloquejada"
     },
     { 
       "id": "corr-001", 
@@ -101,28 +86,15 @@ export const data = {
       "prioridad": "Crítica",
       "estado": "Pendent"
     },
-    { 
-      "id": "rev-anual-004", 
-      "vehiculoId": "VEH-BAIXLLOB-304", 
-      "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventiu Anual", 
-      "hora": "03:00", 
-      "fecha": getFutureDate(2, 0),
-      "ubicacion": "C/ Lobatona 13", 
-      "duracionEstimada": "45m", 
-      "observaciones": "TORN NOCTURN - Inici any laboral",
-      "prioridad": "Alta",
-      "estado": "Pendent"
-    },
      {
       "id": "inst-001",
       "vehiculoId": "VEH-TUSGSAL-101",
       "operador": "TUSGSAL",
       "tipo": "Instal·lació",
       "hora": "10:00",
-      "fecha": getFutureDate(4, 0),
+      "fecha": getFutureDate(2, 0),
       "ubicacion": "Cotxera Badalona",
-      "duracionEstimada": "22h",
+      "duracionEstimada": "45m",
       "observaciones": "Instal·lació completa de maquinari. No requereix configuració de programari.",
       "prioridad": "Mitjana",
       "estado": "Pendent"
@@ -133,26 +105,13 @@ export const data = {
       "operador": "EMPRESA SAGALÉS, SA",
       "tipo": "Traspàs",
       "hora": "14:00",
-      "fecha": getFutureDate(4, 0),
+      "fecha": getFutureDate(2, 0),
       "ubicacion": "Cotxera Granollers",
-      "duracionEstimada": "24h",
+      "duracionEstimada": "30m",
       "observaciones": "Traspàs de validadora de vehicle antic a nou.",
       "prioridad": "Baixa",
       "estado": "Pendent"
-    },
-    {
-      "id": "desinst-001",
-      "vehiculoId": "VEH-SOLER-601",
-      "operador": "SOLER I SAURET, SA",
-      "tipo": "Desinstal·lació",
-      "hora": "16:00",
-      "fecha": getFutureDate(4, 0),
-      "ubicacion": "Cotxera St. Feliu",
-      "duracionEstimada": "6h",
-      "observaciones": "Vehicle donat de baixa. Retirar tot l'equipament T-Mobilitat.",
-      "prioridad": "Baixa",
-      "estado": "Pendent"
-    },
+    }
   ],
   "operadores": [
     { "id": "op-01", "nombre": "ALSINA GRAELLS DE AUTO TRANSPORTES, SA" },

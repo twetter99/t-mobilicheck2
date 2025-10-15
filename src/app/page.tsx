@@ -60,14 +60,16 @@ export default function DashboardPage() {
 
   const todaysTasks = data.revisiones.filter(rev => {
      const revDate = new Date(rev.fecha);
-     return revDate >= todayStart && revDate <= todayEnd;
+     const taskDateOnly = new Date(revDate.getFullYear(), revDate.getMonth(), revDate.getDate());
+     const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+     return taskDateOnly.getTime() === todayDateOnly.getTime();
   }).sort((a, b) => {
     const priorityOrder = { 'Crítica': 1, 'Alta': 2, 'Mitjana': 3, 'Baixa': 4 };
     return priorityOrder[a.prioridad] - priorityOrder[b.prioridad];
   });
   
-  const mantenimientos = data.revisiones.filter(task => (task.tipo.includes('Preventiu') || task.tipo.includes('Correctiu')) && new Date(task.fecha) >= todayStart && new Date(task.fecha) <= todayEnd);
-  const otrasOperaciones = data.revisiones.filter(task => (!task.tipo.includes('Preventiu') && !task.tipo.includes('Correctiu')) && new Date(task.fecha) >= todayStart && new Date(task.fecha) <= todayEnd);
+  const mantenimientos = todaysTasks.filter(task => (task.tipo.includes('Preventiu') || task.tipo.includes('Correctiu')));
+  const otrasOperaciones = todaysTasks.filter(task => (!task.tipo.includes('Preventiu') && !task.tipo.includes('Correctiu')));
   
   const totalTasks = todaysTasks.length;
   const completedTasks = todaysTasks.filter(t => t.estado === 'Completada').length;
@@ -285,5 +287,3 @@ export default function DashboardPage() {
     </>
   );
 }
-
-    
