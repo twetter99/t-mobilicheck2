@@ -24,7 +24,7 @@ type Step5Props = {
 const PhotoUpload = ({
   label,
   field,
-  maxFiles = 10,
+  maxFiles = 5,
 }: {
   label: string;
   field: any;
@@ -117,7 +117,7 @@ export function Step5Observations({ form }: Step5Props) {
 
 
   return (
-    <FormSection title="Sección 6: Cierre y Evidencias" description="Añada notas, incidencias y recoja las firmas.">
+    <FormSection title="Sección 5: Observaciones, Cierre y Firmas" description="Añada notas, incidencias, fotos y recoja las firmas.">
       <div className="space-y-6">
         <FormField
           control={form.control}
@@ -134,10 +134,18 @@ export function Step5Observations({ form }: Step5Props) {
         />
         
         <div className="space-y-4">
-           <FormField
+          <FormField
+            control={form.control}
+            name="observations.beforePhotos"
+            render={({ field }) => <PhotoUpload label="Fotos del estado ANTES (máx 5)" field={field} />}
+          />
+        </div>
+
+        <div className="space-y-4">
+          <FormField
             control={form.control}
             name="observations.afterPhotos"
-            render={({ field }) => <PhotoUpload label="Fotos de la instalación completada (máx 10)" field={field} maxFiles={10} />}
+            render={({ field }) => <PhotoUpload label="Fotos del estado DESPUÉS (máx 5)" field={field} />}
           />
         </div>
 
