@@ -8,7 +8,7 @@ import { InstallationClientPage } from './client-page';
 export default function InstallationPage({ params }: { params: { id: string } }) {
   const revision = data.revisiones.find(rev => rev.id === params.id);
 
-  if (!revision || revision.tipo !== 'Instalación') {
+  if (!revision) {
     notFound();
   }
   

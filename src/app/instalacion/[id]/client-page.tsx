@@ -7,11 +7,17 @@ import { Progress } from '@/components/ui/progress';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { installationSteps } from '@/lib/installation-steps';
 import { CheckCircle, ChevronLeft, ChevronRight, HardHat, Loader2, PlayCircle } from 'lucide-react';
+import { OperationClientPage } from '@/app/operacion/[id]/client-page';
+import { checklists } from '@/lib/checklist-data';
 
 export function InstallationClientPage({ revision }: { revision: any }) {
   const [currentStep, setCurrentStep] = useState(0); // 0 is the welcome screen
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [guidedStepsCompleted, setGuidedStepsCompleted] = useState(false);
   const totalSteps = installationSteps.length;
+  
+  const operationTypeKey = revision.tipo.toLowerCase().replace(/ /g, '-').normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const checklist = checklists[operationTypeKey] || [];
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
@@ -28,9 +34,17 @@ export function InstallationClientPage({ revision }: { revision: any }) {
   const startInstallation = () => {
     setCurrentStep(1);
   };
+
+  const completeGuidedSteps = () => {
+    setGuidedStepsCompleted(true);
+  };
   
   const currentStepData = installationSteps[currentStep - 1];
 
+  if (guidedStepsCompleted) {
+    return <OperationClientPage revision={revision} checklist={checklist} />;
+  }
+  
   if (currentStep === 0) {
     return (
       <Card className="w-full max-w-3xl mx-auto text-center">
@@ -94,13 +108,13 @@ export function InstallationClientPage({ revision }: { revision: any }) {
               <ChevronRight className="ml-2"/>
             </Button>
           ) : (
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="button" onClick={completeGuidedSteps} disabled={isSubmitting}>
               {isSubmitting ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
                 <CheckCircle className="mr-2 h-4 w-4" />
               )}
-              Finalizar Instalación
+              Finalizar Guía y Registrar Datos
             </Button>
           )}
         </div>
