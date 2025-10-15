@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { SignaturePad } from '@/components/signature-pad';
 import { Separator } from '@/components/ui/separator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { FormSection } from '@/components/form-section';
 
 type Step5Props = {
   form: UseFormReturn<FormValues>;
@@ -116,11 +117,7 @@ export function Step5Observations({ form }: Step5Props) {
 
 
   return (
-    <div className="space-y-4 p-6 bg-white rounded-lg border border-gray-200">
-      <div className="space-y-2">
-        <h3 className="text-lg font-semibold text-gray-900">Sección 5: Observaciones, Cierre y Firmas</h3>
-        <p className="text-sm text-gray-600">Añada notas, incidencias, fotos y recoja las firmas.</p>
-      </div>
+    <FormSection title="Sección 5: Observaciones, Cierre y Firmas" description="Añada notas, incidencias, fotos y recoja las firmas.">
       <div className="space-y-6">
         <FormField
           control={form.control}
@@ -284,6 +281,6 @@ export function Step5Observations({ form }: Step5Props) {
             </div>
         </div>
       </div>
-    </div>
+    </FormSection>
   );
 }
