@@ -26,12 +26,12 @@ import type { ChecklistStep } from '@/lib/checklist-data';
 const operationSchema = z.object({
   header: z.object({
     orderNumber: z.string().optional(),
-    operator: z.string().min(1, "L'operador és obligatori."),
-    depot: z.string().min(1, 'La cotxera és obligatòria.'),
-    busNumber: z.string().min(1, 'El número de bus/calca és obligatori.'),
-    licensePlate: z.string().min(1, 'La matrícula és obligatòria.'),
-    technician: z.string().min(1, 'El tècnic és obligatori.'),
-    date: z.date({ required_error: 'La data és obligatòria.' }),
+    operator: z.string().min(1, "El operador es obligatorio."),
+    depot: z.string().min(1, 'La cochera es obligatoria.'),
+    busNumber: z.string().min(1, 'El número de bus/calca es obligatorio.'),
+    licensePlate: z.string().min(1, 'La matrícula es obligatoria.'),
+    technician: z.string().min(1, 'El técnico es obligatorio.'),
+    date: z.date({ required_error: 'La data es obligatòria.' }),
   }),
   inventory: z.object({
     consoleSerial: z.string().optional(),
@@ -80,22 +80,22 @@ const operationSchema = z.object({
     functionalTests: z.enum(['OK', 'NOK']),
   }),
   observations: z.object({
-    startTime: z.string().min(1, "L'hora d'inici és obligatòria."),
-    endTime: z.string().min(1, "L'hora de fi és obligatòria."),
+    startTime: z.string().min(1, "La hora de inicio es obligatoria."),
+    endTime: z.string().min(1, "La hora de fin es obligatoria."),
     notes: z.string().optional(),
     hasIncident: z.boolean().default(false),
     correctiveAction: z.object({
         title: z.string(),
         description: z.string(),
-        priority: z.enum(['Baixa', 'Mitjana', 'Alta']),
+        priority: z.enum(['Baja', 'Media', 'Alta']),
       }).optional(),
-    technicianSignature: z.string().min(1, 'La firma del tècnic és obligatòria.'),
+    technicianSignature: z.string().min(1, 'La firma del técnico es obligatoria.'),
     supervisorSignature: z.string().optional(),
     beforePhotos: z.array(z.string()).optional(),
     afterPhotos: z.array(z.string()).optional(),
   }),
 }).refine(data => !data.observations.hasIncident || (data.observations.correctiveAction?.title && data.observations.correctiveAction?.description), {
-  message: "El títol i la descripció de la incidència són obligatoris.",
+  message: "El título y la descripción de la incidencia son obligatorios.",
   path: ["observations.correctiveAction.title"],
 });
 
@@ -103,12 +103,12 @@ type OperationFormValues = z.infer<typeof operationSchema>;
 
 export function OperationClientPage({ revision, operatorId, checklist }: { revision: any; operatorId?: string | null, checklist: ChecklistStep[] }) {
   const steps = [
-    { id: 1, name: 'Intervenció', section: 'header' },
+    { id: 1, name: 'Intervención', section: 'header' },
     { id: 2, name: 'Hardware', section: 'inventory' },
     { id: 3, name: 'Software', section: 'software' },
-    { id: 4, name: 'Sistemes Preexistents', section: 'preexistingSystems' },
-    { id: 5, name: 'Execució', section: 'executionPhases' },
-    { id: 6, name: 'Tancament', section: 'observations' },
+    { id: 4, name: 'Sistemas Preexistentes', section: 'preexistingSystems' },
+    { id: 5, name: 'Ejecución', section: 'executionPhases' },
+    { id: 6, name: 'Cierre', section: 'observations' },
   ];
   
   const [currentStep, setCurrentStep] = useState(0);
@@ -179,7 +179,7 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
         endTime: '11:00',
         notes: '',
         hasIncident: false,
-        correctiveAction: { title: '', description: '', priority: 'Baixa' },
+        correctiveAction: { title: '', description: '', priority: 'Baja' },
         technicianSignature: '',
         supervisorSignature: '',
         beforePhotos: [],
@@ -213,7 +213,7 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
       setSubmittedData(data);
     } else {
       toast({
-        title: 'Error en enviar',
+        title: 'Error al enviar',
         description: response.message,
         variant: 'destructive',
       });
@@ -225,14 +225,14 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
       <Card className="w-full max-w-3xl mx-auto">
         <CardHeader className="text-center">
             <CheckCircle className="mx-auto h-16 w-16 text-green-500 mb-4" />
-            <CardTitle className="text-2xl">Operació Enviada amb Èxit</CardTitle>
-            <CardDescription>L'operació ha estat registrada correctament.</CardDescription>
+            <CardTitle className="text-2xl">Operación Enviada con Éxito</CardTitle>
+            <CardDescription>La operación ha sido registrada correctamente.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
-            <p>Podeu tornar a la llista de tasques.</p>
+            <p>Puede volver a la lista de tareas.</p>
             <Button variant="outline" asChild>
                 <Link href="/">
-                    Tornar a la llista
+                    Volver a la lista
                 </Link>
             </Button>
         </CardContent>
@@ -246,7 +246,7 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
         <div className="mb-4 flex items-center gap-4">
           <HardHat className="h-10 w-10 text-primary" />
           <h1 className="font-headline text-4xl font-bold tracking-tight text-primary">
-            Fitxa d'Operació
+            Ficha de Operación
           </h1>
         </div>
         <p className="max-w-2xl text-lg text-muted-foreground">
@@ -282,7 +282,7 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
                 </Button>
                 {currentStep < steps.length - 1 ? (
                   <Button type="button" onClick={next} disabled={isSubmitting}>
-                    Següent
+                    Siguiente
                   </Button>
                 ) : (
                   <Button type="submit" disabled={isSubmitting}>
@@ -291,7 +291,7 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
                     ) : (
                       <CheckCircle className="mr-2 h-4 w-4" />
                     )}
-                    Finalitzar i Enviar
+                    Finalizar y Enviar
                   </Button>
                 )}
               </div>

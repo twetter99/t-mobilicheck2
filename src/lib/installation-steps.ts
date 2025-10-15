@@ -1,64 +1,62 @@
 export const installationSteps = [
   {
     step: 1,
-    title: 'Coordinació prèvia amb l\'operador',
-    description: 'Confirmar ubicació, disponibilitat del vehicle i accés a la cotxera/taller.',
+    title: 'Coordinación previa con el operador',
+    description: 'Confirmar ubicación, disponibilidad del vehículo y acceso a la cochera/taller.',
   },
   {
     step: 2,
-    title: 'Instal·lació de validadores i canalitzacions',
-    description: 'Ubicar punts, instal·lar canalitzacions per al cablejat i fixar els suports de les validadores.',
+    title: 'Instalación de validadoras y canalizaciones',
+    description: 'Ubicar puntos, instalar canalizaciones para el cableado y fijar los soportes de las validadoras.',
   },
   {
     step: 3,
-    title: 'Instal·lació del pupitre',
-    description: 'Ubicar la zona d\'instal·lació del pupitre i instal·lar el suport/base.',
+    title: 'Instalación del pupitre',
+    description: 'Ubicar la zona de instalación del pupitre e instalar el soporte/base.',
   },
   {
     step: 4,
-    title: 'Cerca i instal·lació d\'alimentacions',
-    description: 'Localitzar la font d\'alimentació, instal·lar connexions elèctriques i fusibles de protecció.',
+    title: 'Búsqueda e instalación de alimentaciones',
+    description: 'Localizar la fuente de alimentación, instalar conexiones eléctricas y fusibles de protección.',
   },
   {
     step: 5,
-    title: 'Ubicació i instal·lació d\'antena',
-    description: 'Determinar la millor ubicació per a l\'antena GPS/GPRS, instal·lar-la i realitzar el cablejat.',
+    title: 'Ubicación e instalación de antena',
+    description: 'Determinar la mejor ubicación para la antena GPS/GPRS, instalarla y realizar el cableado.',
   },
   {
     step: 6,
-    title: 'Instal·lació de placa de connexions o borner',
-    description: 'Instal·lar el borner de connexions, organitzar i etiquetar les connexions.',
+    title: 'Instalación de placa de conexiones o bornero',
+    description: 'Instalar el bornero de conexiones, organizar y etiquetar las conexiones.',
   },
   {
     step: 7,
-    title: 'Mecanitzat i muntatge de validadores i terminal de consulta',
-    description: 'Mecanitzar les barres de suport, muntar físicament les validadores i instal·lar el terminal de consulta.',
+    title: 'Mecanizado y montaje de validadoras y terminal de consulta',
+    description: 'Mecanizar las barras de soporte, montar físicamente las validadoras e instalar el terminal de consulta.',
   },
   {
     step: 8,
-    title: 'Mecanitzat de zona de pupitre i instal·lació de base',
-    description: 'Mecanitzar la zona on anirà el pupitre, instal·lar la base definitivament i fixar el pupitre.',
+    title: 'Mecanizado de zona de pupitre e instalación de base',
+    description: 'Mecanizar la zona donde irá el pupitre, instalar la base definitivamente y fijar el pupitre.',
   },
   {
     step: 9,
-    title: 'Encesa i comprovació de tensió',
-    description: 'Encendre tots els equips i verificar que tots els elements reben la tensió correcta.',
+    title: 'Encendido y comprobación de tensión',
+    description: 'Encender todos los equipos y verificar que todos los elementos reciben la tensión correcta.',
   },
   {
     step: 10,
-    title: 'Comprovació de comunicacions',
-    description: 'Verificar la comunicació de les validadores amb el pupitre a través del switch i la integritat de la xarxa interna.',
+    title: 'Comprobación de comunicaciones',
+    description: 'Verificar la comunicación de las validadoras con el pupitre a través del switch y la integridad de la red interna.',
   },
   {
     step: 11,
-    title: 'Programació d\'equips',
-    description: 'Programar validadores i pupitre, introduir número de bus i assignar posicions a les validadores.',
+    title: 'Programación de equipos',
+    description: 'Programar validadoras y pupitre, introducir número de bus y asignar posiciones a las validadoras.',
   },
   {
     step: 12,
-    title: 'Prova final de funcionament',
-    description: 'Obrir servei, verificar canvi d\'estat, treure contacte i confirmar que el pupitre s\'apaga correctament després del retard.',
+    title: 'Prueba final de funcionamiento',
+    description: 'Abrir servicio, verificar cambio de estado, quitar contacto y confirmar que el pupitre se apaga correctamente después del retardo.',
   },
 ];
-
-    

@@ -11,16 +11,16 @@ type Step3Props = {
 
 export function Step3Software({ form }: Step3Props) {
   return (
-    <FormSection title="Secció 3: Software i Configuració" description="Registreu les versions de software i configuració.">
+    <FormSection title="Sección 3: Software y Configuración" description="Registre las versiones de software y configuración.">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <FormField
           control={form.control}
           name="software.consoleSoftware"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Versió SW d'Instal·lació del Pupitre</FormLabel>
+              <FormLabel>Versión SW de Instalación del Pupitre</FormLabel>
               <FormControl>
-                <Input placeholder="Versió de programari" {...field} />
+                <Input placeholder="Versión de software" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -31,9 +31,9 @@ export function Step3Software({ form }: Step3Props) {
           name="software.telechargeVersion"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Versió de Telecàrrega</FormLabel>
+              <FormLabel>Versión de Telecarga</FormLabel>
               <FormControl>
-                <Input placeholder="Versió de telecàrrega" {...field} />
+                <Input placeholder="Versión de telecarga" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -44,9 +44,9 @@ export function Step3Software({ form }: Step3Props) {
           name="software.configVersion"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Versió de Configuració</FormLabel>
+              <FormLabel>Versión de Configuración</FormLabel>
               <FormControl>
-                <Input placeholder="Versió de configuració" {...field} />
+                <Input placeholder="Versión de configuración" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

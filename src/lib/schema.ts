@@ -3,12 +3,12 @@ import { z } from 'zod';
 export const formSchema = z.object({
   header: z.object({
     orderNumber: z.string().optional(),
-    operator: z.string().min(1, 'L\'operador és obligatori.'),
-    depot: z.string().min(1, 'La cotxera és obligatòria.'),
-    busNumber: z.string().min(1, 'El número de bus/calca és obligatori.'),
-    licensePlate: z.string().min(1, 'La matrícula és obligatòria.'),
-    technician: z.string().min(1, 'El tècnic és obligatori.'),
-    date: z.date({ required_error: 'La data és obligatòria.' }),
+    operator: z.string().min(1, 'El operador es obligatorio.'),
+    depot: z.string().min(1, 'La cochera es obligatoria.'),
+    busNumber: z.string().min(1, 'El número de bus/calca es obligatorio.'),
+    licensePlate: z.string().min(1, 'La matrícula es obligatoria.'),
+    technician: z.string().min(1, 'El técnico es obligatorio.'),
+    date: z.date({ required_error: 'La fecha es obligatoria.' }),
   }),
   inventory: z.object({
     consoleSerial: z.string().optional(),
@@ -16,7 +16,7 @@ export const formSchema = z.object({
     switchSerial: z.string().optional(),
     installationKitSerial: z.string().optional(),
     consoleMount: z.enum(['sin_brazo', 'brazo_corto', 'brazo_largo', 'simple_extraible'], {
-      required_error: 'Heu de seleccionar un tipus de suport.',
+      required_error: 'Debe seleccionar un tipo de soporte.',
     }),
     sc1Serial: z.string().optional(),
     sc2Serial: z.string().optional(),
@@ -79,7 +79,7 @@ export const formSchema = z.object({
     validatorConnectorsCleaning: z.boolean().default(false),
     validatorSerialRegistration: z.boolean().default(false),
   }).refine(data => Object.values(data).every(Boolean), {
-    message: 'Totes les tasques del checklist han de ser completades.',
+    message: 'Todas las tareas del checklist deben ser completadas.',
     path: ['consoleGeneralCleaning'], // Show error on the first item
   }),
   verification: z.object({
@@ -89,22 +89,22 @@ export const formSchema = z.object({
     validationOk: z.boolean().default(false),
     communicationOk: z.boolean().default(false),
   }).refine(data => Object.values(data).every(Boolean), {
-    message: 'Totes les verificacions han de ser completades.',
+    message: 'Todas las verificaciones deben ser completadas.',
     path: ['startupOk'], // Show error on the first item
   }),
   observations: z.object({
-    startTime: z.string().min(1, 'L\'hora d\'inici és obligatòria.'),
-    endTime: z.string().min(1, 'L\'hora de fi és obligatòria.'),
+    startTime: z.string().min(1, 'La hora de inicio es obligatoria.'),
+    endTime: z.string().min(1, 'La hora de fin es obligatoria.'),
     notes: z.string().optional(),
     hasIncident: z.boolean().default(false),
     correctiveAction: z
       .object({
-        title: z.string().min(1, 'El títol és obligatori.'),
-        description: z.string().min(1, 'La descripció és obligatòria.'),
-        priority: z.enum(['Baixa', 'Mitjana', 'Alta']),
+        title: z.string().min(1, 'El título es obligatorio.'),
+        description: z.string().min(1, 'La descripción es obligatoria.'),
+        priority: z.enum(['Baja', 'Media', 'Alta']),
       })
       .optional(),
-    technicianSignature: z.string().min(1, 'La firma del tècnic és obligatòria.'),
+    technicianSignature: z.string().min(1, 'La firma del técnico es obligatoria.'),
     supervisorSignature: z.string().optional(),
     beforePhotos: z.array(z.string()).optional(),
     afterPhotos: z.array(z.string()).optional(),

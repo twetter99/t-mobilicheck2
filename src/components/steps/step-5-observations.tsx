@@ -80,7 +80,7 @@ const PhotoUpload = ({
           onClick={() => inputRef.current?.click()}
         >
           <Camera className="h-8 w-8 text-muted-foreground" />
-          <span className="mt-2 text-xs">Afegir Foto</span>
+          <span className="mt-2 text-xs">Añadir Foto</span>
         </Button>
       </div>
       <FormControl>
@@ -112,16 +112,16 @@ export function Step5Observations({ form }: Step5Props) {
 
 
   return (
-    <FormSection title="Secció 5: Observacions i Tancament" description="Afegiu notes, incidències i recolliu les firmes.">
+    <FormSection title="Sección 5: Observaciones y Cierre" description="Añada notas, incidencias y recoja las firmas.">
       <div className="space-y-6">
         <FormField
           control={form.control}
           name="observations.notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Observacions</FormLabel>
+              <FormLabel>Observaciones</FormLabel>
               <FormControl>
-                <Textarea placeholder="Afegiu qualsevol observació rellevant sobre el manteniment..." {...field} />
+                <Textarea placeholder="Añada cualquier observación relevante sobre el mantenimiento..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -132,12 +132,12 @@ export function Step5Observations({ form }: Step5Props) {
            <FormField
             control={form.control}
             name="observations.beforePhotos"
-            render={({ field }) => <PhotoUpload label="Fotos de l'Abans" field={field} />}
+            render={({ field }) => <PhotoUpload label="Fotos del Antes" field={field} />}
           />
            <FormField
             control={form.control}
             name="observations.afterPhotos"
-            render={({ field }) => <PhotoUpload label="Fotos del Després" field={field} />}
+            render={({ field }) => <PhotoUpload label="Fotos del Después" field={field} />}
           />
         </div>
 
@@ -152,9 +152,9 @@ export function Step5Observations({ form }: Step5Props) {
                 <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel>S'ha detectat una incidència</FormLabel>
+                <FormLabel>Se ha detectado una incidencia</FormLabel>
                 <FormDescription>
-                  Marqueu aquesta casella si heu trobat algun problema que requereixi una ordre de treball correctiva.
+                  Marque esta casilla si ha encontrado algún problema que requiera una orden de trabajo correctiva.
                 </FormDescription>
               </div>
             </FormItem>
@@ -164,7 +164,7 @@ export function Step5Observations({ form }: Step5Props) {
         {hasIncident && (
           <Card className="bg-accent/20 border-accent">
             <CardHeader>
-              <CardTitle>OT Correctiu</CardTitle>
+              <CardTitle>OT Correctivo</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <FormField
@@ -172,8 +172,8 @@ export function Step5Observations({ form }: Step5Props) {
                 name="observations.correctiveAction.title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Títol de la Incidència</FormLabel>
-                    <FormControl><Input placeholder="Ex: Falla la impressora del pupitre" {...field} /></FormControl>
+                    <FormLabel>Título de la Incidencia</FormLabel>
+                    <FormControl><Input placeholder="Ej: Falla la impresora del pupitre" {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -183,8 +183,8 @@ export function Step5Observations({ form }: Step5Props) {
                 name="observations.correctiveAction.description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Descripció detallada</FormLabel>
-                    <FormControl><Textarea placeholder="Descriviu el problema trobat..." {...field} /></FormControl>
+                    <FormLabel>Descripción detallada</FormLabel>
+                    <FormControl><Textarea placeholder="Describa el problema encontrado..." {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -194,12 +194,12 @@ export function Step5Observations({ form }: Step5Props) {
                 name="observations.correctiveAction.priority"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Prioritat</FormLabel>
+                    <FormLabel>Prioridad</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl><SelectTrigger><SelectValue placeholder="Seleccioneu una prioritat" /></SelectTrigger></FormControl>
+                      <FormControl><SelectTrigger><SelectValue placeholder="Seleccione una prioridad" /></SelectTrigger></FormControl>
                       <SelectContent>
-                        <SelectItem value="Baixa">Baixa</SelectItem>
-                        <SelectItem value="Mitjana">Mitjana</SelectItem>
+                        <SelectItem value="Baja">Baja</SelectItem>
+                        <SelectItem value="Media">Media</SelectItem>
                         <SelectItem value="Alta">Alta</SelectItem>
                       </SelectContent>
                     </Select>
@@ -214,14 +214,14 @@ export function Step5Observations({ form }: Step5Props) {
         <Separator />
         
         <div>
-            <h3 className="text-lg font-medium mb-4">Hores de treball i Firmes</h3>
+            <h3 className="text-lg font-medium mb-4">Horas de trabajo y Firmas</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                  <FormField
                     control={form.control}
                     name="observations.startTime"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Hora Inici</FormLabel>
+                        <FormLabel>Hora Inicio</FormLabel>
                         <FormControl>
                             <Input type="time" {...field} />
                         </FormControl>
@@ -234,7 +234,7 @@ export function Step5Observations({ form }: Step5Props) {
                     name="observations.endTime"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Hora Fi</FormLabel>
+                        <FormLabel>Hora Fin</FormLabel>
                         <FormControl>
                             <Input type="time" {...field} />
                         </FormControl>
@@ -249,7 +249,7 @@ export function Step5Observations({ form }: Step5Props) {
                     name="observations.technicianSignature"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Firma del Tècnic (Obligatòria)</FormLabel>
+                            <FormLabel>Firma del Técnico (Obligatoria)</FormLabel>
                             <FormControl>
                                 <SignaturePad onSign={(signatureData) => field.onChange(signatureData)} />
                             </FormControl>

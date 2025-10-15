@@ -21,7 +21,7 @@ export default function RevisionPage({ params }: { params: { id: string } }) {
         <Button asChild variant="outline">
           <Link href="/">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Tornar a la llista
+            Volver a la lista
           </Link>
         </Button>
       </div>

@@ -8,7 +8,7 @@ import { InstallationClientPage } from './client-page';
 export default function InstallationPage({ params }: { params: { id: string } }) {
   const revision = data.revisiones.find(rev => rev.id === params.id);
 
-  if (!revision || revision.tipo !== 'Instal·lació') {
+  if (!revision || revision.tipo !== 'Instalación') {
     notFound();
   }
   
@@ -18,7 +18,7 @@ export default function InstallationPage({ params }: { params: { id: string } })
         <Button asChild variant="outline">
           <Link href="/">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Tornar a la llista
+            Volver a la lista
           </Link>
         </Button>
       </div>
@@ -26,5 +26,3 @@ export default function InstallationPage({ params }: { params: { id: string } })
     </main>
   );
 }
-
-    

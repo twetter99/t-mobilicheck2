@@ -14,7 +14,7 @@ export function RevisionClientPage({ revision, operatorId }: { revision: any, op
           </h1>
         </div>
         <p className="max-w-2xl text-lg text-muted-foreground">
-          Ordre de Manteniment Preventiu ({revision.tipo})
+          Orden de Mantenimiento Preventivo ({revision.tipo})
         </p>
       </div>
       <MaintenanceForm revision={revision} operatorId={operatorId || undefined} />

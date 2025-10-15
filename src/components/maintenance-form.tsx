@@ -24,11 +24,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/
 import Link from 'next/link';
 
 const steps = [
-  { id: 1, name: 'Capçalera', fields: ['header'] },
-  { id: 2, name: 'Inventari', fields: ['inventory'] },
+  { id: 1, name: 'Cabecera', fields: ['header'] },
+  { id: 2, name: 'Inventario', fields: ['inventory'] },
   { id: 3, name: 'Checklist', fields: ['checklist'] },
-  { id: 4, name: 'Verificació', fields: ['verification'] },
-  { id: 5, name: 'Observacions i Firmes', fields: ['observations'] },
+  { id: 4, name: 'Verificación', fields: ['verification'] },
+  { id: 5, name: 'Observaciones y Firmas', fields: ['observations'] },
 ];
 
 export function MaintenanceForm({ revision, operatorId }: { revision: any, operatorId?: string }) {
@@ -45,7 +45,7 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
     defaultValues: {
       header: {
         operator: operatorId || '',
-        depot: revision?.ubicacion || 'Cotxera Nord',
+        depot: revision?.ubicacion || 'Cochera Norte',
         busNumber: revision?.vehiculoId || '',
         licensePlate: bus?.id || '',
         technician: '',
@@ -98,7 +98,7 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
         correctiveAction: {
             title: '',
             description: '',
-            priority: 'Baixa',
+            priority: 'Baja',
         },
         technicianSignature: '',
         supervisorSignature: '',
@@ -134,8 +134,8 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
     
     if (result.success) {
       toast({
-        title: 'Validació IA superada',
-        description: 'No s\'han trobat anomalies en les dades.',
+        title: 'Validación IA superada',
+        description: 'No se han encontrado anomalías en los datos.',
         variant: 'default',
         className: 'bg-green-100 dark:bg-green-900 border-green-400 dark:border-green-600'
       });
@@ -150,8 +150,8 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
           }
         });
         toast({
-            title: 'Errors de validació IA',
-            description: `La IA ha detectat ${errorCount} possibles problemes. Si us plau, reviseu els camps marcats.`,
+            title: 'Errores de validación IA',
+            description: `La IA ha detectado ${errorCount} posibles problemas. Por favor, revise los campos marcados.`,
             variant: 'destructive',
           });
           // Example of setting an error. This needs a proper mapping from AI result to form field.
@@ -159,8 +159,8 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
 
     } else {
         toast({
-            title: 'Error de validació IA',
-            description: result.error || 'No s\'ha pogut completar la validació amb IA.',
+            title: 'Error de validación IA',
+            description: result.error || 'No se ha podido completar la validación con IA.',
             variant: 'destructive',
           });
     }
@@ -177,7 +177,7 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
       setSubmittedData(data);
     } else {
       toast({
-        title: 'Error en enviar',
+        title: 'Error al enviar',
         description: response.message,
         variant: 'destructive',
       });
@@ -187,8 +187,8 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
   const onInvalid = (errors: FieldErrors<FormValues>) => {
     console.error(errors);
     toast({
-        title: 'Formulari incomplet',
-        description: 'Si us plau, reviseu els camps marcats en vermell.',
+        title: 'Formulario incompleto',
+        description: 'Por favor, revise los campos marcados en rojo.',
         variant: 'destructive',
       });
   }
@@ -199,7 +199,7 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
     } else {
        toast({
         title: 'Error',
-        description: 'No s\'han trobat dades per generar el PDF.',
+        description: 'No se han encontrado datos para generar el PDF.',
         variant: 'destructive',
       });
     }
@@ -211,18 +211,18 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
       <Card className="w-full max-w-3xl mx-auto">
         <CardHeader className="text-center">
             <CheckCircle className="mx-auto h-16 w-16 text-green-500 mb-4" />
-            <CardTitle className="text-2xl">Ordre Enviada amb Èxit</CardTitle>
-            <CardDescription>L'ordre de manteniment ha estat registrada.</CardDescription>
+            <CardTitle className="text-2xl">Orden Enviada con Éxito</CardTitle>
+            <CardDescription>La orden de mantenimiento ha sido registrada.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
-            <p>Podeu descarregar l'informe en format PDF.</p>
+            <p>Puede descargar el informe en formato PDF.</p>
             <Button onClick={handleDownloadPdf}>
                 <Download className="mr-2 h-4 w-4" />
-                Descarregar PDF
+                Descargar PDF
             </Button>
             <Button variant="outline" asChild>
                 <Link href="/">
-                    Tornar a la llista de revisions
+                    Volver a la lista de revisiones
                 </Link>
             </Button>
         </CardContent>
@@ -258,13 +258,13 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
               </Button>
               {currentStep < steps.length - 1 ? (
                 <Button type="button" onClick={next} disabled={isSubmitting}>
-                  Següent
+                  Siguiente
                 </Button>
               ) : (
                   <div className="flex gap-2">
                       <Button type="button" variant="outline" onClick={handleAiValidation} disabled={isAiValidating || isSubmitting}>
                           {isAiValidating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
-                          Validar amb IA
+                          Validar con IA
                       </Button>
                       <Button type="submit" disabled={isSubmitting || isAiValidating}>
                           {isSubmitting ? (
@@ -272,7 +272,7 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
                           ) : (
                           <CheckCircle className="mr-2 h-4 w-4" />
                           )}
-                          Finalitzar i Enviar
+                          Finalizar y Enviar
                       </Button>
                 </div>
               )}

@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: 'T-MobiliCheck',
-  description: 'App mòbil d\'Ordre de Manteniment Preventiu Trimestral',
+  description: 'App móvil de Orden de Mantenimiento Preventivo Trimestral',
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ca" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning>
       <body className={cn('min-h-screen bg-gray-50 font-body antialiased', inter.variable)}>
         {children}
         <Toaster />

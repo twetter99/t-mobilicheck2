@@ -30,36 +30,36 @@ const CheckpointItem = ({ name, label, description, control }: { name: keyof For
 
 export function Step4Verification({ form }: Step4Props) {
   return (
-    <FormSection title="Secció 4: Verificació Funcional" description="Confirmeu que cada component funciona correctament.">
+    <FormSection title="Sección 4: Verificación Funcional" description="Confirme que cada componente funciona correctamente.">
       <div className="space-y-4">
         <CheckpointItem 
           name="verification.startupOk" 
-          label="Arrencada del sistema" 
-          description="El pupitre i les validadores s'inicien sense errors."
+          label="Arranque del sistema" 
+          description="El pupitre y las validadoras se inician sin errores."
           control={form.control}
         />
         <CheckpointItem 
           name="verification.screenOk" 
           label="Pantalla del pupitre"
-          description="La pantalla tàctil respon i mostra la interfície correctament."
+          description="La pantalla táctil responde y muestra la interfaz correctamente."
           control={form.control}
         />
         <CheckpointItem 
           name="verification.printerOk" 
-          label="Impressora de pupitre"
-          description="La impressora emet tiquets de prova de manera llegible."
+          label="Impresora de pupitre"
+          description="La impresora emite tickets de prueba de manera legible."
           control={form.control}
         />
         <CheckpointItem 
           name="verification.validationOk"
-          label="Validació de títols"
-          description="Les validadores llegeixen i validen correctament títols de transport."
+          label="Validación de títulos"
+          description="Las validadoras leen y validan correctamente títulos de transporte."
           control={form.control}
         />
         <CheckpointItem 
           name="verification.communicationOk"
-          label="Comunicació amb el centre"
-          description="El sistema envia i rep dades del centre de control correctament."
+          label="Comunicación con el centro"
+          description="El sistema envía y recibe datos del centro de control correctamente."
           control={form.control}
         />
       </div>

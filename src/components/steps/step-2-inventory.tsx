@@ -6,7 +6,6 @@ import { FormSection } from '@/components/form-section';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '../ui/button';
 import { QrCode } from 'lucide-react';
 import { Separator } from '../ui/separator';
@@ -32,7 +31,7 @@ const InputWithScan = ({ field, placeholder }: { field: any; placeholder?: strin
 
 export function Step2Inventory({ form }: Step2Props) {
   return (
-    <FormSection title="Secció 2: Inventari i Versions" description="Registreu els números de sèrie i versions dels components.">
+    <FormSection title="Sección 2: Inventario y Versiones" description="Registre los números de serie y versiones de los componentes.">
         <div className="space-y-6">
             <div>
                 <h3 className="text-lg font-medium mb-4">Hardware T-Mobilitat</h3>
@@ -47,14 +46,14 @@ export function Step2Inventory({ form }: Step2Props) {
                         <FormItem><FormLabel>N/S Switch</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="inventory.installationKitSerial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Kit d'Instal·lació</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>N/S Kit de Instalación</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                      <FormField control={form.control} name="inventory.consoleMount" render={({ field }) => (
-                        <FormItem className="space-y-3"><FormLabel>Tipologia de Suport de Pupitre</FormLabel><FormControl><RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-wrap gap-4">
-                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="sin_brazo" /></FormControl><FormLabel className="font-normal">Sense Braç</FormLabel></FormItem>
-                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="brazo_corto" /></FormControl><FormLabel className="font-normal">Braç Curt</FormLabel></FormItem>
-                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="brazo_largo" /></FormControl><FormLabel className="font-normal">Braç Llarg</FormLabel></FormItem>
-                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="simple_extraible" /></FormControl><FormLabel className="font-normal">Simple Extraïble</FormLabel></FormItem>
+                        <FormItem className="space-y-3"><FormLabel>Tipología de Soporte de Pupitre</FormLabel><FormControl><RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-wrap gap-4">
+                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="sin_brazo" /></FormControl><FormLabel className="font-normal">Sin Brazo</FormLabel></FormItem>
+                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="brazo_corto" /></FormControl><FormLabel className="font-normal">Brazo Corto</FormLabel></FormItem>
+                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="brazo_largo" /></FormControl><FormLabel className="font-normal">Brazo Largo</FormLabel></FormItem>
+                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="simple_extraible" /></FormControl><FormLabel className="font-normal">Simple Extraíble</FormLabel></FormItem>
                         </RadioGroup></FormControl><FormMessage /></FormItem>
                     )}/>
                 </div>
@@ -63,28 +62,28 @@ export function Step2Inventory({ form }: Step2Props) {
             <Separator />
             
             <div>
-                <h3 className="text-lg font-medium mb-4">Soports</h3>
+                <h3 className="text-lg font-medium mb-4">Soportes</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField control={form.control} name="inventory.sc1Serial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Suport Validadora SC1</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>N/S Soporte Validadora SC1</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="inventory.sc2Serial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Suport Validadora SC2</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>N/S Soporte Validadora SC2</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="inventory.sc3Serial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Suport Validadora SC3</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>N/S Soporte Validadora SC3</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="inventory.sc4Serial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Suport Validadora SC4</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>N/S Soporte Validadora SC4</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="inventory.sc5Serial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Suport Validadora SC5</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>N/S Soporte Validadora SC5</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                      <FormField control={form.control} name="inventory.sc6Serial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Suport Validadora SC6</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>N/S Soporte Validadora SC6</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="inventory.queryTerminalSupportSerial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Suport Terminal de Consulta</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>N/S Soporte Terminal de Consulta</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                 </div>
             </div>

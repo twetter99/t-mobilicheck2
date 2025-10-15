@@ -2,7 +2,7 @@
 
 import type { UseFormReturn } from 'react-hook-form';
 import { FormSection } from '@/components/form-section';
-import { FormControl, FormField, FormItem, FormLabel, FormDescription, FormMessage } from '@/components/ui/form';
+import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 type Step5Props = {
@@ -45,32 +45,32 @@ const CheckpointItem = ({ name, label, control }: { name: string; label: string;
 
 export function Step5ExecutionPhases({ form }: Step5Props) {
   return (
-    <FormSection title="Secció 5: Fases d'Execució i Verificació" description="Marqueu el resultat de cada fase d'execució.">
+    <FormSection title="Sección 5: Fases de Ejecución y Verificación" description="Marque el resultado de cada fase de ejecución.">
         <div className="space-y-6">
             <div>
-                <h3 className="text-lg font-medium mb-4">5.1. Operacions Prèvies</h3>
+                <h3 className="text-lg font-medium mb-4">5.1. Operaciones Previas</h3>
                 <div className="space-y-4">
-                    <CheckpointItem name="executionPhases.preliminaryCheck" label="Comprovació de la preinstal·lació elèctrica i de cablejat" control={form.control} />
-                    <CheckpointItem name="executionPhases.preexistingSystemsCheck" label="Verificació i registre dels sistemes preexistents" control={form.control} />
+                    <CheckpointItem name="executionPhases.preliminaryCheck" label="Comprobación de la preinstalación eléctrica y de cableado" control={form.control} />
+                    <CheckpointItem name="executionPhases.preexistingSystemsCheck" label="Verificación y registro de los sistemas preexistentes" control={form.control} />
                 </div>
             </div>
             <div>
-                <h3 className="text-lg font-medium mb-4">5.2. Instal·lació de Components</h3>
+                <h3 className="text-lg font-medium mb-4">5.2. Instalación de Componentes</h3>
                 <div className="space-y-4">
-                    <CheckpointItem name="executionPhases.connectionPlateInstallation" label="Instal·lació de la Placa de Connexions" control={form.control} />
-                    <CheckpointItem name="executionPhases.antennaInstallation" label="Instal·lació de la Antena" control={form.control} />
-                    <CheckpointItem name="executionPhases.mccInstallation" label="Instal·lació del MCC del Pupitre" control={form.control} />
-                    <CheckpointItem name="executionPhases.consoleSupportInstallation" label="Muntatge del Suport del Pupitre i la seva base" control={form.control} />
-                    <CheckpointItem name="executionPhases.consoleInstallation" label="Instal·lació i connexió del Pupitre" control={form.control} />
-                    <CheckpointItem name="executionPhases.validatorSupportInstallation" label="Muntatge dels suports de validadores i terminals" control={form.control} />
+                    <CheckpointItem name="executionPhases.connectionPlateInstallation" label="Instalación de la Placa de Conexiones" control={form.control} />
+                    <CheckpointItem name="executionPhases.antennaInstallation" label="Instalación de la Antena" control={form.control} />
+                    <CheckpointItem name="executionPhases.mccInstallation" label="Instalación del MCC del Pupitre" control={form.control} />
+                    <CheckpointItem name="executionPhases.consoleSupportInstallation" label="Montaje del Soporte del Pupitre y su base" control={form.control} />
+                    <CheckpointItem name="executionPhases.consoleInstallation" label="Instalación y conexión del Pupitre" control={form.control} />
+                    <CheckpointItem name="executionPhases.validatorSupportInstallation" label="Montaje de los soportes de validadoras y terminales" control={form.control} />
                 </div>
             </div>
              <div>
-                <h3 className="text-lg font-medium mb-4">5.3. Operacions Posteriors i Proves</h3>
+                <h3 className="text-lg font-medium mb-4">5.3. Operaciones Posteriores y Pruebas</h3>
                 <div className="space-y-4">
-                    <CheckpointItem name="executionPhases.finalCheck" label="Comprovació final de la instal·lació i connexions" control={form.control} />
-                    <CheckpointItem name="executionPhases.softwareUpdate" label="Actualització de Software, Configuració i Telecàrrega" control={form.control} />
-                    <CheckpointItem name="executionPhases.functionalTests" label="Execució del Protocol de Proves funcionals complet" control={form.control} />
+                    <CheckpointItem name="executionPhases.finalCheck" label="Comprobación final de la instalación y conexiones" control={form.control} />
+                    <CheckpointItem name="executionPhases.softwareUpdate" label="Actualización de Software, Configuración y Telecarga" control={form.control} />
+                    <CheckpointItem name="executionPhases.functionalTests" label="Ejecución del Protocolo de Pruebas funcionales completo" control={form.control} />
                 </div>
             </div>
         </div>

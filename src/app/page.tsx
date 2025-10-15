@@ -8,42 +8,42 @@ import { data } from '@/lib/data';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { format, differenceInDays } from 'date-fns';
-import { ca } from 'date-fns/locale';
+import { es } from 'date-fns/locale';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-const getPriorityDetails = (priority: 'Crítica' | 'Alta' | 'Mitjana' | 'Baixa') => {
+const getPriorityDetails = (priority: 'Crítica' | 'Alta' | 'Media' | 'Baja') => {
   switch (priority) {
     case 'Crítica':
       return { label: 'Crítica', className: 'bg-red-500 border-red-500 text-white', icon: Siren };
     case 'Alta':
       return { label: 'Alta', className: 'bg-orange-500 border-orange-500 text-white', icon: AlertTriangle };
-    case 'Mitjana':
-      return { label: 'Mitjana', className: 'bg-yellow-400 border-yellow-400 text-black', icon: Clock };
-    case 'Baixa':
-      return { label: 'Baixa', className: 'bg-green-500 border-green-500 text-white', icon: Wrench };
+    case 'Media':
+      return { label: 'Media', className: 'bg-yellow-400 border-yellow-400 text-black', icon: Clock };
+    case 'Baja':
+      return { label: 'Baja', className: 'bg-green-500 border-green-500 text-white', icon: Wrench };
     default:
-      return { label: 'Baixa', className: 'bg-gray-500 border-gray-500 text-white', icon: Wrench };
+      return { label: 'Baja', className: 'bg-gray-500 border-gray-500 text-white', icon: Wrench };
   }
 };
 
 const getRevisionTypeIcon = (type: string) => {
-  if (type.startsWith('Preventiu')) return Wrench;
-  if (type.startsWith('Correctiu')) return Siren;
-  if (type === 'Instal·lació') return HardHat;
-  if (type === 'Traspàs') return Upload;
-  if (type === 'Desinstal·lació') return Download;
+  if (type.startsWith('Preventivo')) return Wrench;
+  if (type.startsWith('Correctivo')) return Siren;
+  if (type === 'Instalación') return HardHat;
+  if (type === 'Traspaso') return Upload;
+  if (type === 'Desinstalación') return Download;
   return Wrench;
 };
 
-const getStatusDetails = (status: 'Pendent' | 'En Progrés' | 'Completada' | 'Bloquejada') => {
+const getStatusDetails = (status: 'Pendiente' | 'En Progreso' | 'Completada' | 'Bloqueada') => {
   switch (status) {
-    case 'Pendent':
+    case 'Pendiente':
       return 'border-gray-300';
-    case 'En Progrés':
+    case 'En Progreso':
       return 'border-blue-500 border-2 shadow-lg';
     case 'Completada':
       return 'border-green-500 opacity-70 bg-green-50';
-    case 'Bloquejada':
+    case 'Bloqueada':
       return 'border-red-500 border-2 bg-red-50';
   }
 };
@@ -64,12 +64,12 @@ export default function DashboardPage() {
      const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
      return taskDateOnly.getTime() === todayDateOnly.getTime();
   }).sort((a, b) => {
-    const priorityOrder = { 'Crítica': 1, 'Alta': 2, 'Mitjana': 3, 'Baixa': 4 };
+    const priorityOrder = { 'Crítica': 1, 'Alta': 2, 'Media': 3, 'Baja': 4 };
     return priorityOrder[a.prioridad] - priorityOrder[b.prioridad];
   });
   
-  const mantenimientos = todaysTasks.filter(task => (task.tipo.includes('Preventiu') || task.tipo.includes('Correctiu')));
-  const otrasOperaciones = todaysTasks.filter(task => (!task.tipo.includes('Preventiu') && !task.tipo.includes('Correctiu')));
+  const mantenimientos = todaysTasks.filter(task => (task.tipo.includes('Preventivo') || task.tipo.includes('Correctivo')));
+  const otrasOperaciones = todaysTasks.filter(task => (!task.tipo.includes('Preventivo') && !task.tipo.includes('Correctivo')));
   
   const totalTasks = todaysTasks.length;
   const completedTasks = todaysTasks.filter(t => t.estado === 'Completada').length;
@@ -93,11 +93,11 @@ export default function DashboardPage() {
     const TypeIcon = getRevisionTypeIcon(revision.tipo);
     
     let href = `/revision/${revision.id}`; // Default to revision
-    if (revision.tipo === 'Instal·lació') {
+    if (revision.tipo === 'Instalación') {
       href = `/instalacion/${revision.id}`;
-    } else if (revision.tipo === 'Traspàs' || revision.tipo === 'Desinstal·lació') {
+    } else if (revision.tipo === 'Traspaso' || revision.tipo === 'Desinstalación') {
       href = `/operacion/${revision.id}`;
-    } else if (revision.tipo.includes('Correctiu')) {
+    } else if (revision.tipo.includes('Correctivo')) {
       href = `/revision/${revision.id}`;
     }
 
@@ -142,10 +142,10 @@ export default function DashboardPage() {
           )}
         </CardContent>
          <CardFooter className="pl-6 pr-4 pb-4 flex justify-between items-center">
-            <p className="text-xs text-muted-foreground">Distància: 1.2km</p>
+            <p className="text-xs text-muted-foreground">Distancia: 1.2km</p>
             <Button asChild>
                 <Link href={href}>
-                    {revision.estado === 'Completada' ? 'Veure Resum' : 'Iniciar Tasca'}
+                    {revision.estado === 'Completada' ? 'Ver Resumen' : 'Iniciar Tarea'}
                     <ChevronRight className="ml-2 h-4 w-4" />
                 </Link>
             </Button>
@@ -162,29 +162,29 @@ export default function DashboardPage() {
         <div className="container mx-auto">
             <div className="flex justify-between items-center mb-2">
                 <div>
-                    <p className="text-sm text-muted-foreground">Benvingut, {technicianName}</p>
-                    <h1 className="text-2xl font-bold text-primary">Tasques per avui</h1>
+                    <p className="text-sm text-muted-foreground">Bienvenido, {technicianName}</p>
+                    <h1 className="text-2xl font-bold text-primary">Tareas para hoy</h1>
                 </div>
                 <div className="text-right">
-                    <p className="font-semibold">{format(today, "EEEE, d 'de' MMMM", { locale: ca })}</p>
-                    <p className="text-sm text-muted-foreground">{totalTasks} tasques, ~{totalEstimatedHours.toFixed(1)}h estimades</p>
+                    <p className="font-semibold">{format(today, "EEEE, d 'de' MMMM", { locale: es })}</p>
+                    <p className="text-sm text-muted-foreground">{totalTasks} tareas, ~{totalEstimatedHours.toFixed(1)}h estimadas</p>
                 </div>
             </div>
             
              {/* Progress Bar */}
             <div className='mt-4'>
                 <div className='flex justify-between text-sm font-medium mb-1'>
-                    <span className='text-gray-700'>Progrés del dia</span>
-                    <span className='text-primary'>{completedTasks} / {totalTasks} completades</span>
+                    <span className='text-gray-700'>Progreso del día</span>
+                    <span className='text-primary'>{completedTasks} / {totalTasks} completadas</span>
                 </div>
                 <Progress value={progressPercentage} className="h-2" />
             </div>
 
              {/* Action Buttons */}
             <div className="mt-4 flex gap-2 justify-center">
-                <Button variant="outline" size="sm"><List className="mr-2 h-4 w-4"/>Vista de Llista</Button>
+                <Button variant="outline" size="sm"><List className="mr-2 h-4 w-4"/>Vista de Lista</Button>
                 <Button variant="outline" size="sm"><Map className="mr-2 h-4 w-4"/>Vista de Mapa</Button>
-                <Button variant="outline" size="sm"><HelpCircle className="mr-2 h-4 w-4"/>Ajuda</Button>
+                <Button variant="outline" size="sm"><HelpCircle className="mr-2 h-4 w-4"/>Ayuda</Button>
             </div>
         </div>
       </header>
@@ -195,12 +195,12 @@ export default function DashboardPage() {
             <Card className="mb-4 bg-red-50 border-red-500">
                 <CardHeader className='flex-row items-center gap-4 space-y-0'>
                     <Siren className="h-6 w-6 text-red-600"/>
-                    <CardTitle className="text-red-800">Urgències</CardTitle>
+                    <CardTitle className="text-red-800">Urgencias</CardTitle>
                 </CardHeader>
                 <CardContent>
                     {urgentTasks.map(task => (
                         <p key={task.id} className='text-sm text-red-700'>
-                            - {task.tipo} en vehicle {task.vehiculoId} ({task.ubicacion}).
+                            - {task.tipo} en vehículo {task.vehiculoId} ({task.ubicacion}).
                         </p>
                     ))}
                 </CardContent>
@@ -212,7 +212,7 @@ export default function DashboardPage() {
             <CardHeader>
               <div className="flex items-center gap-3">
                 <Calendar className="h-6 w-6 text-blue-600" />
-                <CardTitle className="text-blue-800">Pròxim Esdeveniment Programat</CardTitle>
+                <CardTitle className="text-blue-800">Próximo Evento Programado</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
@@ -221,14 +221,14 @@ export default function DashboardPage() {
                   <div className="flex justify-between items-center font-bold">
                     <p>{event.titulo} - {event.operador}</p>
                     <Badge variant="outline" className="border-blue-500 text-blue-700">
-                      Falten {event.daysRemaining} dies
+                      Faltan {event.daysRemaining} días
                     </Badge>
                   </div>
                   <p className="mt-1">
-                    {format(new Date(event.fecha), "d 'de' MMMM", { locale: ca })}: {event.descripcion}
+                    {format(new Date(event.fecha), "d 'de' MMMM", { locale: es })}: {event.descripcion}
                   </p>
                   <Button variant="link" size="sm" className="p-0 h-auto mt-1 text-blue-800">
-                    Veure més detalls →
+                    Ver más detalles →
                   </Button>
                 </div>
               ))}
@@ -236,26 +236,26 @@ export default function DashboardPage() {
           </Card>
         )}
 
-        <Tabs defaultValue="manteniments" className="w-full">
+        <Tabs defaultValue="mantenimientos" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="manteniments">Manteniments</TabsTrigger>
-                <TabsTrigger value="operacions">Altres Operacions</TabsTrigger>
+                <TabsTrigger value="mantenimientos">Mantenimientos</TabsTrigger>
+                <TabsTrigger value="operaciones">Otras Operaciones</TabsTrigger>
             </TabsList>
-            <TabsContent value="manteniments">
+            <TabsContent value="mantenimientos">
                 <div className="space-y-4 mt-4">
                     {mantenimientos.length > 0 ? (
                         mantenimientos.map((revision) => <TaskCard key={revision.id} revision={revision} />)
                     ) : (
-                        <p className="text-center text-muted-foreground py-8">No hi ha manteniments per avui.</p>
+                        <p className="text-center text-muted-foreground py-8">No hay mantenimientos para hoy.</p>
                     )}
                 </div>
             </TabsContent>
-            <TabsContent value="operacions">
+            <TabsContent value="operaciones">
                  <div className="space-y-4 mt-4">
                     {otrasOperaciones.length > 0 ? (
                         otrasOperaciones.map((revision) => <TaskCard key={revision.id} revision={revision} />)
                     ) : (
-                        <p className="text-center text-muted-foreground py-8">No hi ha altres operacions per avui.</p>
+                        <p className="text-center text-muted-foreground py-8">No hay otras operaciones para hoy.</p>
                     )}
                 </div>
             </TabsContent>
@@ -271,7 +271,7 @@ export default function DashboardPage() {
             </Button>
              <Button variant="ghost" className="flex flex-col h-auto p-2">
                 <Package className="h-6 w-6"/>
-                <span className="text-xs mt-1">Inventari</span>
+                <span className="text-xs mt-1">Inventario</span>
             </Button>
              <Button variant="ghost" className="flex flex-col h-auto p-2 text-accent">
                 <Siren className="h-6 w-6"/>

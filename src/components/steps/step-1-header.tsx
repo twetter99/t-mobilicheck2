@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
-import type { FormValues } from '@/lib/schema';
 import { data } from '@/lib/data';
 import { FormSection } from '@/components/form-section';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -12,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
-import { ca } from 'date-fns/locale';
+import { es } from 'date-fns/locale';
 import { Calendar } from '@/components/ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -40,16 +39,16 @@ export function Step1Header({ form }: Step1Props) {
   };
 
   return (
-    <FormSection title="Secció 1: Informació de la Intervenció" description="Informació general de l'ordre d'instal·lació.">
+    <FormSection title="Sección 1: Información de la Intervención" description="Información general de la orden de instalación.">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <FormField
           control={form.control}
           name="header.orderNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nº d'Ordre de Treball</FormLabel>
+              <FormLabel>Nº de Orden de Trabajo</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Introduïu el número d'ordre" />
+                <Input {...field} placeholder="Introduzca el número de orden" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -64,7 +63,7 @@ export function Step1Header({ form }: Step1Props) {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Seleccioneu un operador" />
+                    <SelectValue placeholder="Seleccione un operador" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -84,7 +83,7 @@ export function Step1Header({ form }: Step1Props) {
           name="header.depot"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Cotxera</FormLabel>
+              <FormLabel>Cochera</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -101,7 +100,7 @@ export function Step1Header({ form }: Step1Props) {
                <Select onValueChange={handleBusChange} value={field.value} disabled={!selectedOperatorId}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Seleccioneu un bus" />
+                    <SelectValue placeholder="Seleccione un bus" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -123,7 +122,7 @@ export function Step1Header({ form }: Step1Props) {
             <FormItem>
               <FormLabel>Matrícula</FormLabel>
               <FormControl>
-                <Input {...field} readOnly placeholder="S'emplenarà automàticament" />
+                <Input {...field} readOnly placeholder="Se rellenará automáticamente" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -134,11 +133,11 @@ export function Step1Header({ form }: Step1Props) {
           name="header.technician"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Tècnic</FormLabel>
+              <FormLabel>Técnico</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Seleccioneu un tècnic" />
+                    <SelectValue placeholder="Seleccione un técnico" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -158,7 +157,7 @@ export function Step1Header({ form }: Step1Props) {
           name="header.date"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Data</FormLabel>
+              <FormLabel>Fecha</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -169,7 +168,7 @@ export function Step1Header({ form }: Step1Props) {
                         !field.value && 'text-muted-foreground'
                       )}
                     >
-                      {field.value ? format(field.value, 'PPP', { locale: ca }) : <span>Seleccioneu una data</span>}
+                      {field.value ? format(field.value, 'PPP', { locale: es }) : <span>Seleccione una fecha</span>}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
                   </FormControl>
@@ -181,7 +180,7 @@ export function Step1Header({ form }: Step1Props) {
                     onSelect={field.onChange}
                     disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
                     initialFocus
-                    locale={ca}
+                    locale={es}
                   />
                 </PopoverContent>
               </Popover>
