@@ -17,7 +17,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type Step1Props = {
-  form: UseFormReturn<FormValues>;
+  form: UseFormReturn<any>; // Allow different form types
 };
 
 export function Step1Header({ form }: Step1Props) {
@@ -40,7 +40,7 @@ export function Step1Header({ form }: Step1Props) {
   };
 
   return (
-    <FormSection title="Secció 1: Capçalera" description="Informació general de l'ordre de manteniment.">
+    <FormSection title="Secció 1: Capçalera" description="Informació general de l'ordre d'instal·lació.">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <FormField
           control={form.control}
