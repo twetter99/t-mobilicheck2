@@ -114,19 +114,19 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
         functionalTests: 'OK',
       },
       checklist: {
-        consoleGeneralCleaning: false,
-        consoleAutocutterCleaning: false,
-        consoleSerialRegistration: false,
-        validatorGeneralCleaning: false,
-        validatorConnectorsCleaning: false,
-        validatorSerialRegistration: false,
+        consoleGeneralCleaning: true,
+        consoleAutocutterCleaning: true,
+        consoleSerialRegistration: true,
+        validatorGeneralCleaning: true,
+        validatorConnectorsCleaning: true,
+        validatorSerialRegistration: true,
       },
       verification: {
-        startupOk: false,
-        screenOk: false,
-        printerOk: false,
-        validationOk: false,
-        communicationOk: false,
+        startupOk: true,
+        screenOk: true,
+        printerOk: true,
+        validationOk: true,
+        communicationOk: true,
       },
       observations: {
         startTime: '09:00',
@@ -300,5 +300,3 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
     </>
   );
 }
-
-    
