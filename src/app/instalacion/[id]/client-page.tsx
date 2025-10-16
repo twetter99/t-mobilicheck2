@@ -86,11 +86,11 @@ export function InstallationClientPage({ revision }: { revision: any }) {
     <div className="w-full max-w-4xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-         <CardHeader className='items-center'>
+         <CardHeader className='items-center text-center'>
             <CardTitle className="text-2xl md:text-3xl">Guía de Instalación</CardTitle>
-            <CardDescription>Marque cada paso a medida que lo completa.</CardDescription>
+            <CardDescription className="max-w-prose">Esta guía detalla los pasos requeridos para una correcta instalación del equipo. Lea y comprenda cada punto antes de proceder, marcando la casilla correspondiente para confirmar su finalización.</CardDescription>
         </CardHeader>
-        <div className="flex justify-between items-center mb-2">
+        <div className="flex justify-between items-center mb-2 mt-4">
             <p className="text-sm font-medium text-primary">PASOS COMPLETADOS: {completedSteps} de {totalSteps}</p>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className='h-4 w-4'/>
