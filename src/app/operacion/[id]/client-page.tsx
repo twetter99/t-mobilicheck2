@@ -163,7 +163,6 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
         if(isInstallation) {
             generateInstallationPdf(submittedData, revision);
         } else {
-            // Potentially call another PDF generator for other types
             console.warn("PDF generation for this operation type is not implemented yet.");
              toast({
                 title: 'Función no disponible',
