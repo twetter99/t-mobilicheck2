@@ -9,27 +9,27 @@ export type Checklist = {
 };
 
 export const checklists: Checklist = {
-  "instalacion": [
-    { id: "inst-01", title: "Verificación de Componentes", description: "Asegurar que todos los equipos (pupitre, validadoras, antenas, etc.) estén presentes." },
-    { id: "inst-02", title: "Montaje Físico del Pupitre", description: "Fijar el soporte y el pupitre en la posición definida por el fabricante." },
-    { id: "inst-03", title: "Montaje de Validadoras", description: "Instalar las validadoras en las entradas y salidas correspondientes." },
-    { id: "inst-04", title: "Conexionado Eléctrico", description: "Conectar todos los componentes a la placa de conexiones siguiendo el esquema." },
-    { id: "inst-05", title: "Verificación de Arranque", description: "Conectar la alimentación y comprobar que el sistema arranca correctamente." },
-    { id: "inst-06", title: "Fotografías Finales", description: "Hacer fotos de la instalación finalizada desde diferentes ángulos." },
+  "instal·lacio": [
+    { id: "inst-01", title: "Verificació de Components", description: "Assegurar que tots els equips (pupitre, validadores, antenes, etc.) estiguin presents." },
+    { id: "inst-02", title: "Muntatge Físic del Pupitre", description: "Fixar el suport i el pupitre a la posició definida pel fabricant." },
+    { id: "inst-03", title: "Muntatge de Validadors", description: "Instal·lar els validadors a les entrades i sortides corresponents." },
+    { id: "inst-04", title: "Connexionat Elèctric", description: "Connectar tots els components a la placa de connexions seguint l'esquema." },
+    { id: "inst-05", title: "Verificació d'Arrencada", description: "Connectar l'alimentació i comprovar que el sistema arrenca correctament." },
+    { id: "inst-06", title: "Fotografies Finals", description: "Fer fotos de la instal·lació finalitzada des de diferents angles." },
   ],
-  "traspaso": [
-    { id: "trasp-01", title: "Fotografías Iniciales (Vehículo Origen)", description: "Documentar el estado de la instalación antes de desmontar." },
-    { id: "trasp-02", title: "Desconexión y Desmontaje", description: "Retirar con cuidado todos los componentes del vehículo de origen." },
-    { id: "trasp-03", title: "Verificación de Componentes", description: "Comprobar que no haya daños en ningún componente durante el traspaso." },
-    { id: "trasp-04", title: "Instalación en Vehículo Destino", description: "Seguir los pasos de una instalación nueva en el vehículo de destino." },
-    { id: "trasp-05", title: "Verificación Funcional", description: "Comprobar que todo el sistema funciona correctamente en la nueva ubicación." },
-    { id: "trasp-06", title: "Fotografías Finales (Vehículo Destino)", description: "Documentar el estado de la nueva instalación." },
+  "traspas": [
+    { id: "trasp-01", title: "Fotografies Inicials (Vehicle Origen)", description: "Documentar l'estat de la instal·lació abans de desmuntar." },
+    { id: "trasp-02", title: "Desconnexió i Desmuntatge", description: "Retirar amb cura tots els components del vehicle d'origen." },
+    { id: "trasp-03", title: "Verificació de Components", description: "Comprovar que no hi hagi danys en cap component durant el traspàs." },
+    { id: "trasp-04", title: "Instal·lació en Vehicle Destí", description: "Seguir els passos d'una instal·lació nova al vehicle de destinació." },
+    { id: "trasp-05", title: "Verificació Funcional", description: "Comprovar que tot el sistema funciona correctament a la nova ubicació." },
+    { id: "trasp-06", title: "Fotografies Finals (Vehicle Destí)", description: "Documentar l'estat de la nova instal·lació." },
   ],
-  "desinstalacion": [
-    { id: "desinst-01", title: "Fotografías Iniciales", description: "Documentar el estado de la instalación antes de empezar." },
-    { id: "desinst-02", title: "Apagado y Desconexión Segura", description: "Asegurar que el sistema esté completamente apagado antes de desconectar." },
-    { id: "desinst-03", title: "Desmontaje de Componentes", description: "Retirar todos los equipos T-Mobilitat del vehículo." },
-    { id: "desinst-04", "title": "Embalaje y Etiquetado", "description": "Guardar y etiquetar correctamente cada componente para el almacén." },
-    { id: "desinst-05", title: "Fotografías Finales", description: "Hacer fotos del estado del vehículo una vez retirados los equipos." },
+  "desinstal·lacio": [
+    { id: "desinst-01", title: "Fotografies Inicials", description: "Documentar l'estat de la instal·lació abans de començar." },
+    { id: "desinst-02", title: "Apagat i Desconnexió Segura", description: "Assegurar que el sistema estigui completament apagat abans de desconnectar." },
+    { id: "desinst-03", title: "Desmuntatge de Components", description: "Retirar tots els equips T-Mobilitat del vehicle." },
+    { id: "desinst-04", "title": "Embalatge i Etiquetatge", "description": "Guardar i etiquetar correctament cada component per al magatzem." },
+    { id: "desinst-05", title: "Fotografies Finals", description: "Fer fotos de l'estat del vehicle un cop retirats els equips." },
   ]
 };

@@ -66,16 +66,16 @@ export function InstallationClientPage({ revision }: { revision: any }) {
       <Card className="w-full max-w-3xl mx-auto text-center">
         <CardHeader>
           <HardHat className="mx-auto h-16 w-16 text-primary mb-4" />
-          <CardTitle className="text-2xl font-bold">Proceso de Nueva Instalación</CardTitle>
+          <CardTitle className="text-2xl font-bold">Procés de Nova Instal·lació</CardTitle>
           <CardDescription className="text-lg text-muted-foreground">
-            Estás a punto de comenzar una nueva instalación. El proceso consta de {totalSteps} pasos obligatorios.
+            Estàs a punt de començar una nova instal·lació. El procés consta de {totalSteps} passos obligatoris.
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
-          <p className="font-semibold">Tiempo estimado: 20-22 horas</p>
+          <p className="font-semibold">Temps estimat: 20-22 hores</p>
           <Button size="lg" onClick={startInstallation}>
             <PlayCircle className="mr-2 h-5 w-5" />
-            COMENZAR INSTALACIÓN
+            COMENÇAR INSTAL·LACIÓ
           </Button>
         </CardContent>
       </Card>
@@ -87,14 +87,14 @@ export function InstallationClientPage({ revision }: { revision: any }) {
       {/* Header */}
       <div className="mb-8">
          <CardHeader className='items-center text-center'>
-            <CardTitle className="text-2xl md:text-3xl">Guía de Instalación</CardTitle>
-            <CardDescription className="max-w-prose">Esta guía presenta los pasos necesarios para realizar una correcta instalación del equipo. Utilícela como referencia para consultar y familiarizarse con el procedimiento completo.</CardDescription>
+            <CardTitle className="text-2xl md:text-3xl">Guia d'Instal·lació</CardTitle>
+            <CardDescription className="max-w-prose">Aquesta guia presenta els passos necessaris per realitzar una correcta instal·lació de l'equip. Utilitza-la com a referència per consultar i familiaritzar-te amb el procediment complet.</CardDescription>
         </CardHeader>
         <div className="flex justify-between items-center mb-2 mt-4">
-            <p className="text-sm font-medium text-primary">PASOS COMPLETADOS: {completedSteps} de {totalSteps}</p>
+            <p className="text-sm font-medium text-primary">PASSOS COMPLETATS: {completedSteps} de {totalSteps}</p>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className='h-4 w-4'/>
-              <span>Tiempo transcurrido: {formatTime(elapsedTime)}</span>
+              <span>Temps transcorregut: {formatTime(elapsedTime)}</span>
             </div>
         </div>
         <Progress value={(completedSteps / totalSteps) * 100} className="w-full h-2" />
@@ -118,7 +118,7 @@ export function InstallationClientPage({ revision }: { revision: any }) {
                         />
                         <div className='grid gap-1.5'>
                             <Label htmlFor={`step-${index}`} className='font-bold text-base cursor-pointer'>
-                                {`Paso ${stepData.step}: ${stepData.title}`}
+                                {`Pas ${stepData.step}: ${stepData.title}`}
                             </Label>
                             <p className="text-sm text-muted-foreground">{stepData.description}</p>
                         </div>
@@ -137,7 +137,7 @@ export function InstallationClientPage({ revision }: { revision: any }) {
               ) : (
                 <CheckCircle className="mr-2 h-4 w-4" />
               )}
-              Finalizar Guía y Registrar Datos
+              Finalitzar Guia i Registrar Dades
             </Button>
         </div>
       </div>

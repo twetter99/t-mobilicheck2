@@ -3,7 +3,7 @@ import 'jspdf-autotable';
 import type { FormValues } from './schema';
 import { data as staticData } from './data';
 import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { ca } from 'date-fns/locale';
 
 // Extend the jsPDF type to include autoTable
 declare module 'jspdf' {
@@ -22,7 +22,7 @@ const addHeader = (doc: jsPDF, title: string) => {
   doc.text(title, pageWidth / 2, yPos, { align: 'center' });
   yPos += 8;
   doc.setFontSize(12);
-  doc.text('Lote 1 – Sistema T‑Mobilitat', pageWidth / 2, yPos, { align: 'center' });
+  doc.text('Lot 1 – Sistema T‑Mobilitat', pageWidth / 2, yPos, { align: 'center' });
   return 40; // Return Y position for next element
 };
 
@@ -33,8 +33,8 @@ const addFooter = (doc: jsPDF) => {
     doc.setFontSize(8);
     for(let i = 1; i <= pageCount; i++) {
         doc.setPage(i);
-        doc.text(`Documento generado automáticamente por la plataforma de gestión de instalaciones T-MobiliCheck.`, pageWidth / 2, pageHeight - 10, { align: 'center' });
-        doc.text(`Página ${i} de ${pageCount}`, pageWidth - 20, pageHeight - 10);
+        doc.text(`Document generat automàticament per la plataforma de gestió d'instal·lacions T-MobiliCheck.`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+        doc.text(`Pàgina ${i} de ${pageCount}`, pageWidth - 20, pageHeight - 10);
     }
 };
 
@@ -47,20 +47,20 @@ const addSectionHeader = (doc: jsPDF, yPos: number, title: string) => {
 
 export const generateInstallationPdf = (data: FormValues, revision: any) => {
   const doc = new jsPDF();
-  let yPos = addHeader(doc, `Informe de ${revision.tipo}`);
+  let yPos = addHeader(doc, `Informe d'${revision.tipo}`);
 
   // Section 1: Header
-  yPos = addSectionHeader(doc, yPos, 'Sección 1: Información de la Intervención');
+  yPos = addSectionHeader(doc, yPos, 'Secció 1: Informació de la Intervenció');
 
   const operatorName = staticData.operadores.find(op => op.id === data.header.operator)?.nombre || data.header.operator;
 
   doc.autoTable({
     startY: yPos,
     body: [
-      ['Nº Orden', data.header.orderNumber || revision.id, 'Prioridad', revision.prioridad],
-      ['Operador', operatorName, 'Cochera', data.header.depot],
+      ['Nº Ordre', data.header.orderNumber || revision.id, 'Prioritat', revision.prioridad],
+      ['Operador', operatorName, 'Cotxera', data.header.depot],
       ['Nº Bus / Calca', data.header.busNumber, 'Matrícula', data.header.licensePlate],
-      ['Técnico', data.header.technician, 'Fecha', format(data.header.date, 'PPP', { locale: es })],
+      ['Tècnic', data.header.technician, 'Data', format(data.header.date, 'PPP', { locale: ca })],
     ],
     theme: 'grid',
     styles: { fontSize: 10 },
@@ -68,17 +68,16 @@ export const generateInstallationPdf = (data: FormValues, revision: any) => {
   yPos = (doc as any).lastAutoTable.finalY + 10;
   
   // Section 2: Inventory
-  yPos = addSectionHeader(doc, yPos, 'Sección 2: Inventario de Hardware');
+  yPos = addSectionHeader(doc, yPos, "Secció 2: Inventari de Maquinari");
   
   const inventoryBody = [
-    { content: 'Equipamiento Central', colSpan: 3, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
-    ['Pupitre', data.inventory.consoleSerial, ''],
-    ['MCC Pupitre', data.inventory.mccSerial, ''],
-    ['Switch', data.inventory.switchSerial, ''],
-    ['Kit de Instalación', data.inventory.installationKitSerial, ''],
-    ['Soporte de Pupitre', data.inventory.consoleMount, ''],
-    { content: 'Validadoras (SC) y Terminal de Consulta (TC)', colSpan: 3, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
-    ['Dispositivo', 'N/S Equipo', 'N/S Soporte', 'Device Code'],
+    { content: 'Equipament Central', colSpan: 4, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
+    ['Pupitre', data.inventory.consoleSerial, '', ''],
+    ['MCC Pupitre', data.inventory.mccSerial, '', ''],
+    ['Switch', data.inventory.switchSerial, '', ''],
+    ["Kit d'Instal·lació", data.inventory.installationKitSerial, '', ''],
+    ['Suport de Pupitre', data.inventory.consoleMount, '', ''],
+    { content: 'Validadors (SC) i Terminal de Consulta (TC)', colSpan: 4, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
   ];
 
   const devices = ['sc1', 'sc2', 'sc3', 'sc4', 'sc5', 'sc6', 'queryTerminal'];
@@ -95,7 +94,7 @@ export const generateInstallationPdf = (data: FormValues, revision: any) => {
 
   doc.autoTable({
     startY: yPos,
-    head: [['Componente', 'N/S Equipo', 'N/S Soporte', 'Device']],
+    head: [['Component', 'N/S Equip', 'N/S Suport', 'Device Code']],
     body: inventoryBody,
     theme: 'grid',
     styles: { fontSize: 9 },
@@ -111,13 +110,13 @@ export const generateInstallationPdf = (data: FormValues, revision: any) => {
   yPos = (doc as any).lastAutoTable.finalY + 10;
 
   // Section 3: Software
-  yPos = addSectionHeader(doc, yPos, 'Sección 3: Software y Configuración');
+  yPos = addSectionHeader(doc, yPos, 'Secció 3: Programari i Configuració');
   doc.autoTable({
       startY: yPos,
       body: [
-          ['Versión SW Pupitre', data.software.consoleSoftware],
-          ['Versión de Telecarga', data.software.telechargeVersion],
-          ['Versión de Configuración', data.software.configVersion],
+          ['Versió SW Pupitre', data.software.consoleSoftware],
+          ['Versió de Telecàrrega', data.software.telechargeVersion],
+          ['Versió de Configuració', data.software.configVersion],
       ].filter(row => row[1]),
       theme: 'grid',
       styles: { fontSize: 10 }
@@ -125,27 +124,27 @@ export const generateInstallationPdf = (data: FormValues, revision: any) => {
   yPos = (doc as any).lastAutoTable.finalY + 10;
 
   // Section 5: Execution Phases
-  yPos = addSectionHeader(doc, yPos, 'Sección 5: Fases de Ejecución');
+  yPos = addSectionHeader(doc, yPos, "Secció 5: Fases d'Execució");
   const executionBody = Object.entries(data.executionPhases).map(([key, value]) => {
       const labels: Record<string, string> = {
-          preliminaryCheck: "Comprobación de preinstalación",
-          preexistingSystemsCheck: "Verificación sistemas preexistentes",
-          connectionPlateInstallation: "Instalación Placa de Conexiones",
-          antennaInstallation: "Instalación de Antena",
-          mccInstallation: "Instalación del MCC",
-          consoleSupportInstallation: "Montaje Soporte Pupitre",
-          consoleInstallation: "Instalación y conexión del Pupitre",
-          validatorSupportInstallation: "Montaje soportes validadoras",
-          finalCheck: "Comprobación final de instalación",
-          softwareUpdate: "Actualización de Software/Config",
-          functionalTests: "Pruebas funcionales",
+          preliminaryCheck: "Comprovació de preinstal·lació",
+          preexistingSystemsCheck: "Verificació sistemes preexistents",
+          connectionPlateInstallation: "Instal·lació Placa de Connexions",
+          antennaInstallation: "Instal·lació d'Antena",
+          mccInstallation: "Instal·lació del MCC",
+          consoleSupportInstallation: "Muntatge Suport Pupitre",
+          consoleInstallation: "Instal·lació i connexió del Pupitre",
+          validatorSupportInstallation: "Muntatge suports validadores",
+          finalCheck: "Comprovació final d'instal·lació",
+          softwareUpdate: "Actualització de Programari/Config",
+          functionalTests: "Proves funcionals",
       };
       return [labels[key] || key, value];
   });
   
   doc.autoTable({
       startY: yPos,
-      head: [['Fase', 'Resultado']],
+      head: [['Fase', 'Resultat']],
       body: executionBody,
       theme: 'grid',
       styles: { fontSize: 10 },
@@ -157,21 +156,21 @@ export const generateInstallationPdf = (data: FormValues, revision: any) => {
   const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
   if (yPos > pageHeight - 80) { yPos = 20; doc.addPage(); }
   
-  yPos = addSectionHeader(doc, yPos, 'Sección 6: Cierre de la Operación');
+  yPos = addSectionHeader(doc, yPos, "Secció 6: Tancament de l'Operació");
   const closingBody: any[] = [
-    ['Hora Inicio', data.observations.startTime],
-    ['Hora Fin', data.observations.endTime],
+    ['Hora Inici', data.observations.startTime],
+    ['Hora Fi', data.observations.endTime],
   ];
 
   if (data.observations.notes) {
-    closingBody.push(['Observaciones', data.observations.notes]);
+    closingBody.push(['Observacions', data.observations.notes]);
   }
   
   if (data.observations.hasIncident && data.observations.correctiveAction) {
-    closingBody.push({ content: 'OT Correctivo Generado', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } });
-    closingBody.push(['Título Incidencia', data.observations.correctiveAction.title]);
-    closingBody.push(['Descripción', data.observations.correctiveAction.description]);
-    closingBody.push(['Prioridad', data.observations.correctiveAction.priority]);
+    closingBody.push({ content: 'OT Correctiu Generat', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } });
+    closingBody.push(['Títol Incidència', data.observations.correctiveAction.title]);
+    closingBody.push(['Descripció', data.observations.correctiveAction.description]);
+    closingBody.push(['Prioritat', data.observations.correctiveAction.priority]);
   }
   
   doc.autoTable({
@@ -180,7 +179,7 @@ export const generateInstallationPdf = (data: FormValues, revision: any) => {
       theme: 'grid',
       styles: { fontSize: 10, cellPadding: 2 },
       didParseCell: function (hookData) {
-        if (hookData.cell.raw === 'Observaciones' || hookData.cell.raw === 'Descripción') {
+        if (hookData.cell.raw === 'Observacions' || hookData.cell.raw === 'Descripció') {
             hookData.cell.styles.cellWidth = 'wrap';
         }
       }
@@ -188,7 +187,7 @@ export const generateInstallationPdf = (data: FormValues, revision: any) => {
   yPos = (doc as any).lastAutoTable.finalY + 10;
   
   // Signatures
-  doc.text('Firmas:', 14, yPos);
+  doc.text('Signatures:', 14, yPos);
   yPos += 8;
   
   const signatureY = yPos;
@@ -199,19 +198,19 @@ export const generateInstallationPdf = (data: FormValues, revision: any) => {
   doc.rect(14, signatureY, signatureWidth, signatureHeight);
   doc.setFontSize(10);
   if (data.observations.technicianSignature) {
-    doc.text('Firmado Digitalmente', 14 + signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
+    doc.text('Signat Digitalment', 14 + signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
   }
-  doc.text('Firma del Técnico', 14 + signatureWidth / 2, signatureY + signatureHeight + 5, { align: 'center' });
+  doc.text('Signatura del Tècnic', 14 + signatureWidth / 2, signatureY + signatureHeight + 5, { align: 'center' });
 
   // Supervisor Signature
   const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
   doc.rect(pageWidth - signatureWidth - 14, signatureY, signatureWidth, signatureHeight);
   if (data.observations.supervisorSignature) {
-    doc.text('Firmado Digitalmente', pageWidth - 14 - signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
+    doc.text('Signat Digitalment', pageWidth - 14 - signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
   } else {
     doc.text('', pageWidth - 14 - signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
   }
-  doc.text('Firma del Responsable', pageWidth - 14 - signatureWidth / 2, signatureY + signatureHeight + 5, { align: 'center' });
+  doc.text('Signatura del Responsable', pageWidth - 14 - signatureWidth / 2, signatureY + signatureHeight + 5, { align: 'center' });
   
   // Add footer to all pages
   addFooter(doc);
@@ -224,19 +223,19 @@ export const generateInstallationPdf = (data: FormValues, revision: any) => {
 
 export const generateMaintenancePdf = (data: FormValues) => {
   const doc = new jsPDF();
-  let yPos = addHeader(doc, 'Orden de Mantenimiento Preventivo Trimestral');
+  let yPos = addHeader(doc, 'Ordre de Manteniment Preventiu Trimestral');
 
   // Section 1: Header
-  yPos = addSectionHeader(doc, yPos, 'Sección 1: Cabecera');
+  yPos = addSectionHeader(doc, yPos, 'Secció 1: Capçalera');
 
   const operatorName = staticData.operadores.find(op => op.id === data.header.operator)?.nombre || data.header.operator;
 
   doc.autoTable({
     startY: yPos,
     body: [
-      ['Operador', operatorName, 'Cochera', data.header.depot],
+      ['Operador', operatorName, 'Cotxera', data.header.depot],
       ['Nº Bus / Calca', data.header.busNumber, 'Matrícula', data.header.licensePlate],
-      ['Técnico', data.header.technician, 'Fecha', format(data.header.date, 'PPP', { locale: es })],
+      ['Tècnic', data.header.technician, 'Data', format(data.header.date, 'PPP', { locale: ca })],
     ],
     theme: 'grid',
     styles: { fontSize: 10 },
@@ -246,20 +245,20 @@ export const generateMaintenancePdf = (data: FormValues) => {
 
   // Section 2: Inventory
   if (yPos > 240) { yPos = 20; doc.addPage(); }
-  yPos = addSectionHeader(doc, yPos, 'Sección 2: Inventario y Versiones');
+  yPos = addSectionHeader(doc, yPos, 'Secció 2: Inventari i Versions');
   
   const inventoryBody = [
-    { content: 'Hardware y Software', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
-    ['Pupitre Serie', data.inventory.consoleSerial],
-    ['Soporte Pupitre', data.inventory.consoleMount],
+    { content: 'Maquinari i Programari', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
+    ['Pupitre Sèrie', data.inventory.consoleSerial],
+    ['Suport Pupitre', data.inventory.consoleMount],
     ['SW Pupitre', data.software.consoleSoftware],
-    ['Versión Config.', data.software.configVersion],
-    ['Versión Telecarga', data.software.telechargeVersion],
+    ['Versió Config.', data.software.configVersion],
+    ['Versió Telecàrrega', data.software.telechargeVersion],
   ].filter(row => Array.isArray(row) ? row[1] : true);
   
   doc.autoTable({
     startY: yPos,
-    head: [['Componente', 'Número de Serie / Versión']],
+    head: [['Component', 'Número de Sèrie / Versió']],
     body: inventoryBody,
     theme: 'grid',
     styles: { fontSize: 10 },
@@ -279,24 +278,24 @@ export const generateMaintenancePdf = (data: FormValues) => {
   if (yPos > 240) { yPos = 20; doc.addPage(); }
   
   const checklistAndVerificationBody = [
-      { content: 'Sección 3: Checklist de Ejecución', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
-      ['Limpieza General (Pupitre)', data.checklist.consoleGeneralCleaning ? CHECK_MARK : CROSS_MARK],
-      ['Limpieza de Autocutter', data.checklist.consoleAutocutterCleaning ? CHECK_MARK : CROSS_MARK],
-      ['Registro de Serie (Pupitre)', data.checklist.consoleSerialRegistration ? CHECK_MARK : CROSS_MARK],
-      ['Limpieza General (Validadora)', data.checklist.validatorGeneralCleaning ? CHECK_MARK : CROSS_MARK],
-      ['Limpieza de Conectores (Validadora)', data.checklist.validatorConnectorsCleaning ? CHECK_MARK : CROSS_MARK],
-      ['Registro de Series (Validadora)', data.checklist.validatorSerialRegistration ? CHECK_MARK : CROSS_MARK],
-      { content: 'Sección 4: Verificación Funcional', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
-      ['Arranque del sistema', data.verification.startupOk ? CHECK_MARK : CROSS_MARK],
+      { content: "Secció 3: Llista de Verificació d'Execució", colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
+      ['Neteja General (Pupitre)', data.checklist.consoleGeneralCleaning ? CHECK_MARK : CROSS_MARK],
+      ["Neteja d'Autocutter", data.checklist.consoleAutocutterCleaning ? CHECK_MARK : CROSS_MARK],
+      ['Registre de Sèrie (Pupitre)', data.checklist.consoleSerialRegistration ? CHECK_MARK : CROSS_MARK],
+      ['Neteja General (Validadora)', data.checklist.validatorGeneralCleaning ? CHECK_MARK : CROSS_MARK],
+      ['Neteja de Connectors (Validadora)', data.checklist.validatorConnectorsCleaning ? CHECK_MARK : CROSS_MARK],
+      ['Registre de Sèries (Validadora)', data.checklist.validatorSerialRegistration ? CHECK_MARK : CROSS_MARK],
+      { content: 'Secció 4: Verificació Funcional', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } },
+      ['Arrencada del sistema', data.verification.startupOk ? CHECK_MARK : CROSS_MARK],
       ['Pantalla del pupitre', data.verification.screenOk ? CHECK_MARK : CROSS_MARK],
-      ['Impresora de pupitre', data.verification.printerOk ? CHECK_MARK : CROSS_MARK],
-      ['Validación de títulos', data.verification.validationOk ? CHECK_MARK : CROSS_MARK],
-      ['Comunicación con el centro', data.verification.communicationOk ? CHECK_MARK : CROSS_MARK],
+      ['Impressora de pupitre', data.verification.printerOk ? CHECK_MARK : CROSS_MARK],
+      ['Validació de títols', data.verification.validationOk ? CHECK_MARK : CROSS_MARK],
+      ['Comunicació amb el centre', data.verification.communicationOk ? CHECK_MARK : CROSS_MARK],
   ];
 
   doc.autoTable({
     startY: yPos,
-    head: [['Tarea', 'Completado']],
+    head: [['Tasca', 'Completat']],
     body: checklistAndVerificationBody,
     theme: 'grid',
     styles: { fontSize: 10 },
@@ -308,24 +307,24 @@ export const generateMaintenancePdf = (data: FormValues) => {
 
   // Section 5: Observations & Closing
   if (yPos > 240) { yPos = 20; doc.addPage(); }
-  yPos = addSectionHeader(doc, yPos, 'Sección 5: Observaciones y Cierre');
+  yPos = addSectionHeader(doc, yPos, 'Secció 5: Observacions i Tancament');
 
   const observationsBody: any[] = [
-      ['Hora Inicio', data.observations.startTime],
-      ['Hora Fin', data.observations.endTime],
+      ['Hora Inici', data.observations.startTime],
+      ['Hora Fi', data.observations.endTime],
   ];
 
   if (data.observations.notes) {
-    observationsBody.push(['Observaciones', data.observations.notes]);
+    observationsBody.push(['Observacions', data.observations.notes]);
   }
   
   if (data.observations.hasIncident && data.observations.correctiveAction) {
     observationsBody.push(
-        { content: 'OT Correctivo', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } }
+        { content: 'OT Correctiu', colSpan: 2, styles: { fontStyle: 'bold', fillColor: '#f0f3f4', halign: 'center' } }
     );
-    observationsBody.push(['Título Incidencia', data.observations.correctiveAction.title]);
-    observationsBody.push(['Descripción', data.observations.correctiveAction.description]);
-    observationsBody.push(['Prioridad', data.observations.correctiveAction.priority]);
+    observationsBody.push(['Títol Incidència', data.observations.correctiveAction.title]);
+    observationsBody.push(['Descripció', data.observations.correctiveAction.description]);
+    observationsBody.push(['Prioritat', data.observations.correctiveAction.priority]);
   }
 
   doc.autoTable({
@@ -334,7 +333,7 @@ export const generateMaintenancePdf = (data: FormValues) => {
       theme: 'grid',
       styles: { fontSize: 10, cellPadding: 2 },
       didParseCell: function (hookData) {
-        if (hookData.cell.raw === 'Observaciones' || hookData.cell.raw === 'Descripción') {
+        if (hookData.cell.raw === 'Observacions' || hookData.cell.raw === 'Descripció') {
             hookData.cell.styles.cellWidth = 'wrap';
         }
       }
@@ -343,7 +342,7 @@ export const generateMaintenancePdf = (data: FormValues) => {
 
   // Signatures
   if (yPos > 240) { yPos = 20; doc.addPage(); }
-  doc.text('Firmas:', 14, yPos);
+  doc.text('Signatures:', 14, yPos);
   yPos += 8;
   
   const signatureY = yPos;
@@ -355,18 +354,18 @@ export const generateMaintenancePdf = (data: FormValues) => {
   doc.rect(14, signatureY, signatureWidth, signatureHeight);
   doc.setFontSize(10);
   if (data.observations.technicianSignature) {
-    doc.text('Firmado Digitalmente', 14 + signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
+    doc.text('Signat Digitalment', 14 + signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
   }
-  doc.text('Firma del Técnico', 14 + signatureWidth / 2, signatureY + signatureHeight + 5, { align: 'center' });
+  doc.text('Signatura del Tècnic', 14 + signatureWidth / 2, signatureY + signatureHeight + 5, { align: 'center' });
 
   // Supervisor Signature
   doc.rect(pageWidth - signatureWidth - 14, signatureY, signatureWidth, signatureHeight);
   if (data.observations.supervisorSignature) {
-    doc.text('Firmado Digitalmente', pageWidth - 14 - signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
+    doc.text('Signat Digitalment', pageWidth - 14 - signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
   } else {
     doc.text('', pageWidth - 14 - signatureWidth / 2, signatureY + signatureHeight / 2, { align: 'center' });
   }
-  doc.text('Firma del Responsable', pageWidth - 14 - signatureWidth / 2, signatureY + signatureHeight + 5, { align: 'center' });
+  doc.text('Signatura del Responsable', pageWidth - 14 - signatureWidth / 2, signatureY + signatureHeight + 5, { align: 'center' });
 
 
   // Add footer to all pages

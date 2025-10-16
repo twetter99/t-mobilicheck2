@@ -25,7 +25,7 @@ export default function OperationPage({ params }: { params: { id: string } }) {
         <Button asChild variant="outline">
           <Link href="/">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Volver a la lista
+            Tornar a la llista
           </Link>
         </Button>
       </div>

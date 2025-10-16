@@ -54,30 +54,30 @@ const CheckpointItem = ({ name, label, control }: { name: string; label: string;
 
 export function Step5ExecutionPhases({ form, checklist }: Step5Props) {
   const executionGroups = [
-    { title: '5.1. Operaciones Previas', fields: ['preliminaryCheck', 'preexistingSystemsCheck'] },
-    { title: '5.2. Instalación de Componentes', fields: ['connectionPlateInstallation', 'antennaInstallation', 'mccInstallation', 'consoleSupportInstallation', 'consoleInstallation', 'validatorSupportInstallation'] },
-    { title: '5.3. Operaciones Posteriores y Pruebas', fields: ['finalCheck', 'softwareUpdate', 'functionalTests'] },
+    { title: '5.1. Operacions Prèvies', fields: ['preliminaryCheck', 'preexistingSystemsCheck'] },
+    { title: '5.2. Instal·lació de Components', fields: ['connectionPlateInstallation', 'antennaInstallation', 'mccInstallation', 'consoleSupportInstallation', 'consoleInstallation', 'validatorSupportInstallation'] },
+    { title: '5.3. Operacions Posteriors i Proves', fields: ['finalCheck', 'softwareUpdate', 'functionalTests'] },
   ]
   
   const getLabelForField = (fieldName: string) => {
     switch(fieldName) {
-      case 'preliminaryCheck': return "Comprobación de la preinstalación eléctrica y de cableado";
-      case 'preexistingSystemsCheck': return "Verificación y registro de los sistemas preexistentes";
-      case 'connectionPlateInstallation': return "Instalación de la Placa de Conexiones";
-      case 'antennaInstallation': return "Instalación de la Antena";
-      case 'mccInstallation': return "Instalación del MCC del Pupitre";
-      case 'consoleSupportInstallation': return "Montaje del Soporte del Pupitre y su base";
-      case 'consoleInstallation': return "Instalación y conexión del Pupitre";
-      case 'validatorSupportInstallation': return "Montaje de los soportes de validadoras y terminales";
-      case 'finalCheck': return "Comprobación final de la instalación y conexiones";
-      case 'softwareUpdate': return "Actualización de Software, Configuración y Telecarga";
-      case 'functionalTests': return "Ejecución del Protocolo de Pruebas funcionales completo";
+      case 'preliminaryCheck': return "Comprovació de la preinstal·lació elèctrica i de cablejat";
+      case 'preexistingSystemsCheck': return "Verificació i registre dels sistemes preexistents";
+      case 'connectionPlateInstallation': return "Instal·lació de la Placa de Connexions";
+      case 'antennaInstallation': return "Instal·lació de l'Antena";
+      case 'mccInstallation': return "Instal·lació del MCC del Pupitre";
+      case 'consoleSupportInstallation': return "Muntatge del Suport del Pupitre i la seva base";
+      case 'consoleInstallation': return "Instal·lació i connexió del Pupitre";
+      case 'validatorSupportInstallation': return "Muntatge dels suports de validadores i terminals";
+      case 'finalCheck': return "Comprovació final de la instal·lació i connexions";
+      case 'softwareUpdate': return "Actualització de Programari, Configuració i Telecàrrega";
+      case 'functionalTests': return "Execució del Protocol de Proves funcionals complet";
       default: return fieldName;
     }
   }
 
   return (
-    <FormSection title="Sección 5: Fases de Ejecución y Verificación" description="Marque el resultado de cada fase de ejecución.">
+    <FormSection title="Secció 5: Fases d'Execució i Verificació" description="Marqueu el resultat de cada fase d'execució.">
         <div className="space-y-6">
           {executionGroups.map(group => (
             <div key={group.title}>

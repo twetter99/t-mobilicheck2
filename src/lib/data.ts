@@ -12,105 +12,105 @@ export const data = {
       "id": "rev-trim-001", 
       "vehiculoId": "VEH-BAIXLLOB-201", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventivo Trimestral", 
+      "tipo": "Preventiu Trimestral", 
       "hora": "21:00", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
-      "observaciones": "TURNO NOCTURNO - Inicio año laboral",
-      "prioridad": "Media",
-      "estado": "Pendiente"
+      "observaciones": "TORN NOCTURN - Inici any laboral",
+      "prioridad": "Mitjana",
+      "estado": "Pendent"
     },
     { 
       "id": "rev-trim-002", 
       "vehiculoId": "VEH-BAIXLLOB-202", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventivo Trimestral", 
+      "tipo": "Preventiu Trimestral", 
       "hora": "21:45", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
-      "observaciones": "TURNO NOCTURNO - Inicio año laboral",
-      "prioridad": "Media",
-      "estado": "Pendiente" 
+      "observaciones": "TORN NOCTURN - Inici any laboral",
+      "prioridad": "Mitjana",
+      "estado": "Pendent" 
     },
     { 
       "id": "rev-trim-003", 
       "vehiculoId": "VEH-BAIXLLOB-203", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventivo Trimestral", 
+      "tipo": "Preventiu Trimestral", 
       "hora": "22:30", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
-      "observaciones": "TURNO NOCTURNO - Inicio año laboral",
-      "prioridad": "Media",
+      "observaciones": "TORN NOCTURN - Inici any laboral",
+      "prioridad": "Mitjana",
       "estado": "Completada"
     },
     { 
       "id": "rev-trim-004", 
       "vehiculoId": "VEH-BAIXLLOB-204", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventivo Trimestral", 
+      "tipo": "Preventiu Trimestral", 
       "hora": "23:15", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "45m", 
-      "observaciones": "TURNO NOCTURNO - Inicio año laboral",
-      "prioridad": "Media",
-      "estado": "Pendiente"
+      "observaciones": "TORN NOCTURN - Inici any laboral",
+      "prioridad": "Mitjana",
+      "estado": "Pendent"
     },
     { 
       "id": "rev-anual-001", 
       "vehiculoId": "VEH-BAIXLLOB-301", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Preventivo Anual", 
+      "tipo": "Preventiu Anual", 
       "hora": "00:00", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "1h 30m", 
-      "observaciones": "TURNO NOCTURNO - Inicio año laboral",
+      "observaciones": "TORN NOCTURN - Inici any laboral",
       "prioridad": "Alta",
-      "estado": "En Progreso"
+      "estado": "En Progrés"
     },
     { 
       "id": "corr-001", 
       "vehiculoId": "VEH-BAIXLLOB-303", 
       "operador": "UTE BAIX LLOBREGAT", 
-      "tipo": "Correctivo", 
+      "tipo": "Correctiu", 
       "hora": "01:30", 
       "fecha": getFutureDate(2, 0),
       "ubicacion": "C/ Lobatona 13", 
       "duracionEstimada": "1h 30m", 
-      "observaciones": "AVERÍA: La validadora no responde. Posible problema de alimentación.",
+      "observaciones": "AVARIA: La validadora no respon. Possible problema d'alimentació.",
       "prioridad": "Crítica",
-      "estado": "Pendiente"
+      "estado": "Pendent"
     },
      {
       "id": "inst-001",
       "vehiculoId": "VEH-TUSGSAL-101",
       "operador": "TUSGSAL",
-      "tipo": "Instalación",
+      "tipo": "Instal·lació",
       "hora": "10:00",
       "fecha": getFutureDate(2, 0),
-      "ubicacion": "Cochera Badalona",
+      "ubicacion": "Cotxera Badalona",
       "duracionEstimada": "30m",
-      "observaciones": "Instalación completa de hardware. No requiere configuración de software.",
-      "prioridad": "Media",
-      "estado": "Pendiente"
+      "observaciones": "Instal·lació completa de maquinari. No requereix configuració de programari.",
+      "prioridad": "Mitjana",
+      "estado": "Pendent"
     },
     {
       "id": "trasp-001",
       "vehiculoId": "VEH-SAGALES-501",
       "operador": "EMPRESA SAGALÉS, SA",
-      "tipo": "Traspaso",
+      "tipo": "Traspàs",
       "hora": "14:00",
       "fecha": getFutureDate(2, 0),
-      "ubicacion": "Cochera Granollers",
+      "ubicacion": "Cotxera Granollers",
       "duracionEstimada": "30m",
-      "observaciones": "Traspaso de validadora de vehículo antiguo a nuevo.",
-      "prioridad": "Baja",
-      "estado": "Pendiente"
+      "observaciones": "Traspàs de validadora de vehicle antic a nou.",
+      "prioridad": "Baixa",
+      "estado": "Pendent"
     }
   ],
   "operadores": [
@@ -155,12 +155,12 @@ export const data = {
   "eventosProximos": [
     {
       "id": "evt-001",
-      "titulo": "Traspaso Programado",
-      "fecha": getFutureDate(8, 0), // 8 de Enero
-      "descripcion": "Traspaso programado en Cochera Norte",
+      "titulo": "Traspàs Programat",
+      "fecha": getFutureDate(8, 0), // 8 de Gener
+      "descripcion": "Traspàs programat a la Cotxera Nord",
       "operador": "UTE BAIX LLOBREGAT",
-      "ubicacion": "Cochera Norte",
-      "tipo": "Traspaso"
+      "ubicacion": "Cotxera Nord",
+      "tipo": "Traspàs"
     }
   ]
 };

@@ -1,33 +1,33 @@
 'use server';
 
 /**
- * @fileOverview An AI-powered data validation flow for maintenance checklists.
+ * @fileOverview Un flux d'IA per a la validació de dades de llistes de verificació de manteniment.
  *
- * - validateChecklistData - A function that validates checklist data using AI.
- * - ValidateChecklistDataInput - The input type for the validateChecklistData function.
- * - ValidateChecklistDataOutput - The return type for the validateChecklistData function.
+ * - validateChecklistData - Una funció que valida les dades de la llista de verificació utilitzant IA.
+ * - ValidateChecklistDataInput - El tipus d'entrada per a la funció validateChecklistData.
+ * - ValidateChecklistDataOutput - El tipus de retorn per a la funció validateChecklistData.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const ValidateChecklistDataInputSchema = z.object({
-  checklistData: z.record(z.any()).describe('The checklist data to validate.'),
-  busType: z.string().describe('The type of bus the checklist is for.'),
+  checklistData: z.record(z.any()).describe('Les dades de la llista de verificació a validar.'),
+  busType: z.string().describe("El tipus d'autobús per al qual és la llista de verificació."),
   previousMaintenanceHistory: z
     .record(z.any())
     .optional()
-    .describe('The previous maintenance history for the bus, if available.'),
+    .describe("L'historial de manteniment previ de l'autobús, si està disponible."),
 });
 export type ValidateChecklistDataInput = z.infer<typeof ValidateChecklistDataInputSchema>;
 
 const ValidateChecklistDataOutputSchema = z.object({
   validationResults: z.record(
     z.object({
-      isValid: z.boolean().describe('Whether the data is valid or not.'),
-      errorMessage: z.string().optional().describe('An error message if the data is invalid.'),
+      isValid: z.boolean().describe('Indica si la dada és vàlida o no.'),
+      errorMessage: z.string().optional().describe("Un missatge d'error si la dada és invàlida."),
     })
-  ).describe('The validation results for each field in the checklist.'),
+  ).describe('Els resultats de la validació per a cada camp de la llista de verificació.'),
 });
 export type ValidateChecklistDataOutput = z.infer<typeof ValidateChecklistDataOutputSchema>;
 
@@ -41,30 +41,30 @@ const prompt = ai.definePrompt({
   name: 'validateChecklistDataPrompt',
   input: {schema: ValidateChecklistDataInputSchema},
   output: {schema: ValidateChecklistDataOutputSchema},
-  prompt: `You are an AI assistant specialized in validating data from maintenance checklists for buses.
+  prompt: `Ets un assistent d'IA especialitzat en la validació de dades de llistes de verificació de manteniment per a autobusos.
 
-You will receive checklist data, the bus type, and optionally the previous maintenance history for the bus.
+Rebràs dades de la llista de verificació, el tipus d'autobús i, opcionalment, l'historial de manteniment previ de l'autobús.
 
-Your task is to validate each field in the checklist data and identify potential errors or anomalies.
+La teva tasca és validar cada camp de les dades de la llista de verificació i identificar possibles errors o anomalies.
 
-Consider the bus type and previous maintenance history when validating the data.
+Tingues en compte el tipus d'autobús i l'historial de manteniment previ en validar les dades.
 
-For each field, determine if the data is valid and provide an error message if it is not.
+Per a cada camp, determina si la dada és vàlida i proporciona un missatge d'error si no ho és.
 
-Return the validation results in a JSON format.
+Retorna els resultats de la validació en format JSON.
 
-Checklist Data: {{{checklistData}}}
-Bus Type: {{{busType}}}
-Previous Maintenance History: {{{previousMaintenanceHistory}}}
+Dades de la llista de verificació: {{{checklistData}}}
+Tipus d'autobús: {{{busType}}}
+Historial de manteniment previ: {{{previousMaintenanceHistory}}}
 
-Example Output:
+Exemple de sortida:
 {
   "field1": {
     "isValid": true
   },
   "field2": {
     "isValid": false,
-    "errorMessage": "The value is out of the expected range."
+    "errorMessage": "El valor està fora del rang esperat."
   }
 }
 `,

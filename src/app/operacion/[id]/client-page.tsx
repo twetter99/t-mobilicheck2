@@ -25,15 +25,15 @@ import { generateInstallationPdf } from '@/lib/pdf-generator';
 
 
 export function OperationClientPage({ revision, operatorId, checklist }: { revision: any; operatorId?: string | null, checklist: ChecklistStep[] }) {
-  const isInstallation = revision?.tipo === 'Instalación';
+  const isInstallation = revision?.tipo === 'Instal·lació';
   
   const steps = [
-    { id: 1, name: 'Intervención', section: 'header' },
-    { id: 2, name: 'Hardware', section: 'inventory' },
-    { id: 3, name: 'Software', section: 'software' },
-    { id: 4, name: 'Sistemas Preexistentes', section: 'preexistingSystems' },
-    { id: 5, name: 'Ejecución', section: 'executionPhases' },
-    { id: 6, name: 'Cierre', section: 'observations' },
+    { id: 1, name: 'Intervenció', section: 'header' },
+    { id: 2, name: 'Maquinari', section: 'inventory' },
+    { id: 3, name: 'Programari', section: 'software' },
+    { id: 4, name: 'Sistemes Preexistents', section: 'preexistingSystems' },
+    { id: 5, name: 'Execució', section: 'executionPhases' },
+    { id: 6, name: 'Tancament', section: 'observations' },
   ];
   
   const [currentStep, setCurrentStep] = useState(0);
@@ -162,10 +162,10 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
   };
 
   const onSubmit = async (data: FormValues) => {
-    console.log('🚀 Formulario enviado');
-    console.log('📦 Datos:', data);
-    console.log('✍️ Firma técnico:', data.observations?.technicianSignature);
-    console.log('✍️ Firma supervisor:', data.observations?.supervisorSignature);
+    console.log('🚀 Formulari enviat');
+    console.log('📦 Dades:', data);
+    console.log('✍️ Signatura tècnic:', data.observations?.technicianSignature);
+    console.log('✍️ Signatura supervisor:', data.observations?.supervisorSignature);
 
     setIsSubmitting(true);
     const response = await submitMaintenanceOrder(data); 
@@ -175,7 +175,7 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
       setSubmittedData(data);
     } else {
       toast({
-        title: 'Error al enviar',
+        title: 'Error en l\'enviament',
         description: response.message,
         variant: 'destructive',
       });
@@ -187,17 +187,17 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
       if (isInstallation) {
         generateInstallationPdf(submittedData, revision);
       } else {
-        console.warn("PDF generation for this operation type is not implemented yet.");
+        console.warn("La generació de PDF per a aquest tipus d'operació no està implementada.");
         toast({
-          title: 'Función no disponible',
-          description: 'La generación de PDF para este tipo de operación aún no está implementada.',
+          title: 'Funció no disponible',
+          description: "La generació de PDF per a aquest tipus d'operació encara no està implementada.",
           variant: 'default',
         });
       }
     } else {
       toast({
         title: 'Error',
-        description: 'No se han encontrado datos para generar el PDF.',
+        description: 'No s\'han trobat dades per generar el PDF.',
         variant: 'destructive',
       });
     }
@@ -209,17 +209,17 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
       <Card className="w-full max-w-3xl mx-auto">
         <CardHeader className="text-center">
             <CheckCircle className="mx-auto h-16 w-16 text-green-500 mb-4" />
-            <CardTitle className="text-2xl">Operación Enviada con Éxito</CardTitle>
-            <CardDescription>La operación de {revision.tipo} ha sido registrada correctamente. Puede descargar el informe en formato PDF.</CardDescription>
+            <CardTitle className="text-2xl">Operació Enviada amb Èxit</CardTitle>
+            <CardDescription>L'operació de {revision.tipo} ha estat registrada correctament. Podeu descarregar l'informe en format PDF.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
              <Button onClick={handleDownloadPdf}>
                 <Download className="mr-2 h-4 w-4" />
-                Descargar Informe PDF
+                Descarregar Informe PDF
             </Button>
             <Button variant="outline" asChild>
                 <Link href="/">
-                    Volver a la lista
+                    Tornar a la llista
                 </Link>
             </Button>
         </CardContent>
@@ -233,7 +233,7 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
         <div className="mb-4 flex items-center gap-4">
           <HardHat className="h-10 w-10 text-primary" />
           <h1 className="font-headline text-4xl font-bold tracking-tight text-primary">
-            Ficha de Operación
+            Fitxa d'Operació
           </h1>
         </div>
         <p className="max-w-2xl text-lg text-muted-foreground">
@@ -269,19 +269,19 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
                 </Button>
                 {currentStep < steps.length - 1 ? (
                   <Button type="button" onClick={next} disabled={isSubmitting}>
-                    Siguiente
+                    Següent
                   </Button>
                 ) : (
                   <Button 
                     type="submit" 
                     disabled={isSubmitting}
                     onClick={async () => {
-                      console.log('🔘 Botón clickeado');
+                      console.log('🔘 Botó clicat');
                       const isValid = await form.trigger();
-                      console.log('✅ ¿Válido?:', isValid);
-                      console.log('❌ Errores:', form.formState.errors);
+                      console.log('✅ Vàlid?:', isValid);
+                      console.log('❌ Errors:', form.formState.errors);
                       const values = form.getValues();
-                      console.log('📝 Valores:', values);
+                      console.log('📝 Valors:', values);
                     }}
                   >
                     {isSubmitting ? (
@@ -289,7 +289,7 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
                     ) : (
                       <CheckCircle className="mr-2 h-4 w-4" />
                     )}
-                    Finalizar y Enviar
+                    Finalitzar i Enviar
                   </Button>
                 )}
               </div>

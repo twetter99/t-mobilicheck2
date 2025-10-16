@@ -21,7 +21,7 @@ export async function validateWithAI(
     
     const result = await validateChecklistData({
       checklistData: flattenedData,
-      busType: 'Standard', // This could be dynamic in a future version
+      busType: 'Estàndard', // Això podria ser dinàmic en una futura versió
     });
     
     // Check if there are any invalid fields
@@ -33,19 +33,19 @@ export async function validateWithAI(
 
     return { success: true };
   } catch (error) {
-    console.error('AI Validation Error:', error);
-    return { success: false, error: 'An unexpected error occurred during AI validation.' };
+    console.error('Error de validació IA:', error);
+    return { success: false, error: "S'ha produït un error inesperat durant la validació amb IA." };
   }
 }
 
 export async function submitMaintenanceOrder(data: FormValues): Promise<{ success: boolean; message: string }> {
-  // Here you would typically save the data to your database (e.g., Firestore, Supabase)
-  // and handle file uploads for signatures and photos.
+  // Aquí normalment guardaries les dades a la teva base de dades (p. ex., Firestore, Supabase)
+  // i gestionaries la pujada de fitxers per a signatures i fotos.
   
-  console.log('Submitting maintenance order:', JSON.stringify(data, null, 2));
+  console.log('Enviant ordre de manteniment:', JSON.stringify(data, null, 2));
 
-  // For this demo, we'll just simulate a successful submission.
+  // Per a aquesta demostració, només simularem un enviament exitós.
   await new Promise(resolve => setTimeout(resolve, 1000));
 
-  return { success: true, message: 'Orden de mantenimiento enviada con éxito.' };
+  return { success: true, message: 'Ordre de manteniment enviada amb èxit.' };
 }

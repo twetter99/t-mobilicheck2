@@ -39,7 +39,7 @@ const DeviceFields = ({ form, deviceName, deviceLabel }: { form: UseFormReturn<F
                     <FormItem><FormLabel>N/S Validadora</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                 )}/>
                  <FormField control={form.control} name={`inventory.${deviceName}SupportSerial`} render={({ field }) => (
-                    <FormItem><FormLabel>N/S Soporte</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                    <FormItem><FormLabel>N/S Suport</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                 )}/>
                 <FormField control={form.control} name={`inventory.${deviceName}DeviceCode`} render={({ field }) => (
                     <FormItem><FormLabel>Device</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
@@ -51,10 +51,10 @@ const DeviceFields = ({ form, deviceName, deviceLabel }: { form: UseFormReturn<F
 
 export function Step2Inventory({ form }: Step2Props) {
   return (
-    <FormSection title="Sección 2: Inventario y Versiones" description="Registre los números de serie y versiones de los componentes.">
+    <FormSection title="Secció 2: Inventari i Versions" description="Registreu els números de sèrie i versions dels components.">
         <div className="space-y-6">
             <div>
-                <h3 className="text-lg font-medium mb-4">Hardware T-Mobilitat</h3>
+                <h3 className="text-lg font-medium mb-4">Maquinari T-Mobilitat</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField control={form.control} name="inventory.consoleSerial" render={({ field }) => (
                         <FormItem><FormLabel>N/S Pupitre</FormLabel><FormControl><InputWithScan field={field} placeholder="N/S del pupitre" /></FormControl><FormMessage /></FormItem>
@@ -66,14 +66,14 @@ export function Step2Inventory({ form }: Step2Props) {
                         <FormItem><FormLabel>N/S Switch</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                     <FormField control={form.control} name="inventory.installationKitSerial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Kit de Instalación</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>N/S Kit d'Instal·lació</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                      <FormField control={form.control} name="inventory.consoleMount" render={({ field }) => (
-                        <FormItem className="space-y-3"><FormLabel>Tipología de Soporte de Pupitre</FormLabel><FormControl><RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-wrap gap-4">
-                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="sin_brazo" /></FormControl><FormLabel className="font-normal">Sin Brazo</FormLabel></FormItem>
-                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="brazo_corto" /></FormControl><FormLabel className="font-normal">Brazo Corto</FormLabel></FormItem>
-                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="brazo_largo" /></FormControl><FormLabel className="font-normal">Brazo Largo</FormLabel></FormItem>
-                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="simple_extraible" /></FormControl><FormLabel className="font-normal">Simple Extraíble</FormLabel></FormItem>
+                        <FormItem className="space-y-3"><FormLabel>Tipologia de Suport de Pupitre</FormLabel><FormControl><RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-wrap gap-4">
+                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="sin_brazo" /></FormControl><FormLabel className="font-normal">Sense Braç</FormLabel></FormItem>
+                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="brazo_corto" /></FormControl><FormLabel className="font-normal">Braç Curt</FormLabel></FormItem>
+                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="brazo_largo" /></FormControl><FormLabel className="font-normal">Braç Llarg</FormLabel></FormItem>
+                            <FormItem className="flex items-center space-x-2"><FormControl><RadioGroupItem value="simple_extraible" /></FormControl><FormLabel className="font-normal">Simple Extraïble</FormLabel></FormItem>
                         </RadioGroup></FormControl><FormMessage /></FormItem>
                     )}/>
                 </div>
@@ -82,7 +82,7 @@ export function Step2Inventory({ form }: Step2Props) {
             <Separator />
             
             <div>
-                <h3 className="text-lg font-medium mb-4">Validadoras y Terminal de Consulta</h3>
+                <h3 className="text-lg font-medium mb-4">Validadors i Terminal de Consulta</h3>
                  <Accordion type="multiple" className="w-full">
                     <DeviceFields form={form} deviceName="sc1" deviceLabel="Validadora SC1" />
                     <DeviceFields form={form} deviceName="sc2" deviceLabel="Validadora SC2" />
@@ -98,7 +98,7 @@ export function Step2Inventory({ form }: Step2Props) {
                                     <FormItem><FormLabel>N/S Terminal</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                                 )}/>
                                  <FormField control={form.control} name="inventory.queryTerminalSupportSerial" render={({ field }) => (
-                                    <FormItem><FormLabel>N/S Soporte</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                                    <FormItem><FormLabel>N/S Suport</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
                                 )}/>
                                 <FormField control={form.control} name="inventory.queryTerminalDeviceCode" render={({ field }) => (
                                     <FormItem><FormLabel>Device</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
