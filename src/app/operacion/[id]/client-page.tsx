@@ -20,86 +20,8 @@ import { useToast } from '@/hooks/use-toast';
 import { submitMaintenanceOrder } from '@/app/actions';
 import Link from 'next/link';
 import type { ChecklistStep } from '@/lib/checklist-data';
+import { formSchema as operationSchema, type FormValues as OperationFormValues } from '@/lib/schema';
 
-
-// Combined schema for all operation types
-const operationSchema = z.object({
-  header: z.object({
-    orderNumber: z.string().optional(),
-    operator: z.string().min(1, "El operador es obligatorio."),
-    depot: z.string().min(1, 'La cochera es obligatoria.'),
-    busNumber: z.string().min(1, 'El número de bus/calca es obligatorio.'),
-    licensePlate: z.string().min(1, 'La matrícula es obligatoria.'),
-    technician: z.string().min(1, 'El técnico es obligatorio.'),
-    date: z.date({ required_error: 'La data es obligatòria.' }),
-  }),
-  inventory: z.object({
-    consoleSerial: z.string().optional(),
-    mccSerial: z.string().optional(),
-    switchSerial: z.string().optional(),
-    installationKitSerial: z.string().optional(),
-    consoleMount: z.enum(['sin_brazo', 'brazo_corto', 'brazo_largo', 'simple_extraible']),
-    sc1Serial: z.string().optional(),
-    sc2Serial: z.string().optional(),
-    sc3Serial: z.string().optional(),
-    sc4Serial: z.string().optional(),
-    sc5Serial: z.string().optional(),
-    sc6Serial: z.string().optional(),
-    queryTerminalSupportSerial: z.string().optional(),
-  }),
-  software: z.object({
-    consoleSoftware: z.string().optional(),
-    telechargeVersion: z.string().optional(),
-    configVersion: z.string().optional(),
-  }),
-  preexistingSystems: z.object({
-    magneticValidatorBrand: z.string().optional(),
-    magneticValidatorModel: z.string().optional(),
-    magneticValidatorSerial: z.string().optional(),
-    contactlessValidatorBrand: z.string().optional(),
-    contactlessValidatorModel: z.string().optional(),
-    contactlessValidatorSerial: z.string().optional(),
-    saeIntegration: z.enum(['Sí', 'No']),
-    saeBrand: z.string().optional(),
-    saeModel: z.string().optional(),
-    exteriorPanelsIntegration: z.enum(['Sí', 'No']),
-    exteriorPanelsBrand: z.string().optional(),
-    exteriorPanelsModel: z.string().optional(),
-  }),
-  executionPhases: z.object({
-    preliminaryCheck: z.enum(['OK', 'NOK']),
-    preexistingSystemsCheck: z.enum(['OK', 'NOK']),
-    connectionPlateInstallation: z.enum(['OK', 'NOK']),
-    antennaInstallation: z.enum(['OK', 'NOK']),
-    mccInstallation: z.enum(['OK', 'NOK']),
-    consoleSupportInstallation: z.enum(['OK', 'NOK']),
-    consoleInstallation: z.enum(['OK', 'NOK']),
-    validatorSupportInstallation: z.enum(['OK', 'NOK']),
-    finalCheck: z.enum(['OK', 'NOK']),
-    softwareUpdate: z.enum(['OK', 'NOK']),
-    functionalTests: z.enum(['OK', 'NOK']),
-  }),
-  observations: z.object({
-    startTime: z.string().min(1, "La hora de inicio es obligatoria."),
-    endTime: z.string().min(1, "La hora de fin es obligatoria."),
-    notes: z.string().optional(),
-    hasIncident: z.boolean().default(false),
-    correctiveAction: z.object({
-        title: z.string(),
-        description: z.string(),
-        priority: z.enum(['Baja', 'Media', 'Alta']),
-      }).optional(),
-    technicianSignature: z.string().min(1, 'La firma del técnico es obligatoria.'),
-    supervisorSignature: z.string().optional(),
-    beforePhotos: z.array(z.string()).optional(),
-    afterPhotos: z.array(z.string()).optional(),
-  }),
-}).refine(data => !data.observations.hasIncident || (data.observations.correctiveAction?.title && data.observations.correctiveAction?.description), {
-  message: "El título y la descripción de la incidencia son obligatorios.",
-  path: ["observations.correctiveAction.title"],
-});
-
-type OperationFormValues = z.infer<typeof operationSchema>;
 
 export function OperationClientPage({ revision, operatorId, checklist }: { revision: any; operatorId?: string | null, checklist: ChecklistStep[] }) {
   const steps = [
@@ -135,12 +57,26 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
         installationKitSerial: '',
         consoleMount: 'brazo_largo',
         sc1Serial: '',
+        sc1SupportSerial: '',
+        sc1DeviceCode: '',
         sc2Serial: '',
+        sc2SupportSerial: '',
+        sc2DeviceCode: '',
         sc3Serial: '',
+        sc3SupportSerial: '',
+        sc3DeviceCode: '',
         sc4Serial: '',
+        sc4SupportSerial: '',
+        sc4DeviceCode: '',
         sc5Serial: '',
+        sc5SupportSerial: '',
+        sc5DeviceCode: '',
         sc6Serial: '',
+        sc6SupportSerial: '',
+        sc6DeviceCode: '',
+        queryTerminalSerial: '',
         queryTerminalSupportSerial: '',
+        queryTerminalDeviceCode: '',
       },
       software: {
         consoleSoftware: '',
