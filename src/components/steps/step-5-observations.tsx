@@ -115,10 +115,11 @@ const PhotoUpload = ({
 
 export function Step5Observations({ form }: { form: UseFormReturn<FormValues> }) {
   const hasIncident = form.watch('observations.hasIncident');
-  const { unregister, setValue, getValues } = form;
+  const { setValue, getValues } = form;
 
   useEffect(() => {
     if (hasIncident) {
+      // Ensure the field exists with default values when the checkbox is checked
       const current = getValues('observations.correctiveAction');
       if (!current) {
         setValue('observations.correctiveAction', {
@@ -128,9 +129,15 @@ export function Step5Observations({ form }: { form: UseFormReturn<FormValues> })
         });
       }
     } else {
-      unregister('observations.correctiveAction');
+      // When unchecked, just clear the values but keep the field registered
+      // This prevents the "uncontrolled to controlled" error.
+      setValue('observations.correctiveAction', {
+        title: '',
+        description: '',
+        priority: 'Baja',
+      });
     }
-  }, [hasIncident, unregister, setValue, getValues]);
+  }, [hasIncident, setValue, getValues]);
 
 
   return (
