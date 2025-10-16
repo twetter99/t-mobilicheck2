@@ -15,12 +15,13 @@ import { Step4PreexistingSystems } from '@/components/steps/step-4-preexisting-s
 import { Step5ExecutionPhases } from '@/components/steps/step-5-execution';
 import { Step5Observations } from '@/components/steps/step-5-observations';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { CheckCircle, Loader2, HardHat } from 'lucide-react';
+import { CheckCircle, Loader2, HardHat, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { submitMaintenanceOrder } from '@/app/actions';
 import Link from 'next/link';
 import type { ChecklistStep } from '@/lib/checklist-data';
 import { formSchema as operationSchema, type FormValues as OperationFormValues } from '@/lib/schema';
+import { generateInstallationPdf } from '@/lib/pdf-generator';
 
 
 export function OperationClientPage({ revision, operatorId, checklist }: { revision: any; operatorId?: string | null, checklist: ChecklistStep[] }) {
@@ -155,6 +156,19 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
       });
     }
   };
+  
+  const handleDownloadPdf = () => {
+    if (submittedData) {
+      generateInstallationPdf(submittedData, revision);
+    } else {
+       toast({
+        title: 'Error',
+        description: 'No se han encontrado datos para generar el PDF.',
+        variant: 'destructive',
+      });
+    }
+  }
+
 
   if (submittedData) {
     return (
@@ -162,10 +176,13 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
         <CardHeader className="text-center">
             <CheckCircle className="mx-auto h-16 w-16 text-green-500 mb-4" />
             <CardTitle className="text-2xl">Operación Enviada con Éxito</CardTitle>
-            <CardDescription>La operación ha sido registrada correctamente.</CardDescription>
+            <CardDescription>La operación de {revision.tipo} ha sido registrada correctamente. Puede descargar el informe en formato PDF.</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
-            <p>Puede volver a la lista de tareas.</p>
+             <Button onClick={handleDownloadPdf}>
+                <Download className="mr-2 h-4 w-4" />
+                Descargar Informe PDF
+            </Button>
             <Button variant="outline" asChild>
                 <Link href="/">
                     Volver a la lista
@@ -206,7 +223,7 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
                 {currentStep === 1 && <Step2Inventory form={form as any} />}
                 {currentStep === 2 && <Step3Software form={form as any} />}
                 {currentStep === 3 && <Step4PreexistingSystems form={form as any} />}
-                {currentStep === 4 && <Step5ExecutionPhases form={form as any} />}
+                {currentStep === 4 && <Step5ExecutionPhases form={form as any} checklist={checklist}/>}
                 {currentStep === 5 && <Step5Observations form={form as any} />}
               </motion.div>
             </AnimatePresence>
