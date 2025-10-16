@@ -160,24 +160,24 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
   
   const handleDownloadPdf = () => {
     if (submittedData) {
-        if(isInstallation) {
-            generateInstallationPdf(submittedData, revision);
-        } else {
-            console.warn("PDF generation for this operation type is not implemented yet.");
-             toast({
-                title: 'Función no disponible',
-                description: 'La generación de PDF para este tipo de operación aún no está implementada.',
-                variant: 'default',
-            });
-        }
+      if (isInstallation) {
+        generateInstallationPdf(submittedData, revision);
+      } else {
+        console.warn("PDF generation for this operation type is not implemented yet.");
+        toast({
+          title: 'Función no disponible',
+          description: 'La generación de PDF para este tipo de operación aún no está implementada.',
+          variant: 'default',
+        });
+      }
     } else {
-       toast({
+      toast({
         title: 'Error',
         description: 'No se han encontrado datos para generar el PDF.',
         variant: 'destructive',
       });
     }
-  }
+  };
 
 
   if (submittedData) {
@@ -265,3 +265,5 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
     </>
   );
 }
+
+    
