@@ -283,7 +283,10 @@ export function Step5Observations({ form }: { form: UseFormReturn<FormValues> })
                         <FormItem>
                             <FormLabel>Firma del Técnico (Obligatoria)</FormLabel>
                             <FormControl>
-                                <SignaturePad onSign={(signatureData) => field.onChange(signatureData)} />
+                                <SignaturePad 
+                                  onSign={(signatureData) => field.onChange(signatureData)} 
+                                  value={field.value}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -296,7 +299,10 @@ export function Step5Observations({ form }: { form: UseFormReturn<FormValues> })
                         <FormItem>
                             <FormLabel>Firma del Responsable (Opcional)</FormLabel>
                             <FormControl>
-                                <SignaturePad onSign={(signatureData) => field.onChange(signatureData)} />
+                                <SignaturePad 
+                                  onSign={(signatureData) => field.onChange(signatureData)} 
+                                  value={field.value}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

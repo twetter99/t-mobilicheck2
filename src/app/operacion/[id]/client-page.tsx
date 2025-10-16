@@ -147,6 +147,11 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
   };
 
   const onSubmit = async (data: FormValues) => {
+    console.log('🚀 Formulario enviado');
+    console.log('📦 Datos:', data);
+    console.log('✍️ Firma técnico:', data.observations?.technicianSignature);
+    console.log('✍️ Firma supervisor:', data.observations?.supervisorSignature);
+
     setIsSubmitting(true);
     const response = await submitMaintenanceOrder(data); 
     setIsSubmitting(false);
@@ -252,7 +257,18 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
                     Siguiente
                   </Button>
                 ) : (
-                  <Button type="submit" disabled={isSubmitting}>
+                  <Button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    onClick={async () => {
+                      console.log('🔘 Botón clickeado');
+                      const isValid = await form.trigger();
+                      console.log('✅ ¿Válido?:', isValid);
+                      console.log('❌ Errores:', form.formState.errors);
+                      const values = form.getValues();
+                      console.log('📝 Valores:', values);
+                    }}
+                  >
                     {isSubmitting ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (

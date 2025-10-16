@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { InstallationClientPage } from './client-page';
 
-export default function InstallationPage({ params }: { params: { id: string } }) {
-  const revision = data.revisiones.find(rev => rev.id === params.id);
+export default async function InstallationPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const revision = data.revisiones.find(rev => rev.id === id);
 
   if (!revision) {
     notFound();
