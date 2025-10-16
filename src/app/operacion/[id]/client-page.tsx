@@ -20,11 +20,13 @@ import { useToast } from '@/hooks/use-toast';
 import { submitMaintenanceOrder } from '@/app/actions';
 import Link from 'next/link';
 import type { ChecklistStep } from '@/lib/checklist-data';
-import { formSchema as operationSchema, type FormValues as OperationFormValues } from '@/lib/schema';
+import { formSchema, type FormValues } from '@/lib/schema';
 import { generateInstallationPdf } from '@/lib/pdf-generator';
 
 
 export function OperationClientPage({ revision, operatorId, checklist }: { revision: any; operatorId?: string | null, checklist: ChecklistStep[] }) {
+  const isInstallation = revision?.tipo === 'Instalación';
+  
   const steps = [
     { id: 1, name: 'Intervención', section: 'header' },
     { id: 2, name: 'Hardware', section: 'inventory' },
@@ -36,11 +38,11 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
   
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submittedData, setSubmittedData] = useState<any | null>(null);
+  const [submittedData, setSubmittedData] = useState<FormValues | null>(null);
   const { toast } = useToast();
 
-  const form = useForm<OperationFormValues>({
-    resolver: zodResolver(operationSchema),
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       header: {
         orderNumber: `OT-${revision?.id.slice(-4)}` || '',
@@ -127,7 +129,7 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
 
   const next = async () => {
     const section = steps[currentStep].section;
-    const output = await form.trigger([section as keyof OperationFormValues], { shouldFocus: true });
+    const output = await form.trigger([section as keyof FormValues], { shouldFocus: true });
     if (!output) return;
     if (currentStep < steps.length - 1) {
       setCurrentStep(step => step + 1);
@@ -140,10 +142,9 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
     }
   };
 
-  const onSubmit = async (data: OperationFormValues) => {
+  const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
-    // This action needs to be generalized or a new one created for operations
-    const response = await submitMaintenanceOrder(data as any); 
+    const response = await submitMaintenanceOrder(data); 
     setIsSubmitting(false);
 
     if (response.success) {
@@ -159,7 +160,17 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
   
   const handleDownloadPdf = () => {
     if (submittedData) {
-      generateInstallationPdf(submittedData, revision);
+        if(isInstallation) {
+            generateInstallationPdf(submittedData, revision);
+        } else {
+            // Potentially call another PDF generator for other types
+            console.warn("PDF generation for this operation type is not implemented yet.");
+             toast({
+                title: 'Función no disponible',
+                description: 'La generación de PDF para este tipo de operación aún no está implementada.',
+                variant: 'default',
+            });
+        }
     } else {
        toast({
         title: 'Error',
@@ -219,12 +230,12 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.3 }}
               >
-                {currentStep === 0 && <Step1Header form={form as any} />}
-                {currentStep === 1 && <Step2Inventory form={form as any} />}
-                {currentStep === 2 && <Step3Software form={form as any} />}
-                {currentStep === 3 && <Step4PreexistingSystems form={form as any} />}
-                {currentStep === 4 && <Step5ExecutionPhases form={form as any} checklist={checklist}/>}
-                {currentStep === 5 && <Step5Observations form={form as any} />}
+                {currentStep === 0 && <Step1Header form={form} />}
+                {currentStep === 1 && <Step2Inventory form={form} />}
+                {currentStep === 2 && <Step3Software form={form} />}
+                {currentStep === 3 && <Step4PreexistingSystems form={form} />}
+                {currentStep === 4 && <Step5ExecutionPhases form={form} checklist={checklist}/>}
+                {currentStep === 5 && <Step5Observations form={form} />}
               </motion.div>
             </AnimatePresence>
 

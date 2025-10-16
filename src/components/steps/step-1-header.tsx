@@ -14,9 +14,10 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Calendar } from '@/components/ui/calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import type { FormValues } from '@/lib/schema';
 
 type Step1Props = {
-  form: UseFormReturn<any>; // Allow different form types
+  form: UseFormReturn<FormValues>;
 };
 
 export function Step1Header({ form }: Step1Props) {

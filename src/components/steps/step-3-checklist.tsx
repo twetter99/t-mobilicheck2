@@ -4,9 +4,10 @@ import type { UseFormReturn } from 'react-hook-form';
 import { FormSection } from '@/components/form-section';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import type { FormValues } from '@/lib/schema';
 
 type Step3Props = {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<FormValues>;
 };
 
 export function Step3Software({ form }: Step3Props) {

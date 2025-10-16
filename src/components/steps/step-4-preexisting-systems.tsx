@@ -6,9 +6,10 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input';
 import { Separator } from '../ui/separator';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+import type { FormValues } from '@/lib/schema';
 
 type Step4Props = {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<FormValues>;
 };
 
 export function Step4PreexistingSystems({ form }: Step4Props) {

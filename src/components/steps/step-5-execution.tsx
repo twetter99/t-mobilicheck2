@@ -5,9 +5,10 @@ import { FormSection } from '@/components/form-section';
 import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import type { ChecklistStep } from '@/lib/checklist-data';
+import type { FormValues } from '@/lib/schema';
 
 type Step5Props = {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<FormValues>;
   checklist: ChecklistStep[];
 };
 
