@@ -54,6 +54,7 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
       inventory: {
         consoleSerial: '',
         consoleMount: 'brazo_largo',
+        // valIn1Serial, etc are deprecated but kept for schema compatibility for now
         valIn1Serial: '',
         valIn2Serial: '',
         valOut1Serial: '',
@@ -123,7 +124,7 @@ export function MaintenanceForm({ revision, operatorId }: { revision: any, opera
 
   const prev = () => {
     if (currentStep > 0) {
-      setCurrentStep(step => step - 1);
+      setCurrentStep(step => step + 1);
     }
   };
 

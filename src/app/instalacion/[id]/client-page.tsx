@@ -72,7 +72,7 @@ export function InstallationClientPage({ revision }: { revision: any }) {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
-          <p className="font-semibold">Tiempo estimado: 4-6 horas</p>
+          <p className="font-semibold">Tiempo estimado: 20-22 horas</p>
           <Button size="lg" onClick={startInstallation}>
             <PlayCircle className="mr-2 h-5 w-5" />
             COMENZAR INSTALACIÓN

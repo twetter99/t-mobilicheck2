@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Button } from '../ui/button';
 import { QrCode } from 'lucide-react';
 import { Separator } from '../ui/separator';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 
 type Step2Props = {
   form: UseFormReturn<FormValues>;
@@ -22,11 +23,30 @@ const InputWithScan = ({ field, placeholder }: { field: any; placeholder?: strin
       variant="ghost"
       size="icon"
       className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground"
-      onClick={() => field.onChange(`SN-SIM-${Math.floor(100000 + Math.random() * 900000)}`)}
+      onClick={() => field.onChange(`SIM-${Math.floor(100000 + Math.random() * 900000)}`)}
     >
       <QrCode className="h-5 w-5" />
     </Button>
   </div>
+);
+
+const DeviceFields = ({ form, deviceName, deviceLabel }: { form: UseFormReturn<FormValues>, deviceName: string, deviceLabel: string }) => (
+    <AccordionItem value={deviceName}>
+        <AccordionTrigger className="text-base">{deviceLabel}</AccordionTrigger>
+        <AccordionContent>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4 p-2">
+                <FormField control={form.control} name={`inventory.${deviceName}Serial`} render={({ field }) => (
+                    <FormItem><FormLabel>N/S Validadora</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                )}/>
+                 <FormField control={form.control} name={`inventory.${deviceName}SupportSerial`} render={({ field }) => (
+                    <FormItem><FormLabel>N/S Soporte</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                )}/>
+                <FormField control={form.control} name={`inventory.${deviceName}DeviceCode`} render={({ field }) => (
+                    <FormItem><FormLabel>Device</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                )}/>
+            </div>
+        </AccordionContent>
+    </AccordionItem>
 );
 
 export function Step2Inventory({ form }: Step2Props) {
@@ -62,30 +82,31 @@ export function Step2Inventory({ form }: Step2Props) {
             <Separator />
             
             <div>
-                <h3 className="text-lg font-medium mb-4">Soportes</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField control={form.control} name="inventory.sc1Serial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Soporte Validadora SC1</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="inventory.sc2Serial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Soporte Validadora SC2</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="inventory.sc3Serial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Soporte Validadora SC3</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="inventory.sc4Serial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Soporte Validadora SC4</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="inventory.sc5Serial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Soporte Validadora SC5</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                     <FormField control={form.control} name="inventory.sc6Serial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Soporte Validadora SC6</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="inventory.queryTerminalSupportSerial" render={({ field }) => (
-                        <FormItem><FormLabel>N/S Soporte Terminal de Consulta</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                </div>
+                <h3 className="text-lg font-medium mb-4">Validadoras y Terminal de Consulta</h3>
+                 <Accordion type="multiple" className="w-full">
+                    <DeviceFields form={form} deviceName="sc1" deviceLabel="Validadora SC1" />
+                    <DeviceFields form={form} deviceName="sc2" deviceLabel="Validadora SC2" />
+                    <DeviceFields form={form} deviceName="sc3" deviceLabel="Validadora SC3" />
+                    <DeviceFields form={form} deviceName="sc4" deviceLabel="Validadora SC4" />
+                    <DeviceFields form={form} deviceName="sc5" deviceLabel="Validadora SC5" />
+                    <DeviceFields form={form} deviceName="sc6" deviceLabel="Validadora SC6" />
+                    <AccordionItem value="queryTerminal">
+                        <AccordionTrigger className="text-base">Terminal de Consulta</AccordionTrigger>
+                        <AccordionContent>
+                             <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4 p-2">
+                                <FormField control={form.control} name="inventory.queryTerminalSerial" render={({ field }) => (
+                                    <FormItem><FormLabel>N/S Terminal</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                                )}/>
+                                 <FormField control={form.control} name="inventory.queryTerminalSupportSerial" render={({ field }) => (
+                                    <FormItem><FormLabel>N/S Soporte</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                                )}/>
+                                <FormField control={form.control} name="inventory.queryTerminalDeviceCode" render={({ field }) => (
+                                    <FormItem><FormLabel>Device</FormLabel><FormControl><InputWithScan field={field} /></FormControl><FormMessage /></FormItem>
+                                )}/>
+                            </div>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
             </div>
         </div>
     </FormSection>

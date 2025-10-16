@@ -18,20 +18,49 @@ export const formSchema = z.object({
     consoleMount: z.enum(['sin_brazo', 'brazo_corto', 'brazo_largo', 'simple_extraible'], {
       required_error: 'Debe seleccionar un tipo de soporte.',
     }),
+    
+    // SC1
     sc1Serial: z.string().optional(),
+    sc1SupportSerial: z.string().optional(),
+    sc1DeviceCode: z.string().optional(),
+    
+    // SC2
     sc2Serial: z.string().optional(),
+    sc2SupportSerial: z.string().optional(),
+    sc2DeviceCode: z.string().optional(),
+
+    // SC3
     sc3Serial: z.string().optional(),
+    sc3SupportSerial: z.string().optional(),
+    sc3DeviceCode: z.string().optional(),
+    
+    // SC4
     sc4Serial: z.string().optional(),
+    sc4SupportSerial: z.string().optional(),
+    sc4DeviceCode: z.string().optional(),
+
+    // SC5
     sc5Serial: z.string().optional(),
+    sc5SupportSerial: z.string().optional(),
+    sc5DeviceCode: z.string().optional(),
+
+    // SC6
     sc6Serial: z.string().optional(),
+    sc6SupportSerial: z.string().optional(),
+    sc6DeviceCode: z.string().optional(),
+
+    // Terminal de Consulta
+    queryTerminalSerial: z.string().optional(),
     queryTerminalSupportSerial: z.string().optional(),
+    queryTerminalDeviceCode: z.string().optional(),
+    
+    // Legacy fields - to be deprecated or kept based on final decision
     valIn1Serial: z.string().optional(),
     valIn2Serial: z.string().optional(),
     valOut1Serial: z.string().optional(),
     valOut2Serial: z.string().optional(),
     valOut3Serial: z.string().optional(),
     valOut4Serial: z.string().optional(),
-    queryTerminalSerial: z.string().optional(),
     connectionsPlateSerial: z.string().optional(),
     triBandAntennaSerial: z.string().optional(),
     legacyMag1Brand: z.enum(['Ascom', 'Indra', 'N/A']).optional(),
