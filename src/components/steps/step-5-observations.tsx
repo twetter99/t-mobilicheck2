@@ -115,13 +115,22 @@ const PhotoUpload = ({
 
 export function Step5Observations({ form }: { form: UseFormReturn<FormValues> }) {
   const hasIncident = form.watch('observations.hasIncident');
+  const { unregister, setValue, getValues } = form;
 
-  // Correctly handle conditional field registration
   useEffect(() => {
-    if (!hasIncident) {
-      form.unregister('observations.correctiveAction');
+    if (hasIncident) {
+      const current = getValues('observations.correctiveAction');
+      if (!current) {
+        setValue('observations.correctiveAction', {
+          title: '',
+          description: '',
+          priority: 'Baja',
+        });
+      }
+    } else {
+      unregister('observations.correctiveAction');
     }
-  }, [hasIncident, form]);
+  }, [hasIncident, unregister, setValue, getValues]);
 
 
   return (

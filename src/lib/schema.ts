@@ -126,31 +126,28 @@ export const formSchema = z.object({
     endTime: z.string().min(1, 'La hora de fin es obligatoria.'),
     notes: z.string().optional(),
     hasIncident: z.boolean().default(false),
-    correctiveAction: z
-      .object({
-        title: z.string(),
-        description: z.string(),
-        priority: z.enum(['Baja', 'Media', 'Alta']),
-      }).optional(),
+    correctiveAction: z.object({
+        title: z.string().default(''),
+        description: z.string().default(''),
+        priority: z.enum(['Baja', 'Media', 'Alta']).default('Baja'),
+    }).optional(),
     technicianSignature: z.string().min(1, 'La firma del técnico es obligatoria.'),
     supervisorSignature: z.string().optional(),
     beforePhotos: z.array(z.string()).optional().default([]),
     afterPhotos: z.array(z.string()).optional().default([]),
   }).refine(data => {
       if (data.hasIncident) {
-        // If there's an incident, the correctiveAction object must exist and its fields must not be empty.
         return (
-          !!data.correctiveAction &&
+          data.correctiveAction &&
+          typeof data.correctiveAction.title === 'string' &&
           data.correctiveAction.title.trim().length > 0 &&
+          typeof data.correctiveAction.description === 'string' &&
           data.correctiveAction.description.trim().length > 0
         );
       }
-      // If there's no incident, the validation passes.
       return true;
   }, {
-      // This message will be shown if the refinement fails.
       message: 'Debe rellenar los detalles de la incidencia (título y descripción).',
-      // We can specify the path to show the error message, for example on the title field.
       path: ['correctiveAction', 'title'],
   }),
 });
