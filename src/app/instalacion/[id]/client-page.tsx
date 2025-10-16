@@ -88,7 +88,7 @@ export function InstallationClientPage({ revision }: { revision: any }) {
       <div className="mb-8">
          <CardHeader className='items-center text-center'>
             <CardTitle className="text-2xl md:text-3xl">Guía de Instalación</CardTitle>
-            <CardDescription className="max-w-prose">Esta guía detalla los pasos requeridos para una correcta instalación del equipo. Lea y comprenda cada punto antes de proceder, marcando la casilla correspondiente para confirmar su finalización.</CardDescription>
+            <CardDescription className="max-w-prose">Esta guía presenta los pasos necesarios para realizar una correcta instalación del equipo. Utilícela como referencia para consultar y familiarizarse con el procedimiento completo.</CardDescription>
         </CardHeader>
         <div className="flex justify-between items-center mb-2 mt-4">
             <p className="text-sm font-medium text-primary">PASOS COMPLETADOS: {completedSteps} de {totalSteps}</p>
