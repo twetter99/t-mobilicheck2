@@ -113,6 +113,21 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
         softwareUpdate: 'OK',
         functionalTests: 'OK',
       },
+      checklist: {
+        consoleGeneralCleaning: false,
+        consoleAutocutterCleaning: false,
+        consoleSerialRegistration: false,
+        validatorGeneralCleaning: false,
+        validatorConnectorsCleaning: false,
+        validatorSerialRegistration: false,
+      },
+      verification: {
+        startupOk: false,
+        screenOk: false,
+        printerOk: false,
+        validationOk: false,
+        communicationOk: false,
+      },
       observations: {
         startTime: '09:00',
         endTime: '11:00',
