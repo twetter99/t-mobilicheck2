@@ -118,7 +118,11 @@ export function OperationClientPage({ revision, operatorId, checklist }: { revis
         endTime: '11:00',
         notes: '',
         hasIncident: false,
-        correctiveAction: { title: '', description: '', priority: 'Baja' },
+        correctiveAction: { 
+          title: '', 
+          description: '', 
+          priority: 'Baja' 
+        },
         technicianSignature: '',
         supervisorSignature: '',
         beforePhotos: [],
