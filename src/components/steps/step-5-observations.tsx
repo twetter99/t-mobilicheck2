@@ -212,7 +212,7 @@ export function Step5Observations({ form }: Step5Props) {
                       </SelectContent>
                     </Select>
                     <FormMessage />
-                  </Item>
+                  </FormItem>
                 )}
               />
             </CardContent>
