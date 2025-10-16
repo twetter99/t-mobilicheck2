@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import Image from 'next/image';
 import { Camera, Trash2 } from 'lucide-react';
@@ -36,81 +36,39 @@ const PhotoUpload = ({
   maxFiles?: number;
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  // Store Base64 strings for the form, and temporary object URLs for previews
-  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
-  
-  // Effect to create object URLs for previews from Base64 form values
-  useEffect(() => {
-    const urls: string[] = [];
-    if (field.value && Array.isArray(field.value)) {
-        field.value.forEach((base64String: string) => {
-            try {
-                const byteCharacters = atob(base64String.split(',')[1]);
-                const byteNumbers = new Array(byteCharacters.length);
-                for (let i = 0; i < byteCharacters.length; i++) {
-                    byteNumbers[i] = byteCharacters.charCodeAt(i);
-                }
-                const byteArray = new Uint8Array(byteNumbers);
-                const blob = new Blob([byteArray], { type: 'image/jpeg' });
-                urls.push(URL.createObjectURL(blob));
-            } catch (e) {
-                // If it's not a valid base64, it might already be an object URL from a previous state
-                if (base64String.startsWith('blob:')) {
-                    urls.push(base64String);
-                } else {
-                    console.error("Error creating blob from base64 string", e);
-                }
-            }
-        });
-    }
-    setPreviewUrls(urls);
-
-    // Cleanup function to revoke object URLs
-    return () => {
-      urls.forEach(url => URL.revokeObjectURL(url));
-    };
-  }, []); // Run only once on mount
+  const photos = field.value || [];
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const files = Array.from(event.target.files);
+      const currentPhotosCount = photos.length;
       const newBase64s: string[] = [];
-      const newPreviewUrls: string[] = [];
       
       for (const file of files) {
-        if (field.value.length + newBase64s.length >= maxFiles) break;
+        if (currentPhotosCount + newBase64s.length >= maxFiles) break;
         const base64 = await fileToBase64(file);
         newBase64s.push(base64);
-        newPreviewUrls.push(URL.createObjectURL(file));
       }
 
-      const allBase64 = [...field.value, ...newBase64s];
-      const allPreviews = [...previewUrls, ...newPreviewUrls];
-
-      field.onChange(allBase64);
-      setPreviewUrls(allPreviews);
+      if (newBase64s.length > 0) {
+        field.onChange([...photos, ...newBase64s]);
+      }
     }
   };
 
   const handleRemove = (index: number) => {
-    const updatedBase64 = field.value.filter((_:any, i:number) => i !== index);
-    const updatedPreviews = previewUrls.filter((_:any, i:number) => i !== index);
-
-    // Revoke the object URL to prevent memory leaks
-    URL.revokeObjectURL(previewUrls[index]);
-
-    field.onChange(updatedBase64);
-    setPreviewUrls(updatedPreviews);
+    const updatedPhotos = photos.filter((_:any, i:number) => i !== index);
+    field.onChange(updatedPhotos);
   };
 
   return (
     <div>
       <FormLabel>{label}</FormLabel>
       <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        {previewUrls.map((src, index) => (
+        {photos.map((base64Src: string, index: number) => (
           <div key={index} className="relative group">
             <Image
-              src={src}
+              src={base64Src}
               alt={`${label} ${index + 1}`}
               width={150}
               height={150}
@@ -127,7 +85,7 @@ const PhotoUpload = ({
             </Button>
           </div>
         ))}
-        {previewUrls.length < maxFiles && (
+        {photos.length < maxFiles && (
           <Button
             type="button"
             variant="outline"
