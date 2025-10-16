@@ -17,8 +17,13 @@ import { Separator } from '@/components/ui/separator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FormSection } from '@/components/form-section';
 
-type Step5Props = {
-  form: UseFormReturn<FormValues>;
+const fileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = error => reject(error);
+  });
 };
 
 const PhotoUpload = ({
@@ -31,32 +36,78 @@ const PhotoUpload = ({
   maxFiles?: number;
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [previews, setPreviews] = useState<string[]>(field.value || []);
+  // Store Base64 strings for the form, and temporary object URLs for previews
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  
+  // Effect to create object URLs for previews from Base64 form values
+  useEffect(() => {
+    const urls: string[] = [];
+    if (field.value && Array.isArray(field.value)) {
+        field.value.forEach((base64String: string) => {
+            try {
+                const byteCharacters = atob(base64String.split(',')[1]);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], { type: 'image/jpeg' });
+                urls.push(URL.createObjectURL(blob));
+            } catch (e) {
+                // If it's not a valid base64, it might already be an object URL from a previous state
+                if (base64String.startsWith('blob:')) {
+                    urls.push(base64String);
+                } else {
+                    console.error("Error creating blob from base64 string", e);
+                }
+            }
+        });
+    }
+    setPreviewUrls(urls);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Cleanup function to revoke object URLs
+    return () => {
+      urls.forEach(url => URL.revokeObjectURL(url));
+    };
+  }, []); // Run only once on mount
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const files = Array.from(event.target.files);
-      const newPreviews = files.map(file => URL.createObjectURL(file));
-      const allPreviews = [...previews, ...newPreviews].slice(0, maxFiles);
-      setPreviews(allPreviews);
+      const newBase64s: string[] = [];
+      const newPreviewUrls: string[] = [];
+      
+      for (const file of files) {
+        if (field.value.length + newBase64s.length >= maxFiles) break;
+        const base64 = await fileToBase64(file);
+        newBase64s.push(base64);
+        newPreviewUrls.push(URL.createObjectURL(file));
+      }
 
-      // This would need a proper upload handler
-      // For now, we'll store the object URLs
-      field.onChange(allPreviews);
+      const allBase64 = [...field.value, ...newBase64s];
+      const allPreviews = [...previewUrls, ...newPreviewUrls];
+
+      field.onChange(allBase64);
+      setPreviewUrls(allPreviews);
     }
   };
 
   const handleRemove = (index: number) => {
-    const updatedPreviews = previews.filter((_, i) => i !== index);
-    setPreviews(updatedPreviews);
-    field.onChange(updatedPreviews);
+    const updatedBase64 = field.value.filter((_:any, i:number) => i !== index);
+    const updatedPreviews = previewUrls.filter((_:any, i:number) => i !== index);
+
+    // Revoke the object URL to prevent memory leaks
+    URL.revokeObjectURL(previewUrls[index]);
+
+    field.onChange(updatedBase64);
+    setPreviewUrls(updatedPreviews);
   };
 
   return (
     <div>
       <FormLabel>{label}</FormLabel>
       <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        {previews.map((src, index) => (
+        {previewUrls.map((src, index) => (
           <div key={index} className="relative group">
             <Image
               src={src}
@@ -76,7 +127,7 @@ const PhotoUpload = ({
             </Button>
           </div>
         ))}
-        {previews.length < maxFiles && (
+        {previewUrls.length < maxFiles && (
           <Button
             type="button"
             variant="outline"
@@ -104,16 +155,15 @@ const PhotoUpload = ({
 };
 
 
-export function Step5Observations({ form }: Step5Props) {
+export function Step5Observations({ form }: { form: UseFormReturn<FormValues> }) {
   const hasIncident = form.watch('observations.hasIncident');
 
+  // Correctly handle conditional field registration
   useEffect(() => {
-    if (hasIncident) {
-      form.register('observations.correctiveAction.title');
-      form.register('observations.correctiveAction.description');
-      form.register('observations.correctiveAction.priority');
+    if (!hasIncident) {
+      form.unregister('observations.correctiveAction');
     }
-  }, [hasIncident, form.register]);
+  }, [hasIncident, form]);
 
 
   return (

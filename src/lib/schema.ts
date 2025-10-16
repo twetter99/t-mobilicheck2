@@ -131,12 +131,21 @@ export const formSchema = z.object({
         title: z.string().min(1, 'El título es obligatorio.'),
         description: z.string().min(1, 'La descripción es obligatoria.'),
         priority: z.enum(['Baja', 'Media', 'Alta']),
-      })
-      .optional(),
+      }).optional(),
     technicianSignature: z.string().min(1, 'La firma del técnico es obligatoria.'),
     supervisorSignature: z.string().optional(),
-    beforePhotos: z.array(z.string()).optional(),
-    afterPhotos: z.array(z.string()).optional(),
+    beforePhotos: z.array(z.string()).optional().default([]),
+    afterPhotos: z.array(z.string()).optional().default([]),
+  }).refine(data => {
+      if (data.hasIncident) {
+          return !!data.correctiveAction && 
+                 data.correctiveAction.title.length > 0 && 
+                 data.correctiveAction.description.length > 0;
+      }
+      return true;
+  }, {
+      message: 'Debe rellenar los detalles de la incidencia.',
+      path: ['correctiveAction', 'title'],
   }),
 });
 
