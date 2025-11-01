@@ -171,6 +171,23 @@ export const data = {
       "estado": "Pendent",
       "hora": "22:00",
       "fecha": getFutureDate(2,0)
+    },
+    {
+      "id": "c4-0001",
+      "contract": "C-4/2025",
+      "operador": "UTE BAIX LLOBREGAT",
+      "cochera": "Cotxera Nord",
+      "vehiculo": "8102",
+      "n_validadora": "VAL-112233",
+      "tipo": "Preventiu",
+      "prioridad": "Alta",
+      "distancia": "1.2km",
+      "estimacion": "01:30",
+      "turno": "Nocturn",
+      "estado": "Pendent",
+      "hora": "08:30",
+      "fecha": getFutureDate(2, 0),
+      "note": "Revisió semestral. Comprovar lectura i connexió SAE."
     }
   ],
   "operadores": [
