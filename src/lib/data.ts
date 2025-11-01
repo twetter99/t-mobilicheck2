@@ -136,7 +136,8 @@ export const data = {
       "turno": "Diurn",
       "estado": "Pendent",
       "hora": "09:30",
-      "fecha": getFutureDate(2,0)
+      "fecha": getFutureDate(2,0),
+      "last_revision": "2025-10-15T10:00:00.000Z"
     },
     {
       "id": "val-002",
@@ -152,7 +153,8 @@ export const data = {
       "turno": "Diurn",
       "estado": "En curs",
       "hora": "11:00",
-      "fecha": getFutureDate(2,0)
+      "fecha": getFutureDate(2,0),
+      "sla": "4h"
     },
     {
       "id": "val-003",

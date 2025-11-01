@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -63,7 +63,39 @@ export default function DashboardPage() {
   const technicianName = "A.P.U.";
   const today = new Date(2026, 0, 2); // Set a fixed date for the demo
   const [contractFilter, setContractFilter] = useState('all');
+  const [view, setView] = useState('list');
+  const [isClient, setIsClient] = useState(false);
 
+  useEffect(() => {
+    setIsClient(true);
+    const storedContractFilter = localStorage.getItem('contractFilter');
+    const storedView = localStorage.getItem('view');
+    if (storedContractFilter) {
+      setContractFilter(storedContractFilter);
+    }
+    if (storedView) {
+      setView(storedView);
+    }
+  }, []);
+
+  const handleContractFilterChange = (value: string) => {
+    if (value) {
+      setContractFilter(value);
+      if (isClient) {
+        localStorage.setItem('contractFilter', value);
+      }
+    }
+  };
+
+  const handleViewChange = (value: string) => {
+    if (value) {
+      setView(value);
+      if (isClient) {
+        localStorage.setItem('view', value);
+      }
+    }
+  };
+  
   const todayStart = new Date(today);
   todayStart.setHours(0, 0, 0, 0);
   const todayEnd = new Date(today);
@@ -90,13 +122,17 @@ export default function DashboardPage() {
     return a.hora.localeCompare(b.hora);
   });
 
-  const filteredTasks = todaysTasks.filter(task => {
-    if (contractFilter === 'all') return true;
-    if (contractFilter === 't-mobilitat') return task.taskType === 'revision';
-    if (contractFilter === 'c-4/2025') return task.taskType === 'validator';
-    return true;
-  });
-  
+  const getFilteredTasks = (filter: string) => {
+    return todaysTasks.filter(task => {
+      if (filter === 'all') return true;
+      if (filter === 't-mobilitat') return task.taskType === 'revision';
+      if (filter === 'c-4/2025') return task.taskType === 'validator';
+      return true;
+    });
+  }
+
+  const filteredTasks = getFilteredTasks(contractFilter);
+
   const mantenimientos = filteredTasks.filter(task => task.taskType === 'revision' && (task.tipo.includes('Preventiu') || task.tipo.includes('Correctiu')));
   const otrasOperaciones = filteredTasks.filter(task => task.taskType === 'revision' && (!task.tipo.includes('Preventiu') && !task.tipo.includes('Correctiu')));
   const validatorTasks = filteredTasks.filter(task => task.taskType === 'validator');
@@ -190,6 +226,10 @@ export default function DashboardPage() {
     );
   };
 
+  if (!isClient) {
+    return null; // or a loading skeleton
+  }
+
   return (
     <>
     <main className="flex flex-col min-h-screen bg-gray-50">
@@ -217,14 +257,16 @@ export default function DashboardPage() {
             </div>
 
             <div className="mt-4 flex flex-col sm:flex-row gap-2 justify-center items-center">
-              <ToggleGroup type="single" value={contractFilter} onValueChange={(value) => {if (value) setContractFilter(value)}} className="w-full sm:w-auto">
-                  <ToggleGroupItem value="all" aria-label="Tots els contractes" className="w-full">Tots</ToggleGroupItem>
-                  <ToggleGroupItem value="t-mobilitat" aria-label="Contracte T-Mobilitat" className="w-full">T-Mobilitat</ToggleGroupItem>
-                  <ToggleGroupItem value="c-4/2025" aria-label="Contracte C-4/2025" className="w-full">C-4/2025</ToggleGroupItem>
+              <ToggleGroup type="single" value={contractFilter} onValueChange={handleContractFilterChange} className="w-full sm:w-auto">
+                  <ToggleGroupItem value="all" aria-label="Tots els contractes" className="w-full">Tots ({getFilteredTasks('all').length})</ToggleGroupItem>
+                  <ToggleGroupItem value="t-mobilitat" aria-label="Contracte T-Mobilitat" className="w-full">T-Mobilitat ({getFilteredTasks('t-mobilitat').length})</ToggleGroupItem>
+                  <ToggleGroupItem value="c-4/2025" aria-label="Contracte C-4/2025" className="w-full">C-4/2025 ({getFilteredTasks('c-4/2025').length})</ToggleGroupItem>
               </ToggleGroup>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm"><List className="mr-2 h-4 w-4"/>Llista</Button>
-                <Button variant="outline" size="sm"><Map className="mr-2 h-4 w-4"/>Mapa</Button>
+                <ToggleGroup type="single" value={view} onValueChange={handleViewChange}>
+                    <ToggleGroupItem value="list" aria-label="Vista de llista"><List className="mr-2 h-4 w-4"/>Llista</ToggleGroupItem>
+                    <ToggleGroupItem value="map" aria-label="Vista de mapa"><Map className="mr-2 h-4 w-4"/>Mapa</ToggleGroupItem>
+                </ToggleGroup>
                 <Button variant="outline" size="sm"><HelpCircle className="mr-2 h-4 w-4"/>Ajuda</Button>
               </div>
             </div>
@@ -278,40 +320,59 @@ export default function DashboardPage() {
           </Card>
         )}
 
-        <Tabs defaultValue="mantenimientos" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="mantenimientos">Manteniments</TabsTrigger>
-                <TabsTrigger value="operaciones">Altres Operacions</TabsTrigger>
-                <TabsTrigger value="validadors">Validadors (C-4/2025)</TabsTrigger>
-            </TabsList>
-            <TabsContent value="mantenimientos">
-                <div className="space-y-4 mt-4">
-                    {mantenimientos.length > 0 ? (
-                        mantenimientos.map((revision) => <RevisionTaskCard key={revision.id} revision={revision} />)
-                    ) : (
-                        <p className="text-center text-muted-foreground py-8">No hi ha manteniments per avui.</p>
-                    )}
-                </div>
-            </TabsContent>
-            <TabsContent value="operaciones">
-                 <div className="space-y-4 mt-4">
-                    {otrasOperaciones.length > 0 ? (
-                        otrasOperaciones.map((revision) => <RevisionTaskCard key={revision.id} revision={revision} />)
-                    ) : (
-                        <p className="text-center text-muted-foreground py-8">No hi ha altres operacions per avui.</p>
-                    )}
-                </div>
-            </TabsContent>
-            <TabsContent value="validadors">
-                <div className="space-y-4 mt-4">
-                    {validatorTasks.length > 0 ? (
-                        validatorTasks.map((task) => <ValidatorTaskCard key={task.id} task={task} />)
-                    ) : (
-                        <p className="text-center text-muted-foreground py-8">No hi ha tasques de validadors per avui.</p>
-                    )}
-                </div>
-            </TabsContent>
-        </Tabs>
+        {view === 'list' ? (
+            <Tabs defaultValue="mantenimientos" className="w-full">
+                <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="mantenimientos">Manteniments</TabsTrigger>
+                    <TabsTrigger value="operaciones">Altres Operacions</TabsTrigger>
+                    <TabsTrigger value="validadors">Validadors (C-4/2025)</TabsTrigger>
+                </TabsList>
+                <TabsContent value="mantenimientos">
+                    <div className="space-y-4 mt-4">
+                        {mantenimientos.length > 0 ? (
+                            mantenimientos.map((revision) => <RevisionTaskCard key={revision.id} revision={revision} />)
+                        ) : (
+                            <p className="text-center text-muted-foreground py-8">No hi ha manteniments per avui.</p>
+                        )}
+                    </div>
+                </TabsContent>
+                <TabsContent value="operaciones">
+                    <div className="space-y-4 mt-4">
+                        {otrasOperaciones.length > 0 ? (
+                            otrasOperaciones.map((revision) => <RevisionTaskCard key={revision.id} revision={revision} />)
+                        ) : (
+                            <p className="text-center text-muted-foreground py-8">No hi ha altres operacions per avui.</p>
+                        )}
+                    </div>
+                </TabsContent>
+                <TabsContent value="validadors">
+                    <div className="space-y-4 mt-4">
+                        {validatorTasks.length > 0 ? (
+                            validatorTasks.map((task) => <ValidatorTaskCard key={task.id} task={task} />)
+                        ) : (
+                             <p className="text-center text-muted-foreground py-8">
+                                {contractFilter === 'c-4/2025' 
+                                    ? 'No hi ha tasques de Validadors (C-4/2025) per avui.'
+                                    : 'No hi ha tasques de validadors per avui.'
+                                }
+                            </p>
+                        )}
+                    </div>
+                </TabsContent>
+            </Tabs>
+        ) : (
+            <Card>
+                <CardHeader>
+                    <CardTitle>Vista de Mapa</CardTitle>
+                    <CardDescription>Les tasques es mostren agrupades per ubicació. Les tasques de Validadors (C-4/2025) tenen una icona especial.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="h-96 bg-muted rounded-lg flex items-center justify-center">
+                        <p className="text-muted-foreground">La funcionalitat del mapa no està implementada en aquesta versió.</p>
+                    </div>
+                </CardContent>
+            </Card>
+        )}
       </div>
 
        {/* Bottom Navigation */}

@@ -3,8 +3,10 @@
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Bus, Wrench, ChevronRight, Clock, Building, Users, AlertTriangle, Siren } from 'lucide-react';
+import { Bus, Wrench, ChevronRight, Clock, Building, Users, AlertTriangle, Siren, FileCheck2, Calendar } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { add, differenceInHours, formatDistanceToNow, parse } from 'date-fns';
+import { ca } from 'date-fns/locale';
 
 type Priority = 'Crítica' | 'Alta' | 'Normal';
 type Status = 'Pendent' | 'En curs' | 'Completada';
@@ -46,6 +48,40 @@ const getTurnoBadge = (turno: Turno) => {
         default:
             return 'bg-gray-100 text-gray-800';
     }
+}
+
+const PreventiveAlert = ({ lastRevision }: { lastRevision?: string }) => {
+    if (!lastRevision) return null;
+
+    const lastRevisionDate = new Date(lastRevision);
+    const nextDueDate = add(lastRevisionDate, { months: 4 });
+    const isEarly = new Date() < nextDueDate;
+
+    if (isEarly) {
+        return (
+            <div className="col-span-2 flex items-start gap-2 mt-2 text-xs text-amber-700 bg-amber-50 p-2 rounded-md border border-amber-200">
+                <AlertTriangle className="h-4 w-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                <p>Alerta: La darrera revisió va ser fa menys de 4 mesos ({formatDistanceToNow(lastRevisionDate, { locale: ca, addSuffix: true })}). Assegureu-vos que aquesta tasca és necessària.</p>
+            </div>
+        );
+    }
+    return null;
+}
+
+const CorrectiveAlert = ({ sla, fecha, hora }: { sla: string, fecha: string, hora: string }) => {
+    const [slaHours] = sla.split('h').map(Number);
+    const taskDateTime = parse(`${fecha.substring(0,10)} ${hora}`, 'yyyy-MM-dd HH:mm', new Date());
+    const slaDueDate = add(taskDateTime, { hours: slaHours });
+    const hoursRemaining = differenceInHours(slaDueDate, new Date());
+    
+    const isOverdue = hoursRemaining < 0;
+
+    return (
+        <div className={`col-span-2 flex items-start gap-2 mt-2 text-xs p-2 rounded-md border ${isOverdue ? 'text-red-700 bg-red-50 border-red-200' : 'text-gray-700 bg-gray-50 border-gray-200'}`}>
+            <Clock className={`h-4 w-4 flex-shrink-0 mt-0.5 ${isOverdue ? 'text-red-600' : 'text-gray-500'}`} />
+            <p>SLA: {sla}. {isOverdue ? `Superat fa ${formatDistanceToNow(slaDueDate, { locale: ca })}.` : `Vença en aprox. ${formatDistanceToNow(slaDueDate, { locale: ca })}.`}</p>
+        </div>
+    );
 }
 
 
@@ -91,13 +127,22 @@ export function ValidatorTaskCard({ task }: { task: any }) {
         <div className="flex items-center gap-2">
             <Badge className={getTurnoBadge(task.turno)}>{task.turno}</Badge>
         </div>
+         {task.tipo === 'Preventiu' && task.last_revision && <PreventiveAlert lastRevision={task.last_revision} />}
+         {task.tipo === 'Correctiu' && task.sla && <CorrectiveAlert sla={task.sla} fecha={task.fecha} hora={task.hora} />}
       </CardContent>
        <CardFooter className="pl-6 pr-4 pb-4 flex justify-between items-center">
             <p className="text-xs text-muted-foreground">Distància: {task.distancia}</p>
             <div className="flex gap-2">
+                <Button variant="outline" size="sm" asChild>
+                    <Link href="#">
+                        <Calendar className="mr-2 h-4 w-4" />
+                        Historial
+                    </Link>
+                </Button>
                  <Button variant="outline" size="sm" asChild>
                     <Link href="#">
-                        Historial
+                        <FileCheck2 className="mr-2 h-4 w-4" />
+                        Checklist
                     </Link>
                 </Button>
                 <Button size="sm" asChild>
