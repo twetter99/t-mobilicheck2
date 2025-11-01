@@ -173,6 +173,54 @@ export const data = {
       "fecha": getFutureDate(2,0)
     },
     {
+      "id": "val-mag-001",
+      "contract": "C-4/2025",
+      "operador": "TUSGSAL",
+      "cochera": "Cotxera Badalona",
+      "vehiculo": "101",
+      "n_validadora": "MAG-101-1",
+      "tipo": "Revisió Magnètica",
+      "prioridad": "Normal",
+      "distancia": "5.2km",
+      "estimacion": "00:45",
+      "turno": "Diurn",
+      "estado": "Pendent",
+      "hora": "12:00",
+      "fecha": getFutureDate(2,0)
+    },
+    {
+      "id": "val-mag-002",
+      "contract": "C-4/2025",
+      "operador": "UTE BAIX LLOBREGAT",
+      "cochera": "C/ Lobatona 13",
+      "vehiculo": "301",
+      "n_validadora": "MAG-301-3",
+      "tipo": "Revisió Magnètica",
+      "prioridad": "Alta",
+      "distancia": "1.5km",
+      "estimacion": "00:45",
+      "turno": "Nocturn",
+      "estado": "Pendent",
+      "hora": "23:00",
+      "fecha": getFutureDate(2,0)
+    },
+    {
+      "id": "val-mag-003",
+      "contract": "C-4/2025",
+      "operador": "EMPRESA SAGALÉS, SA",
+      "cochera": "Cotxera Granollers",
+      "vehiculo": "502",
+      "n_validadora": "MAG-502-1",
+      "tipo": "Revisió Magnètica",
+      "prioridad": "Normal",
+      "distancia": "15.7km",
+      "estimacion": "01:00",
+      "turno": "Dissabte",
+      "estado": "Pendent",
+      "hora": "10:00",
+      "fecha": getFutureDate(4,0)
+    },
+    {
       "id": "c4-0001",
       "contract": "C-4/2025",
       "operador": "UTE BAIX LLOBREGAT",
@@ -186,8 +234,7 @@ export const data = {
       "turno": "Nocturn",
       "estado": "Pendent",
       "hora": "08:30",
-      "fecha": getFutureDate(2, 0),
-      "note": "Revisió semestral. Comprovar lectura i connexió SAE."
+      "fecha": getFutureDate(2, 0)
     }
   ],
   "operadores": [
