@@ -19,7 +19,8 @@ export const data = {
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
       "prioridad": "Mitjana",
-      "estado": "Pendent"
+      "estado": "Pendent",
+      "contract": "T-Mobilitat"
     },
     { 
       "id": "rev-trim-002", 
@@ -32,7 +33,8 @@ export const data = {
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
       "prioridad": "Mitjana",
-      "estado": "Pendent" 
+      "estado": "Pendent",
+      "contract": "T-Mobilitat"
     },
     { 
       "id": "rev-trim-003", 
@@ -45,7 +47,8 @@ export const data = {
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
       "prioridad": "Mitjana",
-      "estado": "Completada"
+      "estado": "Completada",
+      "contract": "T-Mobilitat"
     },
     { 
       "id": "rev-trim-004", 
@@ -58,7 +61,8 @@ export const data = {
       "duracionEstimada": "45m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
       "prioridad": "Mitjana",
-      "estado": "Pendent"
+      "estado": "Pendent",
+      "contract": "T-Mobilitat"
     },
     { 
       "id": "rev-anual-001", 
@@ -71,7 +75,8 @@ export const data = {
       "duracionEstimada": "1h 30m", 
       "observaciones": "TORN NOCTURN - Inici any laboral",
       "prioridad": "Alta",
-      "estado": "En Progrés"
+      "estado": "En Progrés",
+      "contract": "T-Mobilitat"
     },
     { 
       "id": "corr-001", 
@@ -84,7 +89,8 @@ export const data = {
       "duracionEstimada": "1h 30m", 
       "observaciones": "AVARIA: La validadora no respon. Possible problema d'alimentació.",
       "prioridad": "Crítica",
-      "estado": "Pendent"
+      "estado": "Pendent",
+      "contract": "T-Mobilitat"
     },
      {
       "id": "inst-001",
@@ -97,7 +103,8 @@ export const data = {
       "duracionEstimada": "30m",
       "observaciones": "Instal·lació completa de maquinari. No requereix configuració de programari.",
       "prioridad": "Mitjana",
-      "estado": "Pendent"
+      "estado": "Pendent",
+      "contract": "T-Mobilitat"
     },
     {
       "id": "trasp-001",
@@ -110,7 +117,58 @@ export const data = {
       "duracionEstimada": "30m",
       "observaciones": "Traspàs de validadora de vehicle antic a nou.",
       "prioridad": "Baixa",
-      "estado": "Pendent"
+      "estado": "Pendent",
+      "contract": "T-Mobilitat"
+    }
+  ],
+  "validadors_tasks": [
+    {
+      "id": "val-001",
+      "contract": "C-4/2025",
+      "operador": "TMB",
+      "cochera": "Horta",
+      "vehiculo": "5432",
+      "n_validadora": "V-5432-1",
+      "tipo": "Preventiu",
+      "prioridad": "Normal",
+      "distancia": "2.5km",
+      "estimacion": "00:30",
+      "turno": "Diurn",
+      "estado": "Pendent",
+      "hora": "09:30",
+      "fecha": getFutureDate(2,0)
+    },
+    {
+      "id": "val-002",
+      "contract": "C-4/2025",
+      "operador": "TMB",
+      "cochera": "Horta",
+      "vehiculo": "5433",
+      "n_validadora": "V-5433-2",
+      "tipo": "Correctiu",
+      "prioridad": "Alta",
+      "distancia": "2.5km",
+      "estimacion": "01:00",
+      "turno": "Diurn",
+      "estado": "En curs",
+      "hora": "11:00",
+      "fecha": getFutureDate(2,0)
+    },
+    {
+      "id": "val-003",
+      "contract": "C-4/2025",
+      "operador": "TMB",
+      "cochera": "Zona Franca",
+      "vehiculo": "8102",
+      "n_validadora": "V-8102-1",
+      "tipo": "Extra",
+      "prioridad": "Crítica",
+      "distancia": "8.1km",
+      "estimacion": "01:30",
+      "turno": "Nocturn",
+      "estado": "Pendent",
+      "hora": "22:00",
+      "fecha": getFutureDate(2,0)
     }
   ],
   "operadores": [
@@ -118,7 +176,8 @@ export const data = {
     { "id": "op-14", "nombre": "UTE BAIX LLOBREGAT" },
     { "id": "op-20", "nombre": "TUSGSAL" },
     { "id": "op-35", "nombre": "EMPRESA SAGALÉS, SA" },
-    { "id": "op-40", "nombre": "SOLER I SAURET, SA" }
+    { "id": "op-40", "nombre": "SOLER I SAURET, SA" },
+    { "id": "op-tmb", "nombre": "TMB" }
   ],
   "autobuses": [
     { "id": "6916-HCR", "uniqueId": "VEH-ALSINA-300", "modelo": "Mercedes Citaro", "operadorId": "op-01" },
