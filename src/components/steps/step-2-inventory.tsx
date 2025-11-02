@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import type { FormValues } from '@/lib/schema';
 import { FormSection } from '@/components/form-section';
@@ -10,25 +11,53 @@ import { Button } from '../ui/button';
 import { QrCode } from 'lucide-react';
 import { Separator } from '../ui/separator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '../ui/dialog';
+import { QrScanner } from '../qr-scanner';
 
 type Step2Props = {
   form: UseFormReturn<FormValues>;
 };
 
-const InputWithScan = ({ field, placeholder }: { field: any; placeholder?: string }) => (
-  <div className="relative">
-    <Input placeholder={placeholder} {...field} className="pr-12" />
-    <Button
-      type="button"
-      variant="ghost"
-      size="icon"
-      className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground"
-      onClick={() => field.onChange(`SIM-${Math.floor(100000 + Math.random() * 900000)}`)}
-    >
-      <QrCode className="h-5 w-5" />
-    </Button>
-  </div>
-);
+const InputWithScan = ({ field, placeholder }: { field: any; placeholder?: string }) => {
+  const [showScanner, setShowScanner] = useState(false);
+
+  const handleScan = (result: string) => {
+    field.onChange(result);
+    setShowScanner(false);
+  };
+
+  return (
+    <>
+      <div className="relative">
+        <Input placeholder={placeholder} {...field} className="pr-12" />
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground hover:text-primary"
+          onClick={() => setShowScanner(true)}
+        >
+          <QrCode className="h-5 w-5" />
+        </Button>
+      </div>
+      
+      <Dialog open={showScanner} onOpenChange={setShowScanner}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Escanejar Codi</DialogTitle>
+            <DialogDescription>
+              Apunta la càmera al codi QR o codi de barres del dispositiu
+            </DialogDescription>
+          </DialogHeader>
+          <QrScanner 
+            onScan={handleScan}
+            label="Escaneja el número de sèrie"
+          />
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
 
 const DeviceFields = ({ form, deviceName, deviceLabel }: { form: UseFormReturn<FormValues>, deviceName: string, deviceLabel: string }) => (
     <AccordionItem value={deviceName}>

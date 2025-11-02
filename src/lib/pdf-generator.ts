@@ -15,6 +15,95 @@ declare module 'jspdf' {
 const CHECK_MARK = '\u2713'; // ✓
 const CROSS_MARK = '\u2717'; // ✗
 
+// Helper para convertir Object URL o PhotoData a formato compatible con jsPDF
+const loadImageFromSource = (source: any): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    // Si es un string (Base64 o Object URL)
+    if (typeof source === 'string') {
+      if (source.startsWith('data:')) {
+        // Ya es Base64
+        resolve(source);
+      } else if (source.startsWith('blob:')) {
+        // Es Object URL, necesitamos convertirlo
+        fetch(source)
+          .then(res => res.blob())
+          .then(blob => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          })
+          .catch(reject);
+      } else {
+        resolve(source);
+      }
+    } 
+    // Si es PhotoData con url
+    else if (source && source.url) {
+      loadImageFromSource(source.url).then(resolve).catch(reject);
+    } 
+    else {
+      reject(new Error('Invalid image source'));
+    }
+  });
+};
+
+// Helper para agregar fotos al PDF
+const addPhotosSection = async (
+  doc: jsPDF, 
+  yPos: number, 
+  title: string, 
+  photos: any[]
+): Promise<number> => {
+  if (!photos || photos.length === 0) return yPos;
+
+  const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+  const margin = 14;
+  const imageWidth = 50;
+  const imageHeight = 40;
+  const spacing = 5;
+  const imagesPerRow = 3;
+
+  // Agregar título de sección
+  doc.setFontSize(12);
+  doc.text(title, margin, yPos);
+  yPos += 8;
+
+  for (let i = 0; i < photos.length; i++) {
+    try {
+      // Convertir la foto a Base64 si es necesario
+      const imageData = await loadImageFromSource(photos[i]);
+      
+      const col = i % imagesPerRow;
+      const row = Math.floor(i / imagesPerRow);
+      
+      const xPos = margin + col * (imageWidth + spacing);
+      let currentYPos = yPos + row * (imageHeight + spacing);
+      
+      // Verificar si necesitamos una nueva página
+      if (currentYPos + imageHeight > pageHeight - 20) {
+        doc.addPage();
+        yPos = 20;
+        currentYPos = yPos;
+      }
+      
+      // Agregar imagen al PDF
+      doc.addImage(imageData, 'JPEG', xPos, currentYPos, imageWidth, imageHeight);
+      
+      // Actualizar yPos para la siguiente fila
+      if (col === imagesPerRow - 1 || i === photos.length - 1) {
+        yPos = currentYPos + imageHeight + spacing;
+      }
+    } catch (error) {
+      console.error('Error loading image for PDF:', error);
+      // Continuar con la siguiente imagen
+    }
+  }
+
+  return yPos + 5;
+};
+
 const addHeader = (doc: jsPDF, title: string) => {
   const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
   let yPos = 20;
@@ -45,7 +134,7 @@ const addSectionHeader = (doc: jsPDF, yPos: number, title: string) => {
 };
 
 
-export const generateInstallationPdf = (data: FormValues, revision: any) => {
+export const generateInstallationPdf = async (data: FormValues, revision: any) => {
   const doc = new jsPDF();
   let yPos = addHeader(doc, `Informe d'${revision.tipo}`);
 
@@ -98,7 +187,7 @@ export const generateInstallationPdf = (data: FormValues, revision: any) => {
     body: inventoryBody,
     theme: 'grid',
     styles: { fontSize: 9 },
-    didParseCell: function (data) {
+    didParseCell: function (data: any) {
         if (typeof data.cell.raw === 'object' && data.cell.raw.content) {
             data.cell.text = data.cell.raw.content;
             if (data.cell.raw.colSpan) {
@@ -178,13 +267,24 @@ export const generateInstallationPdf = (data: FormValues, revision: any) => {
       body: closingBody,
       theme: 'grid',
       styles: { fontSize: 10, cellPadding: 2 },
-      didParseCell: function (hookData) {
+      didParseCell: function (hookData: any) {
         if (hookData.cell.raw === 'Observacions' || hookData.cell.raw === 'Descripció') {
             hookData.cell.styles.cellWidth = 'wrap';
         }
       }
   });
   yPos = (doc as any).lastAutoTable.finalY + 10;
+
+  // Add photos if available
+  if (data.observations.beforePhotos && data.observations.beforePhotos.length > 0) {
+    if (yPos > 240) { yPos = 20; doc.addPage(); }
+    yPos = await addPhotosSection(doc, yPos, 'Fotos ABANS:', data.observations.beforePhotos);
+  }
+
+  if (data.observations.afterPhotos && data.observations.afterPhotos.length > 0) {
+    if (yPos > 240) { yPos = 20; doc.addPage(); }
+    yPos = await addPhotosSection(doc, yPos, 'Fotos DESPRÉS:', data.observations.afterPhotos);
+  }
   
   // Signatures
   doc.text('Signatures:', 14, yPos);
@@ -221,7 +321,7 @@ export const generateInstallationPdf = (data: FormValues, revision: any) => {
 
 
 
-export const generateMaintenancePdf = (data: FormValues) => {
+export const generateMaintenancePdf = async (data: FormValues) => {
   const doc = new jsPDF();
   let yPos = addHeader(doc, 'Ordre de Manteniment Preventiu Trimestral');
 
@@ -262,7 +362,7 @@ export const generateMaintenancePdf = (data: FormValues) => {
     body: inventoryBody,
     theme: 'grid',
     styles: { fontSize: 10 },
-    didParseCell: function (data) {
+    didParseCell: function (data: any) {
         if (typeof data.cell.raw === 'object' && data.cell.raw.content) {
             data.cell.text = data.cell.raw.content;
             if (data.cell.raw.colSpan) {
@@ -332,13 +432,24 @@ export const generateMaintenancePdf = (data: FormValues) => {
       body: observationsBody,
       theme: 'grid',
       styles: { fontSize: 10, cellPadding: 2 },
-      didParseCell: function (hookData) {
+      didParseCell: function (hookData: any) {
         if (hookData.cell.raw === 'Observacions' || hookData.cell.raw === 'Descripció') {
             hookData.cell.styles.cellWidth = 'wrap';
         }
       }
   });
   yPos = (doc as any).lastAutoTable.finalY + 10;
+
+  // Add photos if available
+  if (data.observations.beforePhotos && data.observations.beforePhotos.length > 0) {
+    if (yPos > 240) { yPos = 20; doc.addPage(); }
+    yPos = await addPhotosSection(doc, yPos, 'Fotos ABANS:', data.observations.beforePhotos);
+  }
+
+  if (data.observations.afterPhotos && data.observations.afterPhotos.length > 0) {
+    if (yPos > 240) { yPos = 20; doc.addPage(); }
+    yPos = await addPhotosSection(doc, yPos, 'Fotos DESPRÉS:', data.observations.afterPhotos);
+  }
 
   // Signatures
   if (yPos > 240) { yPos = 20; doc.addPage(); }

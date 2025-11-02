@@ -1,12 +1,15 @@
 'use client'
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Bus, Wrench, ChevronRight, Clock, Building, Users, AlertTriangle, Siren, FileCheck2, Calendar } from 'lucide-react';
+import { Bus, Wrench, ChevronRight, Clock, Building, Users, AlertTriangle, Siren, FileCheck2, Calendar, Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { add, differenceInHours, formatDistanceToNow, parse } from 'date-fns';
 import { ca } from 'date-fns/locale';
+import { useOfflineTasks } from '@/hooks/use-offline-tasks';
+import { useToast } from '@/hooks/use-toast';
 
 type Priority = 'Crítica' | 'Alta' | 'Normal';
 type Status = 'Pendent' | 'En curs' | 'Completada';
@@ -86,10 +89,45 @@ const CorrectiveAlert = ({ sla, fecha, hora }: { sla: string, fecha: string, hor
 
 
 export function ValidatorTaskCard({ task }: { task: any }) {
+  const [isCompleting, setIsCompleting] = useState(false);
   const priorityDetails = getPriorityDetails(task.prioridad);
+  const { markTaskCompleted, isTaskCompleted } = useOfflineTasks();
+  const { toast } = useToast();
+
+  const handleCompleteTask = async () => {
+    if (task.estado === 'Completada' || isTaskCompleted(task.id)) {
+      return;
+    }
+
+    setIsCompleting(true);
+    
+    try {
+      // Simular el tiempo de procesamiento
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Marcar como completada offline
+      markTaskCompleted(task.id, 'validator');
+      
+      toast({
+        title: "Tasca completada",
+        description: `La tasca del validador ${task.n_validadora} ha estat marcada com a completada.`,
+        variant: 'default',
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "No s'ha pogut completar la tasca.",
+        variant: 'destructive',
+      });
+    } finally {
+      setIsCompleting(false);
+    }
+  };
+
+  const taskIsCompleted = task.estado === 'Completada' || isTaskCompleted(task.id);
 
   return (
-    <Card className={`hover:shadow-lg transition-shadow ${getStatusDetails(task.estado)}`}>
+    <Card className={`hover:shadow-lg transition-shadow ${getStatusDetails(taskIsCompleted ? 'Completada' : task.estado)}`}>
       <div className={`absolute left-0 top-0 bottom-0 w-2 rounded-l-lg ${priorityDetails.className}`}></div>
       <CardHeader className="pl-6 pb-3">
           <div className="flex justify-between items-start">
@@ -145,11 +183,25 @@ export function ValidatorTaskCard({ task }: { task: any }) {
                         Checklist
                     </Link>
                 </Button>
-                <Button size="sm" asChild>
-                    <Link href="#">
-                        {task.estado === 'Completada' ? 'Veure Resum' : 'Iniciar Tasca'}
+                <Button 
+                  size="sm" 
+                  onClick={handleCompleteTask}
+                  disabled={taskIsCompleted || isCompleting}
+                  className={taskIsCompleted ? "bg-green-600 hover:bg-green-600" : ""}
+                >
+                    {isCompleting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Completant...
+                      </>
+                    ) : taskIsCompleted ? (
+                      'Completada ✓'
+                    ) : (
+                      <>
+                        Completar Tasca
                         <ChevronRight className="ml-2 h-4 w-4" />
-                    </Link>
+                      </>
+                    )}
                 </Button>
             </div>
       </CardFooter>

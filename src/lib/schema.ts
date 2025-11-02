@@ -1,5 +1,35 @@
 import { z } from 'zod';
 
+// Subesquemes base (sense restriccions estrictes)
+const checklistSchemaBase = z.object({
+  consoleGeneralCleaning: z.boolean().default(false),
+  consoleAutocutterCleaning: z.boolean().default(false),
+  consoleSerialRegistration: z.boolean().default(false),
+  validatorGeneralCleaning: z.boolean().default(false),
+  validatorConnectorsCleaning: z.boolean().default(false),
+  validatorSerialRegistration: z.boolean().default(false),
+});
+
+const verificationSchemaBase = z.object({
+  startupOk: z.boolean().default(false),
+  screenOk: z.boolean().default(false),
+  printerOk: z.boolean().default(false),
+  validationOk: z.boolean().default(false),
+  communicationOk: z.boolean().default(false),
+});
+
+// Versions estrictes (tots els ítems marcats)
+const checklistSchemaStrict = checklistSchemaBase.refine(data => Object.values(data).every(Boolean), {
+  message: 'Totes les tasques de la llista de verificació han de ser completades.',
+  path: ['consoleGeneralCleaning'],
+});
+
+const verificationSchemaStrict = verificationSchemaBase.refine(data => Object.values(data).every(Boolean), {
+  message: 'Totes les verificacions han de ser completades.',
+  path: ['startupOk'],
+});
+
+// Esquema complet (estricte)
 export const formSchema = z.object({
   header: z.object({
     orderNumber: z.string().optional(),
@@ -100,27 +130,8 @@ export const formSchema = z.object({
       softwareUpdate: z.enum(['OK', 'NOK', 'N/A']),
       functionalTests: z.enum(['OK', 'NOK', 'N/A']),
   }),
-  checklist: z.object({
-    consoleGeneralCleaning: z.boolean().default(false),
-    consoleAutocutterCleaning: z.boolean().default(false),
-    consoleSerialRegistration: z.boolean().default(false),
-    validatorGeneralCleaning: z.boolean().default(false),
-    validatorConnectorsCleaning: z.boolean().default(false),
-    validatorSerialRegistration: z.boolean().default(false),
-  }).refine(data => Object.values(data).every(Boolean), {
-    message: 'Totes les tasques de la llista de verificació han de ser completades.',
-    path: ['consoleGeneralCleaning'], // Mostra l'error al primer element
-  }),
-  verification: z.object({
-    startupOk: z.boolean().default(false),
-    screenOk: z.boolean().default(false),
-    printerOk: z.boolean().default(false),
-    validationOk: z.boolean().default(false),
-    communicationOk: z.boolean().default(false),
-  }).refine(data => Object.values(data).every(Boolean), {
-    message: 'Totes les verificacions han de ser completades.',
-    path: ['startupOk'], // Mostra l'error al primer element
-  }),
+  checklist: checklistSchemaStrict,
+  verification: verificationSchemaStrict,
   observations: z.object({
     startTime: z.string().min(1, 'L\'hora d\'inici és obligatòria.'),
     endTime: z.string().min(1, 'L\'hora de fi és obligatòria.'),
@@ -153,3 +164,15 @@ export const formSchema = z.object({
 });
 
 export type FormValues = z.infer<typeof formSchema>;
+
+// Esquema LENIENT per a proves (no obliga a completar tots els checks)
+export const formSchemaLenient = z.object({
+  header: formSchema.shape.header,
+  inventory: formSchema.shape.inventory,
+  software: formSchema.shape.software,
+  preexistingSystems: formSchema.shape.preexistingSystems,
+  executionPhases: formSchema.shape.executionPhases,
+  checklist: checklistSchemaBase, // sense refine
+  verification: verificationSchemaBase, // sense refine
+  observations: formSchema.shape.observations,
+});
