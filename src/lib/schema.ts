@@ -176,3 +176,157 @@ export const formSchemaLenient = z.object({
   verification: verificationSchemaBase, // sense refine
   observations: formSchema.shape.observations,
 });
+
+// ============================================
+// ESQUEMA PARA VALIDADORAS MAGNÉTICAS (C-4/2025)
+// ============================================
+
+// Peça substituïda
+const piezaSustituida = z.object({
+  id: z.string(),
+  descripcion: z.string().min(1, 'La descripció és obligatòria'),
+  referencia: z.string().min(1, 'La referència és obligatòria'),
+  cantidad: z.number().min(1, 'La quantitat ha de ser almenys 1'),
+  motivo: z.string().min(1, 'El motiu és obligatori'),
+});
+
+// Checklist de tareas de mantenimiento (12 items obligatorios)
+const checklistMagneticasBase = z.object({
+  netejaInterna: z.boolean().default(false),
+  netejaExterna: z.boolean().default(false),
+  netejaViesBitllets: z.boolean().default(false),
+  netejaFotocelules: z.boolean().default(false),
+  verificacioRodets: z.boolean().default(false),
+  comprovacioCorretges: z.boolean().default(false),
+  verificacioCargoleria: z.boolean().default(false),
+  substitucióPeces: z.boolean().default(false),
+  verificacioFuncional: z.boolean().default(false),
+  comprovacióComunicacio: z.boolean().default(false),
+  registreFotografic: z.boolean().default(false),
+  documentacioActualitzada: z.boolean().default(false),
+});
+
+const checklistMagneticasStrict = checklistMagneticasBase.refine(
+  data => Object.values(data).every(Boolean),
+  {
+    message: 'Totes les tasques de manteniment han de ser completades.',
+    path: ['netejaInterna'],
+  }
+);
+
+// Esquema completo para validadoras magnéticas (STRICT - validación completa)
+export const formSchemaMagneticas = z.object({
+  // SECCIÓN 1: Datos de la intervención (pre-rellenados)
+  datosIntervencion: z.object({
+    contrato: z.string().default('C-4/2025'),
+    operador: z.string().min(1, 'L\'operador és obligatori'),
+    estacion: z.string().min(1, 'L\'estació/ubicació és obligatòria'),
+    numeroValidadora: z.string().min(1, 'El número de validadora és obligatori'),
+    matricula: z.string().optional(), // Opcional, puede no tener matrícula
+    tecnico: z.string().min(1, 'El tècnic és obligatori'),
+    data: z.date({ required_error: 'La data és obligatòria' }),
+    horaProgramada: z.string().min(1, 'L\'hora programada és obligatòria'),
+  }),
+
+  // SECCIÓN 2: Inventario y versiones (editables)
+  inventarioVersiones: z.object({
+    modelValidadora: z.string().min(1, 'El model de validadora és obligatori'),
+    numeroSerie: z.string().min(1, 'El número de sèrie és obligatori'),
+    versionFirmware: z.string().min(1, 'La versió de firmware és obligatòria'),
+    versionSoftware: z.string().min(1, 'La versió de software és obligatòria'),
+    ultimaActualizacion: z.date({ required_error: 'La data d\'última actualització és obligatòria' }),
+  }),
+
+  // SECCIÓN 3: Checklist de tareas
+  tareasMantenimiento: checklistMagneticasStrict,
+
+  // SECCIÓN 4: Piezas sustituidas (tabla dinámica, opcional)
+  piezasSustituidas: z.array(piezaSustituida).default([]),
+
+  // SECCIÓN 5: Observaciones y cierre
+  observacionesTancament: z.object({
+    horaInicio: z.string().min(1, 'L\'hora d\'inici és obligatòria'),
+    horaFin: z.string().min(1, 'L\'hora de fi és obligatòria'),
+    tiempoTotal: z.string().optional(), // Calculado automáticamente
+    observacionesGenerales: z.string().optional(),
+    
+    // Incidencias detectadas
+    tieneIncidencia: z.boolean().default(false),
+    incidencia: z.object({
+      titulo: z.string().default(''),
+      descripcion: z.string().default(''),
+      prioridad: z.enum(['Baixa', 'Mitjana', 'Alta']).default('Baixa'),
+      generarOrdenCorrectiva: z.boolean().default(false),
+    }).optional(),
+  }).refine(data => {
+    if (data.tieneIncidencia) {
+      return (
+        data.incidencia &&
+        data.incidencia.titulo.trim().length > 0 &&
+        data.incidencia.descripcion.trim().length >= 20
+      );
+    }
+    return true;
+  }, {
+    message: 'La descripció de la incidència ha de tenir almenys 20 caràcters.',
+    path: ['incidencia', 'descripcion'],
+  }),
+
+  // SECCIÓN 6: Adjuntos (fotografías)
+  adjuntos: z.object({
+    fotografias: z.array(z.string()).min(1, 'Cal adjuntar almenys una fotografia'),
+  }),
+});
+
+export type FormValuesMagneticas = z.infer<typeof formSchemaMagneticas>;
+
+// Versión LENIENT para pruebas (sin obligatoriedad de checklist completo ni fotos)
+export const formSchemaMagneticasLenient = z.object({
+  // Relajamos todos los campos para no bloquear pruebas
+  datosIntervencion: z.object({
+    contrato: z.string().default('C-4/2025'),
+    operador: z.string().optional().default(''),
+    estacion: z.string().optional().default(''),
+    numeroValidadora: z.string().optional().default(''),
+    matricula: z.string().optional(),
+    tecnico: z.string().optional().default(''),
+    data: z.date().optional().default(new Date()),
+    horaProgramada: z.string().optional().default(''),
+  }),
+
+  inventarioVersiones: z.object({
+    modelValidadora: z.string().optional().default(''),
+    numeroSerie: z.string().optional().default(''),
+    versionFirmware: z.string().optional().default(''),
+    versionSoftware: z.string().optional().default(''),
+    ultimaActualizacion: z.date().optional().default(new Date()),
+  }),
+
+  tareasMantenimiento: checklistMagneticasBase, // sin refine
+
+  piezasSustituidas: z.array(z.object({
+    id: z.string().optional().default(''),
+    descripcion: z.string().optional().default(''),
+    referencia: z.string().optional().default(''),
+    cantidad: z.number().optional().default(1 as any),
+    motivo: z.string().optional().default(''),
+  })).default([]),
+
+  observacionesTancament: z.object({
+    horaInicio: z.string().optional().default(''),
+    horaFin: z.string().optional().default(''),
+    tiempoTotal: z.string().optional().default(''),
+    observacionesGenerales: z.string().optional().default(''),
+    tieneIncidencia: z.boolean().optional().default(false),
+    incidencia: z.object({
+      titulo: z.string().optional().default(''),
+      descripcion: z.string().optional().default(''),
+      prioridad: z.enum(['Baixa', 'Mitjana', 'Alta']).optional().default('Baixa'),
+      generarOrdenCorrectiva: z.boolean().optional().default(false),
+    }).optional(),
+  }),
+
+  adjuntos: z.object({
+    fotografias: z.array(z.string()).optional().default([]), // sin mínimo
+  }),
+});

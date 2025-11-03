@@ -1,8 +1,9 @@
 ﻿'use server';
 
 import { validateChecklistData, ValidateChecklistDataOutput } from '@/ai/flows/ai-powered-data-validation';
-import type { FormValues } from '@/lib/schema';
-import { formSchema, formSchemaLenient } from '@/lib/schema';
+import type { FormValues, FormValuesMagneticas } from '@/lib/schema';
+import { formSchema, formSchemaLenient, formSchemaMagneticas, formSchemaMagneticasLenient } from '@/lib/schema';
+import { data } from '@/lib/data';
 
 export async function validateWithAI(
   data: FormValues
@@ -36,6 +37,110 @@ export async function validateWithAI(
   } catch (error) {
     console.error('Error de validació IA:', error);
     return { success: false, error: "S'ha produït un error inesperat durant la validació amb IA." };
+  }
+}
+// ============================================
+// ACCIONES PARA VALIDADORAS MAGNÉTICAS (C-4/2025)
+// ============================================
+
+export async function submitMagneticasOrder(
+  formData: FormValuesMagneticas, 
+  taskId: string
+): Promise<{ success: boolean; message?: string; error?: string; ordenCorrectivaId?: string }> {
+  // Usar esquema lenient por defecto; para estricto activar NEXT_PUBLIC_FORM_STRICT=1
+  const isStrict = process.env.NEXT_PUBLIC_FORM_STRICT === '1';
+  const schemaToUse = isStrict ? formSchemaMagneticas : formSchemaMagneticasLenient;
+  
+  try {
+    schemaToUse.parse(formData);
+  } catch (validationError: any) {
+    console.error('❌ Validació del servidor fallida:', validationError);
+    return { 
+      success: false, 
+      error: 'Les dades enviades no són vàlides. Si us plau, revisa el formulari.' 
+    };
+  }
+
+  console.log('✅ Validació del servidor superada');
+  console.log('📝 Enviant ordre de manteniment de validadora magnètica:', JSON.stringify(formData, null, 2));
+
+  // Simulación de envío al servidor
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  try {
+    const timestamp = new Date().toISOString();
+    
+    // Guardar el formulario
+    const formSubmission = {
+      id: `form_mag_${formData.datosIntervencion.numeroValidadora}_${timestamp}`,
+      submittedAt: timestamp,
+      numeroValidadora: formData.datosIntervencion.numeroValidadora,
+      operador: formData.datosIntervencion.operador,
+      tecnico: formData.datosIntervencion.tecnico,
+      contrato: 'C-4/2025',
+      formData: formData,
+      status: 'Completada',
+      tipo: 'Validadora Magnètica - Preventiu Trimestral'
+    };
+
+    console.log('💾 Formulari guardat:', formSubmission.id);
+
+    // Si se marcó generar orden correctiva
+    let ordenCorrectivaId: string | undefined;
+    if (formData.observacionesTancament.tieneIncidencia && 
+        formData.observacionesTancament.incidencia?.generarOrdenCorrectiva) {
+      
+      const incidencia = formData.observacionesTancament.incidencia;
+      
+      // Crear nueva OT correctiva vinculada
+      ordenCorrectivaId = `OT-CORR-${formData.datosIntervencion.numeroValidadora}-${Date.now()}`;
+      
+      const nuevaOTCorrectiva = {
+        id: ordenCorrectivaId,
+        contract: 'C-4/2025',
+        operador: formData.datosIntervencion.operador,
+        cochera: formData.datosIntervencion.estacion,
+        vehiculo: formData.datosIntervencion.numeroValidadora,
+        n_validadora: formData.datosIntervencion.numeroValidadora,
+        tipo: 'Correctiu',
+        prioridad: incidencia.prioridad as any,
+        distancia: '0km',
+        estimacion: '01:00',
+        turno: 'Diurn',
+        estado: 'Pendent',
+        hora: '09:00',
+        fecha: new Date().toISOString(),
+        observaciones: `INCIDÈNCIA DETECTADA EN MANTENIMENT PREVENTIU:\n\n${incidencia.titulo}\n\n${incidencia.descripcion}`,
+        ordenOrigenId: taskId,
+        ordenOrigenTipo: 'Preventiu Trimestral'
+      };
+
+      console.log('🔧 Ordre correctiva generada:', ordenCorrectivaId);
+      console.log('📋 Detalls OT correctiva:', nuevaOTCorrectiva);
+
+      // Aquí se guardaría en la base de datos real
+      // Por ahora solo lo guardamos en localStorage para simulación
+      if (typeof window !== 'undefined') {
+        const ordenesCorrectivas = JSON.parse(localStorage.getItem('ordenesCorrectivas') || '[]');
+        ordenesCorrectivas.push(nuevaOTCorrectiva);
+        localStorage.setItem('ordenesCorrectivas', JSON.stringify(ordenesCorrectivas));
+      }
+    }
+
+    return { 
+      success: true, 
+      message: ordenCorrectivaId 
+        ? `Ordre de manteniment enviada amb èxit. S'ha generat l'ordre correctiva ${ordenCorrectivaId}.`
+        : 'Ordre de manteniment enviada amb èxit.',
+      ordenCorrectivaId
+    };
+    
+  } catch (error) {
+    console.error('❌ Error processing magneticas order:', error);
+    return { 
+      success: false, 
+      error: 'Error en processar l\'ordre de manteniment.' 
+    };
   }
 }
 
