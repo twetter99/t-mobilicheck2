@@ -195,7 +195,7 @@ export function FormularioValidadorasMagneticas({ task, operatorId, onClose }: P
         estacion: task.cochera || task.ubicacion || '',
         numeroValidadora: generarCodigoValidadora(task),
         matricula: obtenerMatriculaModerna(task),
-        tecnico: operatorId || 'Tècnic Assignat',
+        tecnico: 'Tècnic Assignat', // Será rellenado por el técnico del adjudicatario
         data: new Date(),
         horaProgramada: task.hora || '',
       },
@@ -207,18 +207,29 @@ export function FormularioValidadorasMagneticas({ task, operatorId, onClose }: P
         ultimaActualizacion: new Date(),
       },
       tareasMantenimiento: {
-        netejaInterna: false,
-        netejaExterna: false,
-        netejaViesBitllets: false,
-        netejaFotocelules: false,
-        verificacioRodets: false,
-        comprovacioCorretges: false,
-        verificacioCargoleria: false,
-        substitucióPeces: false,
-        verificacioFuncional: false,
-        comprovacióComunicacio: false,
-        registreFotografic: false,
-        documentacioActualitzada: false,
+        // Fase 1: Intervenció (PPT 2.1.2)
+        "Desmuntatge de la validadora del vehicle": false,
+
+        // Fase 2: Taller (PPT 2.1.2)
+        "Neteja interna de la validadora (pols)": false,
+        "Neteja externa de la validadora": false,
+        "Neteja de vies de pas de bitllets": false,
+        "Neteja de fotocèl·lules": false,
+        "Verificació i ajust de rodets de pressió del capçal magnètic": false,
+        "Verificació/substitució del capçal magnètic": false,
+        "Comprovació de tensió de corretges": false,
+        "Verificació i apreto de cargols de subjecció de motors": false,
+        "Substitució preventiva de peces desgastades (si escau)": false,
+
+        // Fase 3: Tancament Vehicle (PPT 2.1.2)
+        "Restitució de l'equip al vehicle": false,
+        "Comprovació de comunicació amb sistema embarcat": false,
+        "Verificació a bord (Test d'explotació)": false,
+        "Obtenció i adjunció del justificant de test": false,
+
+        // Fase 4: Documentació
+        "Registre fotogràfic realitzat": false,
+        "Documentació tècnica actualitzada": false,
       },
       piezasSustituidas: [],
       observacionesTancament: {
@@ -233,9 +244,11 @@ export function FormularioValidadorasMagneticas({ task, operatorId, onClose }: P
           prioridad: 'Baixa',
           generarOrdenCorrectiva: false,
         },
+        conformitatOperador: '', // Campo PPT
       },
       adjuntos: {
         fotografias: [],
+        justificantTest: '', // Campo PPT
       },
     },
   });
@@ -249,10 +262,16 @@ export function FormularioValidadorasMagneticas({ task, operatorId, onClose }: P
   }, [form]);
 
   const nextStep = () => {
-    setCurrentStep((s) => (s < steps.length - 1 ? s + 1 : s));
+    console.log(`Navegando de paso ${currentStep} a ${currentStep + 1} de ${steps.length - 1}`);
+    setCurrentStep((s) => {
+      const newStep = s < steps.length - 1 ? s + 1 : s;
+      console.log(`Nuevo paso: ${newStep}`);
+      return newStep;
+    });
   };
 
   const prevStep = () => {
+    console.log(`Retrocediendo de paso ${currentStep} a ${currentStep - 1}`);
     setCurrentStep((s) => (s > 0 ? s - 1 : s));
   };
 
@@ -400,6 +419,13 @@ export function FormularioValidadorasMagneticas({ task, operatorId, onClose }: P
       </div>
 
       <StepIndicator currentStep={currentStep} totalSteps={steps.length} />
+      
+      {/* Mostrar nombre del paso actual */}
+      <div className="text-center mt-4">
+        <p className="text-sm font-medium text-muted-foreground">
+          Pas {currentStep + 1} de {steps.length}: <span className="text-primary font-semibold">{steps[currentStep].name}</span>
+        </p>
+      </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} className="mt-8 space-y-8">
@@ -452,7 +478,7 @@ export function FormularioValidadorasMagneticas({ task, operatorId, onClose }: P
 
             {currentStep < steps.length - 1 ? (
               <Button type="button" onClick={nextStep}>
-                Següent
+                Següent ({steps[currentStep + 1]?.name})
               </Button>
             ) : (
               <Button type="submit" disabled={isSubmitting}>

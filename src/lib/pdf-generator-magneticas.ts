@@ -151,29 +151,45 @@ export const generateMagneticasPdf = async (data: FormValuesMagneticas, task: an
   yPos = (doc as any).lastAutoTable.finalY + 10;
   checkPageBreak(60);
 
-  // SECCIÓN 3: Tasques de Manteniment (Checklist)
+  // SECCIÓN 3: Tasques de Manteniment (Checklist PPT 2.1.2)
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(255, 140, 0);
-  doc.text('3. TASQUES DE MANTENIMENT', margin, yPos);
+  doc.text('3. TASQUES DE MANTENIMENT (PPT 2.1.2)', margin, yPos);
   yPos += 8;
 
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(0, 0, 0);
 
+  // Organizado por fases según PPT 2.1.2
   const checklist = [
-    [data.tareasMantenimiento.netejaInterna ? CHECK_MARK : '\u2610', 'Neteja interna de la validadora'],
-    [data.tareasMantenimiento.netejaExterna ? CHECK_MARK : '\u2610', 'Neteja externa de la validadora'],
-    [data.tareasMantenimiento.netejaViesBitllets ? CHECK_MARK : '\u2610', 'Neteja de vies de pas de bitllets'],
-    [data.tareasMantenimiento.netejaFotocelules ? CHECK_MARK : '\u2610', 'Neteja de fotocèl·lules de detecció'],
-    [data.tareasMantenimiento.verificacioRodets ? CHECK_MARK : '\u2610', 'Verificació i ajust de rodets de pressió del capçal magnètic'],
-    [data.tareasMantenimiento.comprovacioCorretges ? CHECK_MARK : '\u2610', 'Comprovació de tensió de corretges'],
-    [data.tareasMantenimiento.verificacioCargoleria ? CHECK_MARK : '\u2610', 'Verificació i apreto de cargoleria estructural'],
-    [data.tareasMantenimiento.substitucióPeces ? CHECK_MARK : '\u2610', 'Substitució preventiva de peces desgastades (si escau)'],
-    [data.tareasMantenimiento.verificacioFuncional ? CHECK_MARK : '\u2610', 'Verificació funcional del procés de validació'],
-    [data.tareasMantenimiento.comprovacióComunicacio ? CHECK_MARK : '\u2610', 'Comprovació de comunicació amb sistema embarcat'],
-    [data.tareasMantenimiento.registreFotografic ? CHECK_MARK : '\u2610', 'Registre fotogràfic realitzat'],
-    [data.tareasMantenimiento.documentacioActualitzada ? CHECK_MARK : '\u2610', 'Documentació tècnica actualitzada'],
+    // FASE 1: Intervenció
+    ['FASE', 'Fase 1: Intervenció'],
+    [data.tareasMantenimiento["Desmuntatge de la validadora del vehicle"] ? CHECK_MARK : '\u2610', 'Desmuntatge de la validadora del vehicle'],
+    
+    // FASE 2: Taller
+    ['FASE', 'Fase 2: Taller'],
+    [data.tareasMantenimiento["Neteja interna de la validadora (pols)"] ? CHECK_MARK : '\u2610', 'Neteja interna de la validadora (pols)'],
+    [data.tareasMantenimiento["Neteja externa de la validadora"] ? CHECK_MARK : '\u2610', 'Neteja externa de la validadora'],
+    [data.tareasMantenimiento["Neteja de vies de pas de bitllets"] ? CHECK_MARK : '\u2610', 'Neteja de vies de pas de bitllets'],
+    [data.tareasMantenimiento["Neteja de fotocèl·lules"] ? CHECK_MARK : '\u2610', 'Neteja de fotocèl·lules'],
+    [data.tareasMantenimiento["Verificació i ajust de rodets de pressió del capçal magnètic"] ? CHECK_MARK : '\u2610', 'Verificació i ajust de rodets de pressió del capçal magnètic'],
+    [data.tareasMantenimiento["Verificació/substitució del capçal magnètic"] ? CHECK_MARK : '\u2610', 'Verificació/substitució del capçal magnètic'],
+    [data.tareasMantenimiento["Comprovació de tensió de corretges"] ? CHECK_MARK : '\u2610', 'Comprovació de tensió de corretges'],
+    [data.tareasMantenimiento["Verificació i apreto de cargols de subjecció de motors"] ? CHECK_MARK : '\u2610', 'Verificació i apreto de cargols de subjecció de motors'],
+    [data.tareasMantenimiento["Substitució preventiva de peces desgastades (si escau)"] ? CHECK_MARK : '\u2610', 'Substitució preventiva de peces desgastades (si escau)'],
+    
+    // FASE 3: Tancament Vehicle
+    ['FASE', 'Fase 3: Tancament Vehicle'],
+    [data.tareasMantenimiento["Restitució de l'equip al vehicle"] ? CHECK_MARK : '\u2610', "Restitució de l'equip al vehicle"],
+    [data.tareasMantenimiento["Comprovació de comunicació amb sistema embarcat"] ? CHECK_MARK : '\u2610', 'Comprovació de comunicació amb sistema embarcat'],
+    [data.tareasMantenimiento["Verificació a bord (Test d'explotació)"] ? CHECK_MARK : '\u2610', "Verificació a bord (Test d'explotació)"],
+    [data.tareasMantenimiento["Obtenció i adjunció del justificant de test"] ? CHECK_MARK : '\u2610', 'Obtenció i adjunció del justificant de test'],
+    
+    // FASE 4: Documentació
+    ['FASE', 'Fase 4: Documentació'],
+    [data.tareasMantenimiento["Registre fotogràfic realitzat"] ? CHECK_MARK : '\u2610', 'Registre fotogràfic realitzat'],
+    [data.tareasMantenimiento["Documentació tècnica actualitzada"] ? CHECK_MARK : '\u2610', 'Documentació tècnica actualitzada'],
   ];
 
   doc.autoTable({
@@ -185,6 +201,15 @@ export const generateMagneticasPdf = async (data: FormValuesMagneticas, task: an
     columnStyles: { 
       0: { cellWidth: 10, halign: 'center', fontStyle: 'bold' },
       1: { cellWidth: 160 }
+    },
+    didParseCell: (data: any) => {
+      // Resaltar encabezados de fase
+      if (data.cell.raw === 'FASE') {
+        data.cell.styles.fillColor = [255, 140, 0];
+        data.cell.styles.textColor = [255, 255, 255];
+        data.cell.styles.fontStyle = 'bold';
+        data.cell.styles.fontSize = 10;
+      }
     },
     margin: { left: margin },
   });
@@ -227,11 +252,11 @@ export const generateMagneticasPdf = async (data: FormValuesMagneticas, task: an
 
   checkPageBreak(60);
 
-  // SECCIÓN 5: Observacions i Tancament
+  // SECCIÓN 5: Incidències i Tancament (PPT)
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(255, 140, 0);
-  doc.text('5. OBSERVACIONS I TANCAMENT', margin, yPos);
+  doc.text('5. INCIDÈNCIES I TANCAMENT', margin, yPos);
   yPos += 8;
 
   doc.setFont('helvetica', 'normal');
@@ -257,7 +282,7 @@ export const generateMagneticasPdf = async (data: FormValuesMagneticas, task: an
 
   if (data.observacionesTancament.observacionesGenerales) {
     doc.setFont('helvetica', 'bold');
-    doc.text('Observacions Generals:', margin, yPos);
+    doc.text('Incidències Ocorregudes (PPT):', margin, yPos);
     yPos += 6;
     doc.setFont('helvetica', 'normal');
     const lines = doc.splitTextToSize(data.observacionesTancament.observacionesGenerales, pageWidth - 2 * margin);

@@ -190,27 +190,38 @@ const piezaSustituida = z.object({
   motivo: z.string().min(1, 'El motiu és obligatori'),
 });
 
-// Checklist de tareas de mantenimiento (12 items obligatorios)
+// Checklist de tareas de mantenimiento PPT 2.1.2 (16 items obligatorios)
 const checklistMagneticasBase = z.object({
-  netejaInterna: z.boolean().default(false),
-  netejaExterna: z.boolean().default(false),
-  netejaViesBitllets: z.boolean().default(false),
-  netejaFotocelules: z.boolean().default(false),
-  verificacioRodets: z.boolean().default(false),
-  comprovacioCorretges: z.boolean().default(false),
-  verificacioCargoleria: z.boolean().default(false),
-  substitucióPeces: z.boolean().default(false),
-  verificacioFuncional: z.boolean().default(false),
-  comprovacióComunicacio: z.boolean().default(false),
-  registreFotografic: z.boolean().default(false),
-  documentacioActualitzada: z.boolean().default(false),
+  // Fase 1: Intervenció (PPT 2.1.2)
+  "Desmuntatge de la validadora del vehicle": z.boolean().default(false),
+
+  // Fase 2: Taller (PPT 2.1.2)
+  "Neteja interna de la validadora (pols)": z.boolean().default(false),
+  "Neteja externa de la validadora": z.boolean().default(false),
+  "Neteja de vies de pas de bitllets": z.boolean().default(false),
+  "Neteja de fotocèl·lules": z.boolean().default(false),
+  "Verificació i ajust de rodets de pressió del capçal magnètic": z.boolean().default(false),
+  "Verificació/substitució del capçal magnètic": z.boolean().default(false),
+  "Comprovació de tensió de corretges": z.boolean().default(false),
+  "Verificació i apreto de cargols de subjecció de motors": z.boolean().default(false),
+  "Substitució preventiva de peces desgastades (si escau)": z.boolean().default(false),
+
+  // Fase 3: Tancament Vehicle (PPT 2.1.2)
+  "Restitució de l'equip al vehicle": z.boolean().default(false),
+  "Comprovació de comunicació amb sistema embarcat": z.boolean().default(false),
+  "Verificació a bord (Test d'explotació)": z.boolean().default(false),
+  "Obtenció i adjunció del justificant de test": z.boolean().default(false),
+
+  // Fase 4: Documentació
+  "Registre fotogràfic realitzat": z.boolean().default(false),
+  "Documentació tècnica actualitzada": z.boolean().default(false),
 });
 
 const checklistMagneticasStrict = checklistMagneticasBase.refine(
   data => Object.values(data).every(Boolean),
   {
-    message: 'Totes les tasques de manteniment han de ser completades.',
-    path: ['netejaInterna'],
+    message: 'Totes les tasques de manteniment PPT han de ser completades.',
+    path: ["Desmuntatge de la validadora del vehicle"],
   }
 );
 
@@ -258,6 +269,9 @@ export const formSchemaMagneticas = z.object({
       prioridad: z.enum(['Baixa', 'Mitjana', 'Alta']).default('Baixa'),
       generarOrdenCorrectiva: z.boolean().default(false),
     }).optional(),
+    
+    // Campos PPT adicionales
+    conformitatOperador: z.string().optional(), // Firma DataURL
   }).refine(data => {
     if (data.tieneIncidencia) {
       return (
@@ -275,6 +289,7 @@ export const formSchemaMagneticas = z.object({
   // SECCIÓN 6: Adjuntos (fotografías)
   adjuntos: z.object({
     fotografias: z.array(z.string()).min(1, 'Cal adjuntar almenys una fotografia'),
+    justificantTest: z.string().optional(), // URL/DataURL del justificante del test a bordo (PPT)
   }),
 });
 
@@ -324,9 +339,11 @@ export const formSchemaMagneticasLenient = z.object({
       prioridad: z.enum(['Baixa', 'Mitjana', 'Alta']).optional().default('Baixa'),
       generarOrdenCorrectiva: z.boolean().optional().default(false),
     }).optional(),
+    conformitatOperador: z.string().optional(), // Firma DataURL
   }),
 
   adjuntos: z.object({
     fotografias: z.array(z.string()).optional().default([]), // sin mínimo
+    justificantTest: z.string().optional(), // URL/DataURL del justificante
   }),
 });

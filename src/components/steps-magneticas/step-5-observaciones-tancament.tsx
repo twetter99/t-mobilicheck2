@@ -11,6 +11,7 @@ import { AlertTriangle } from 'lucide-react';
 import { UseFormReturn } from 'react-hook-form';
 import { FormValuesMagneticas } from '@/lib/schema';
 import { useEffect } from 'react';
+import { SignaturePad } from '@/components/signature-pad';
 
 type Props = {
   form: UseFormReturn<FormValuesMagneticas>;
@@ -100,15 +101,36 @@ export function Step5ObservacionesTancament({ form }: Props) {
           name="observacionesTancament.observacionesGenerales"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Observacions Generals</FormLabel>
+              <FormLabel>Incidències Ocorregudes (PPT)</FormLabel>
               <FormControl>
                 <Textarea
                   {...field}
                   value={field.value || ''}
-                  placeholder="Qualsevol observació rellevant sobre la intervenció..."
+                  placeholder="Descriviu qualsevol incidència rellevant durant la intervenció..."
                   className="min-h-[100px]"
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Firma de Conformitat Operador (PPT) */}
+        <FormField
+          control={form.control}
+          name="observacionesTancament.conformitatOperador"
+          render={({ field }) => (
+            <FormItem className="flex flex-col rounded-lg border p-4">
+              <FormLabel>Conformitat Operador (PPT)</FormLabel>
+              <FormControl>
+                <SignaturePad
+                  onSign={(dataUrl: string) => field.onChange(dataUrl)}
+                  value={field.value}
+                />
+              </FormControl>
+              <FormDescription>
+                Sol·licitar la signatura del responsable de cotxera si escau.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

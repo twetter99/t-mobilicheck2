@@ -17,12 +17,14 @@ type Props = {
 export function Step6Adjuntos({ form }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+  const justificantInputRef = useRef<HTMLInputElement>(null);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [cameraOpen, setCameraOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
   const fotografias = form.watch('adjuntos.fotografias') || [];
+  const justificantTest = form.watch('adjuntos.justificantTest');
 
   // Función de compresión de imagen (reutilizada del código existente)
   const compressImage = (file: File): Promise<string> => {
@@ -178,90 +180,204 @@ export function Step6Adjuntos({ form }: Props) {
     }
   };
 
+  const handleJustificantChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const file = files[0];
+    
+    // Si es imagen, comprimirla
+    if (file.type.startsWith('image/')) {
+      try {
+        const compressedUrl = await compressImage(file);
+        form.setValue('adjuntos.justificantTest', compressedUrl);
+      } catch (error) {
+        console.error('Error al comprimir justificante:', error);
+      }
+    } else {
+      // Si es PDF u otro archivo, convertir a DataURL
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target?.result as string;
+        form.setValue('adjuntos.justificantTest', dataUrl);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveJustificant = () => {
+    const currentJustificant = form.getValues('adjuntos.justificantTest');
+    
+    // Liberar memoria si es blob
+    if (currentJustificant && currentJustificant.startsWith('blob:')) {
+      URL.revokeObjectURL(currentJustificant);
+    }
+    
+    form.setValue('adjuntos.justificantTest', undefined);
+  };
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Adjunts</CardTitle>
-        <CardDescription>Fotografies de la intervenció (mínim 1 imatge)</CardDescription>
+        <CardDescription>Fotografies de la intervenció i justificant del test a bord (PPT)</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex gap-2">
-          <Button type="button" onClick={startCamera} variant="outline" className="flex-1">
-            <Camera className="mr-2 h-4 w-4" />
-            Fer Fotografia
-          </Button>
-          <Button type="button" onClick={handleFileClick} variant="outline" className="flex-1">
-            <Upload className="mr-2 h-4 w-4" />
-            Afegir des d'Arxiu
-          </Button>
+      <CardContent className="space-y-6">
+        {/* SECCIÓN 1: FOTOGRAFÍAS DE LA INTERVENCIÓN */}
+        <div className="space-y-4">
+          <h3 className="text-sm font-medium">Fotografies de la Intervenció</h3>
+          <div className="flex gap-2">
+            <Button type="button" onClick={startCamera} variant="outline" className="flex-1">
+              <Camera className="mr-2 h-4 w-4" />
+              Fer Fotografia
+            </Button>
+            <Button type="button" onClick={handleFileClick} variant="outline" className="flex-1">
+              <Upload className="mr-2 h-4 w-4" />
+              Afegir des d'Arxiu
+            </Button>
+          </div>
+
+          <input
+            ref={cameraInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            multiple
+            onChange={handleFileChange}
+            className="hidden"
+          />
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleFileChange}
+            className="hidden"
+          />
+
+          <FormField
+            control={form.control}
+            name="adjuntos.fotografias"
+            render={() => (
+              <FormItem>
+                <FormDescription>
+                  {fotografias.length} fotografia{fotografias.length !== 1 ? 'es' : ''} afegida{fotografias.length !== 1 ? 'es' : ''}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {fotografias.length > 0 && (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {fotografias.map((url, index) => (
+                <div key={index} className="relative group">
+                  <div className="aspect-square relative border rounded-lg overflow-hidden">
+                    <Image
+                      src={url}
+                      alt={`Fotografia ${index + 1}`}
+                      fill
+                      unoptimized
+                      className="object-cover"
+                    />
+                  </div>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="icon"
+                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={() => handleRemovePhoto(index)}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {fotografias.length === 0 && (
+            <div className="border-2 border-dashed rounded-lg p-8 text-center text-muted-foreground">
+              <Camera className="mx-auto h-12 w-12 mb-2 opacity-50" />
+              <p>No s'han afegit fotografies encara</p>
+              <p className="text-sm">Utilitzeu els botons de dalt per afegir imatges</p>
+            </div>
+          )}
         </div>
 
-        <input
-          ref={cameraInputRef}
-          type="file"
-          accept="image/*"
-          capture="environment"
-          multiple
-          onChange={handleFileChange}
-          className="hidden"
-        />
-
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={handleFileChange}
-          className="hidden"
-        />
-
-        <FormField
-          control={form.control}
-          name="adjuntos.fotografias"
-          render={() => (
-            <FormItem>
-              <FormDescription>
-                {fotografias.length} fotografia{fotografias.length !== 1 ? 'es' : ''} afegida{fotografias.length !== 1 ? 'es' : ''}
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {fotografias.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {fotografias.map((url, index) => (
-              <div key={index} className="relative group">
-                <div className="aspect-square relative border rounded-lg overflow-hidden">
-                  <Image
-                    src={url}
-                    alt={`Fotografia ${index + 1}`}
-                    fill
-                    unoptimized
-                    className="object-cover"
-                  />
-                </div>
-                <Button
-                  type="button"
-                  variant="destructive"
-                  size="icon"
-                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={() => handleRemovePhoto(index)}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
+        {/* SECCIÓN 2: JUSTIFICANT DEL TEST A BORD (PPT) */}
+        <div className="space-y-4 border-t pt-4">
+          <div className="flex items-start justify-between">
+            <div>
+              <h3 className="text-sm font-medium">Justificant de Test a Bord (PPT)</h3>
+              <p className="text-xs text-muted-foreground mt-1">
+                Adjuntar el justificant generat per la validadora després del test d'explotació
+              </p>
+            </div>
           </div>
-        )}
 
-        {fotografias.length === 0 && (
-          <div className="border-2 border-dashed rounded-lg p-8 text-center text-muted-foreground">
-            <Camera className="mx-auto h-12 w-12 mb-2 opacity-50" />
-            <p>No s'han afegit fotografies encara</p>
-            <p className="text-sm">Utilitzeu els botons de dalt per afegir imatges</p>
-          </div>
-        )}
+          <FormField
+            control={form.control}
+            name="adjuntos.justificantTest"
+            render={() => (
+              <FormItem>
+                {justificantTest ? (
+                  <div className="border rounded-lg p-4 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Upload className="h-4 w-4 text-green-600" />
+                        <span className="text-sm font-medium">Justificant adjuntat</span>
+                      </div>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleRemoveJustificant}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    {justificantTest.startsWith('data:image/') && (
+                      <div className="relative w-full h-48 rounded-md overflow-hidden">
+                        <Image
+                          src={justificantTest}
+                          alt="Justificant Test"
+                          fill
+                          unoptimized
+                          className="object-contain"
+                        />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="border-2 border-dashed rounded-lg p-6 text-center">
+                    <Upload className="mx-auto h-8 w-8 mb-2 opacity-50" />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => justificantInputRef.current?.click()}
+                    >
+                      <Upload className="mr-2 h-4 w-4" />
+                      Adjuntar Justificant
+                    </Button>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      PDF, JPG, PNG (màx. 5MB)
+                    </p>
+                  </div>
+                )}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <input
+            ref={justificantInputRef}
+            type="file"
+            accept="image/*,application/pdf"
+            onChange={handleJustificantChange}
+            className="hidden"
+          />
+        </div>
 
         {/* Inputs ocultos: cámara (fallback) y archivo */}
         <input

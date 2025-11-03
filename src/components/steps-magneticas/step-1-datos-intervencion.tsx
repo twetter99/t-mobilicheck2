@@ -100,9 +100,13 @@ export function Step1DatosIntervencion({ form }: Props) {
             name="datosIntervencion.tecnico"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Tècnic</FormLabel>
+                <FormLabel>Tècnic Assignat *</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled className="bg-gray-100" />
+                  <Input 
+                    {...field} 
+                    placeholder="Nom del tècnic del adjudicatari"
+                    className="bg-white"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
